@@ -20,7 +20,7 @@ namespace device
     const juce::AudioDeviceManager::AudioDeviceSetup PISOUND_SETUP({
         juce::String("pisound, ; Direct hardware device without any conversions"),
         juce::String("pisound, ; Direct hardware device without any conversions"),
-        48000,
+        96000,
         256,
         0,
         true,
@@ -28,22 +28,6 @@ namespace device
         true
     });
 } // namespace device
-
-
-// namespace ids
-// {
-//     const juce::Identifier  ATTACK("ATTACK");
-//     const juce::Identifier  DECAY("DECAY");
-//     const juce::Identifier  SUSTAIN("SUSTAIN");
-//     const juce::Identifier  RELEASE("RELEASE");
-
-//     const juce::Identifier  WAVEFORM_RATIO("WAVEFORM RATIO");
-
-//     const juce::Identifier  CUTOFF("CUTOFF");
-//     const juce::Identifier  RESONANCE("RESONANCE");
-//     const juce::Identifier  DRIVE("DRIVE");
-//     const juce::Identifier  ENV_MOD("ENV_MOD");
-// }//namespace ids
 
 namespace midiCC
 {

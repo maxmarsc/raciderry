@@ -67,7 +67,6 @@ void RaciderryEngine::audioDeviceIOCallback(const float **inputChannelData,
     jassert(numInputChannels == 0);
     jassert(numOutputChannels == 2);
     jassert(control::MidiBroker::getInstanceWithoutCreating() != nullptr);
-    // DBG("Hey");
 
     // These three structures points toward the same memory block
     auto outputBuffer = juce::AudioBuffer<float>(outputChannelData, 1, numSamples);
@@ -103,7 +102,7 @@ void RaciderryEngine::audioDeviceIOCallback(const float **inputChannelData,
 
     // 4. We duplicate and attenuate the signal to produce stereo output from
     // our mono signal
-    // outputBuffer.applyGain(0.5);
+    outputBuffer.applyGain(0.5);
     memcpy(outputChannelData[1], outputChannelData[0], numSamples * sizeof(float));
 }
 
@@ -112,7 +111,7 @@ void RaciderryEngine::audioDeviceAboutToStart(juce::AudioIODevice* device)
     m_sampleRate = device->getCurrentSampleRate();
     auto numSamples = juce::uint32(device->getCurrentBufferSizeSamples());
     m_blockLength = numSamples / m_sampleRate;
-    // DBG(juce::String("About to start : ") + juce::String(m_sampleRate) + " : "  + juce::String(numSamples));
+    DBG(juce::String("About to start : ") + juce::String(m_sampleRate) + " : "  + juce::String(numSamples));
 
     m_synth->setCurrentPlaybackSampleRate(m_sampleRate);
     m_limiter.prepare({m_sampleRate, numSamples, 1});
