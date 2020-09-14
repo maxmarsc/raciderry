@@ -24,19 +24,6 @@ MidiBroker::MidiBroker()
     initParameters();
 }
 
-void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& msg)
-{
-    // DBG(msg.getDescription());
-    if (msg.isNoteOnOrOff())
-    {
-        handleNoteMessage(msg);
-    }
-    else if (msg.isController())
-    {
-        handleControllerMessage(msg);
-    }
-}
-
 const juce::MidiBuffer& MidiBroker::getNoteMidiBuffer() noexcept
 {
     // We swap rather than recreating the buffer because we'll be called
@@ -56,6 +43,23 @@ ControllableParameter MidiBroker::getParameter(const juce::Identifier& id)
     }
     return ControllableParameter();
 }
+
+//==============================================================================
+
+void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& msg)
+{
+    // DBG(msg.getDescription());
+    if (msg.isNoteOnOrOff())
+    {
+        handleNoteMessage(msg);
+    }
+    else if (msg.isController())
+    {
+        handleControllerMessage(msg);
+    }
+}
+
+//==============================================================================
 
 void MidiBroker::initParameters()
 {
@@ -130,6 +134,8 @@ void MidiBroker::initParameters()
 
 void MidiBroker::handleNoteMessage(const juce::MidiMessage& msg)
 {
+    // After 10 attemps we delete the message
+    ///TODO: rewrite to be really thread-safe
     int attempts = 10;
     while(m_atomicBufferIsLocked.get())
     {
@@ -161,6 +167,9 @@ void MidiBroker::handleControllerMessage(const juce::MidiMessage& msg)
         }
 
         m_midiCCToParameterMap[controllerNumber].updateCurrentDiscretValue(controlDelta);
+
+        // If you want to implement Midi return to your controller, this should
+        // probably be the place
     }
 }
 
