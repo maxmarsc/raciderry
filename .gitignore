@@ -1,0 +1,6 @@
+Builds
+JuceLibraryCode
+Pipfile
+EmulatedCompiler/qemu-arm-static
+.vscode
+.bash_history

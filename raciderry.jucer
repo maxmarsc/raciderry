@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="K8o1eb" name="raciderry" projectType="consoleapp" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              cppLanguageStandard="17">
+  <MAINGROUP id="GxApm7" name="raciderry">
+    <GROUP id="{BC7D1E92-E2D6-A910-9FBB-C372716ED9E5}" name="Source">
+      <GROUP id="{36A98914-3C4A-6C70-4206-52B37E729ABB}" name="Control">
+        <FILE id="s3iC7x" name="ControllableParameter.cpp" compile="1" resource="0"
+              file="Source/Control/ControllableParameter.cpp"/>
+        <FILE id="GGLLFN" name="ControllableParameter.h" compile="0" resource="0"
+              file="Source/Control/ControllableParameter.h"/>
+        <FILE id="eS43Yj" name="MidiBroker.cpp" compile="1" resource="0" file="Source/Control/MidiBroker.cpp"/>
+        <FILE id="HcUIS2" name="MidiBroker.h" compile="0" resource="0" file="Source/Control/MidiBroker.h"/>
+      </GROUP>
+      <GROUP id="{8D3FB390-F569-CF3E-9469-3595DB6D0268}" name="Engine">
+        <GROUP id="{76A4312F-D08A-A543-9687-3CA6A3E98B78}" name="Filter">
+          <FILE id="W9izFZ" name="Filter.cpp" compile="1" resource="0" file="Source/Engine/Filter/Filter.cpp"/>
+          <FILE id="Iyxz5T" name="Filter.h" compile="0" resource="0" file="Source/Engine/Filter/Filter.h"/>
+          <FILE id="lCc6Y8" name="LadderFilterBase.h" compile="0" resource="0"
+                file="Source/Engine/Filter/LadderFilterBase.h"/>
+          <FILE id="wJRuih" name="OberheimVariationModel.h" compile="0" resource="0"
+                file="Source/Engine/Filter/OberheimVariationModel.h"/>
+          <FILE id="jZKKkB" name="Util.h" compile="0" resource="0" file="Source/Engine/Filter/Util.h"/>
+        </GROUP>
+        <FILE id="dMCMH4" name="ADSR.cpp" compile="1" resource="0" file="Source/Engine/ADSR.cpp"/>
+        <FILE id="rZZSQQ" name="ADSR.h" compile="0" resource="0" file="Source/Engine/ADSR.h"/>
+        <FILE id="Jq9gKi" name="DualOscillator.cpp" compile="1" resource="0"
+              file="Source/Engine/DualOscillator.cpp"/>
+        <FILE id="gvhnpE" name="DualOscillator.h" compile="0" resource="0"
+              file="Source/Engine/DualOscillator.h"/>
+        <FILE id="IoINXN" name="Engine.cpp" compile="1" resource="0" file="Source/Engine/Engine.cpp"/>
+        <FILE id="QlnmHH" name="Engine.h" compile="0" resource="0" file="Source/Engine/Engine.h"/>
+        <FILE id="xEhc2Z" name="SignalBus.cpp" compile="1" resource="0" file="Source/Engine/SignalBus.cpp"/>
+        <FILE id="p1sOdj" name="SignalBus.h" compile="0" resource="0" file="Source/Engine/SignalBus.h"/>
+        <FILE id="kVhptw" name="Sound.cpp" compile="1" resource="0" file="Source/Engine/Sound.cpp"/>
+        <FILE id="FKNAWL" name="Sound.h" compile="0" resource="0" file="Source/Engine/Sound.h"/>
+        <FILE id="zFVa8r" name="Voice.cpp" compile="1" resource="0" file="Source/Engine/Voice.cpp"/>
+        <FILE id="XLT9ca" name="Voice.h" compile="0" resource="0" file="Source/Engine/Voice.h"/>
+      </GROUP>
+      <GROUP id="{F90F4DE3-B020-9B2C-F2CF-7A169B5DBFCE}" name="Utils">
+        <FILE id="oI97Mf" name="Identifiers.h" compile="0" resource="0" file="Source/Utils/Identifiers.h"/>
+        <FILE id="p5LkaU" name="Parameters.h" compile="0" resource="0" file="Source/Utils/Parameters.h"/>
+        <FILE id="vt208h" name="Utils.cpp" compile="1" resource="0" file="Source/Utils/Utils.cpp"/>
+        <FILE id="cHihzv" name="Utils.h" compile="0" resource="0" file="Source/Utils/Utils.h"/>
+      </GROUP>
+      <FILE id="yreETs" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_JACK="0" JUCE_ALSA="1"
+               JUCE_USE_OGGVORBIS="0" JUCE_USE_FLAC="0" JUCE_USE_MP3AUDIOFORMAT="0"
+               JUCE_USE_WINDOWS_MEDIA_FORMAT="0" JUCE_DIRECTSOUND="0"/>
+  <EXPORTFORMATS>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="raciderry" headerPath="../../Source/"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="raciderry" headerPath="../../Source/"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../JUCE/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+    <LINUX_MAKE targetFolder="Builds/Armv7Makefile" externalLibraries="atomic"
+                extraCompilerFlags="-march=armv7-a+simd&#10;-femit-class-debug-always&#10;-fsanitize=address&#10;--signed-char&#10;"
+                extraLinkerFlags="-fsanitize=address&#10;-static-libasan">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../Source/" linuxArchitecture="-march=armv7"/>
+        <CONFIGURATION isDebug="0" name="Release" linuxArchitecture="-march=armv7" headerPath="../../Source/"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_events"/>
+        <MODULEPATH id="juce_dsp"/>
+        <MODULEPATH id="juce_data_structures"/>
+        <MODULEPATH id="juce_core"/>
+        <MODULEPATH id="juce_audio_formats"/>
+        <MODULEPATH id="juce_audio_devices"/>
+        <MODULEPATH id="juce_audio_basics"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <LINUX/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>
