@@ -42,7 +42,7 @@ namespace device
 //     const juce::Identifier  CUTOFF("CUTOFF");
 //     const juce::Identifier  RESONANCE("RESONANCE");
 //     const juce::Identifier  DRIVE("DRIVE");
-//     const juce::Identifier  ACCENT("ACCENT");
+//     const juce::Identifier  ENV_MOD("ENV_MOD");
 // }//namespace ids
 
 namespace midiCC
@@ -60,7 +60,7 @@ namespace midiCC
     constexpr int           CUTOFF = 16;            // General purpose 1
     constexpr int           RESONANCE = 17;         // General purpose 2
     constexpr int           FILTER_DRIVE = 18;      // General purpose 3
-    constexpr int           ACCENT = 19;            // General purpose 4
+    constexpr int           ENV_MOD = 19;            // General purpose 4
 }
 
 namespace values
@@ -100,9 +100,9 @@ namespace values
     constexpr float         DRIVE_DEFAULT = 1.0;        // > 1.
     constexpr float         DRIVE_MIN = 1.0;
     constexpr float         DRIVE_MAX = 1.5;
-    constexpr float         ACCENT_DEFAULT = 0.0;
-    constexpr float         ACCENT_MIN = 0.0;
-    constexpr float         ACCENT_MAX = 1.0;
+    constexpr float         ENV_MOD_DEFAULT = 0.0;
+    constexpr float         ENV_MOD_MIN = 0.0;
+    constexpr float         ENV_MOD_MAX = 1.0;
 }
 
 

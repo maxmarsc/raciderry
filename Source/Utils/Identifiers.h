@@ -28,7 +28,7 @@ const juce::Identifier  WAVEFORM_RATIO("WAVEFORM RATIO");
 const juce::Identifier  CUTOFF("CUTOFF");
 const juce::Identifier  RESONANCE("RESONANCE");
 const juce::Identifier  DRIVE("DRIVE");
-const juce::Identifier  ACCENT("ACCENT");
+const juce::Identifier  ENV_MOD("ENV_MOD");
 
 } //namespace controls
 

@@ -120,12 +120,12 @@ void MidiBroker::initParameters()
     m_midiCCToParameterMap[parameters::midiCC::FILTER_DRIVE] = drive;
     m_idToParameterMap[identifiers::controls::DRIVE] = drive;
 
-    // Accent
-    auto accent = ControllableParameter(parameters::values::ACCENT_DEFAULT,
-            parameters::values::ACCENT_MIN,
-            parameters::values::ACCENT_MAX);
-    m_midiCCToParameterMap[parameters::midiCC::ACCENT] = accent;
-    m_idToParameterMap[identifiers::controls::ACCENT] = accent;
+    // Envelope filter modulation
+    auto envMod = ControllableParameter(parameters::values::ENV_MOD_DEFAULT,
+            parameters::values::ENV_MOD_MIN,
+            parameters::values::ENV_MOD_MAX);
+    m_midiCCToParameterMap[parameters::midiCC::ENV_MOD] = envMod;
+    m_idToParameterMap[identifiers::controls::ENV_MOD] = envMod;
 }
 
 void MidiBroker::handleNoteMessage(const juce::MidiMessage& msg)

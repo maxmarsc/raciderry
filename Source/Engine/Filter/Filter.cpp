@@ -19,7 +19,7 @@
 namespace engine
 {
 
-constexpr float ACCENT_RATIO_AMMOUNT = 0.5;
+constexpr float ENV_MOD_RATIO_AMMOUNT = 0.5;
 
 Filter::Filter()
     : m_ladderFilter(),
@@ -35,7 +35,7 @@ Filter::Filter()
     m_cutoffFreq = midiBroker->getParameter(identifiers::controls::CUTOFF);
     m_resonance = midiBroker->getParameter(identifiers::controls::RESONANCE);
     m_drive = midiBroker->getParameter(identifiers::controls::DRIVE);
-    m_accent = midiBroker->getParameter(identifiers::controls::ACCENT);
+    m_envMod = midiBroker->getParameter(identifiers::controls::ENV_MOD);
 }
 
 void Filter::prepare(float sampleRate, int blockSize) noexcept
@@ -52,23 +52,23 @@ void Filter::reset()
 
 void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
 {
-    /// Compute the accented cutoff frequency
+    /// Compute the env Modulated cutoff frequency
     auto* signalBus = SignalBus::getInstanceWithoutCreating();
     float megValue = 0.0;
     if (signalBus != nullptr)
     {
         megValue = signalBus->readSignal(SignalBus::SignalId::MEG);
     }
-    auto accentedRatio = (megValue * m_accent.getCurrentValue() * ACCENT_RATIO_AMMOUNT)
+    auto envModRatio = (megValue * m_envMod.getCurrentValue() * ENV_MOD_RATIO_AMMOUNT)
             + m_cutoffFreq.getCurrentRatio();
-    if (accentedRatio > 1.0)
+    if (envModRatio > 1.0)
     {
-        accentedRatio = 1.0;
+        envModRatio = 1.0;
     }
-    auto accentedCutoff = m_cutoffFreq.getScaledValueForRatio(accentedRatio);
+    auto envModCutoff = m_cutoffFreq.getScaledValueForRatio(envModRatio);
 
     // Update the parameters
-    m_oberheimFilter->SetCutoff(accentedCutoff);
+    m_oberheimFilter->SetCutoff(envModCutoff);
     m_oberheimFilter->SetResonance(m_resonance.getCurrentValue());
     m_oberheimFilter->SetSaturation(m_drive.getCurrentValue());
 
