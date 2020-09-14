@@ -57,7 +57,7 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     float megValue = 0.0;
     if (signalBus != nullptr)
     {
-        megValue = signalBus->readSignal(SignalBus::SignalId::MEG);
+        megValue = signalBus->readSignal(SignalBus::SignalId::VEG);
     }
     auto envModRatio = (megValue * m_envMod.getCurrentValue() * ENV_MOD_RATIO_AMMOUNT)
             + m_cutoffFreq.getCurrentRatio();

@@ -133,7 +133,7 @@ void ADSR::applyEnvelopeToBuffer(juce::AudioBuffer<float>& buffer,
     auto* signalBus = SignalBus::getInstanceWithoutCreating();
     if (signalBus != nullptr)
     {
-        signalBus->updateSignal(SignalBus::SignalId::MEG, sum/count);
+        signalBus->updateSignal(SignalBus::SignalId::VEG, sum/count);
     }
 }
 

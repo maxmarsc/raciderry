@@ -20,7 +20,7 @@ class SignalBus
 public:
     enum SignalId
     {
-        MEG = 0,           // Main Envelope Generator
+        VEG = 0,           // Volume Envelope Generator
 
         /* This should always be the highest value */
         MAX
