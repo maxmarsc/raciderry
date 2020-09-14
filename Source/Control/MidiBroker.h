@@ -17,7 +17,7 @@ namespace control
 {
 
 /**
- * @class MidiBroker
+ * @class control::MidiBroker
  * @brief Singleton instance, performing the translation btw midi protocol and 
  * internal logic
  * 

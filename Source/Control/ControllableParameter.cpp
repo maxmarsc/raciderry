@@ -13,6 +13,11 @@
 namespace control
 {
 
+//==============================================================================
+/**
+ * @brief Pimpl idiom implementation
+ * 
+ */
 struct ControllableParameter::Impl : public juce::ChangeBroadcaster
 {
     Impl(float initValue, float minValue, 
@@ -158,6 +163,7 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
     juce::CriticalSection               m_discretValueWritingSection;
 };
 
+//==============================================================================
 ControllableParameter::ControllableParameter(float initValue, 
         float minValue, float maxValue, ScaleType scale, int discretRange)
     : m_impl(std::make_shared<Impl>(initValue, minValue, maxValue, scale, discretRange))
@@ -171,6 +177,7 @@ ControllableParameter::ControllableParameter()
     // Nothing to do here
 }
 
+//==============================================================================
 bool ControllableParameter::operator==(juce::ChangeBroadcaster* source)
 {
     return dynamic_cast<Impl*>(source) == m_impl.get();
@@ -179,16 +186,6 @@ bool ControllableParameter::operator==(juce::ChangeBroadcaster* source)
 bool ControllableParameter::isValid()
 {
     return m_impl != nullptr;
-}
-
-void ControllableParameter::addListener(juce::ChangeListener* listener)
-{
-    jassert(m_impl != nullptr);
-    if (m_impl != nullptr)
-    {
-        juce::MessageManagerLock lock;
-        m_impl->addChangeListener(listener);
-    }
 }
 
 float ControllableParameter::getCurrentValue()
@@ -233,6 +230,7 @@ float ControllableParameter::getScaledValueForRatio(float ratio)
     return -1.0; // To avoid potential division by zero
 }
 
+//==============================================================================
 void ControllableParameter::updateCurrentDiscretValue(int delta)
 {
     jassert(m_impl != nullptr);
@@ -249,6 +247,16 @@ void ControllableParameter::updateCurrentDiscretValue(int delta)
         }
         m_impl->m_currentDiscretValue.set(newDiscretValue);
         m_impl->sendChangeMessage();
+    }
+}
+
+void ControllableParameter::addListener(juce::ChangeListener* listener)
+{
+    jassert(m_impl != nullptr);
+    if (m_impl != nullptr)
+    {
+        juce::MessageManagerLock lock;
+        m_impl->addChangeListener(listener);
     }
 }
 

@@ -39,12 +39,14 @@ namespace control
 class ControllableParameter
 {
 public:
+//==============================================================================
     /**
      * @brief Describes the distribution of the parameter values among the 
      * provided range
      */
     enum class ScaleType {linear, exponential, logarithmic};
 
+//==============================================================================
     /**
      * @brief Construct an empty and invalid parameter object
      * 
@@ -122,8 +124,10 @@ public:
 
 
 private:
-    class Impl;
+//==============================================================================
 
+    // Pimpl idiom with shared pointer to deal with multithreading
+    class Impl;
     std::shared_ptr<Impl>           m_impl;
 };
 

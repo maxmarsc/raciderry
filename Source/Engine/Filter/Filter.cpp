@@ -22,15 +22,11 @@ namespace engine
 constexpr float ENV_MOD_RATIO_AMMOUNT = 0.5;
 
 Filter::Filter()
-    : m_ladderFilter(),
-      m_oberheimFilter(nullptr),
+    : m_oberheimFilter(nullptr),
       m_cutoffFreq(),
       m_resonance(),
       m_drive()
 {
-    m_ladderFilter.setEnabled(true);
-    m_ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::LPF24);
-
     auto* midiBroker = control::MidiBroker::getInstance();
     m_cutoffFreq = midiBroker->getParameter(identifiers::controls::CUTOFF);
     m_resonance = midiBroker->getParameter(identifiers::controls::RESONANCE);
@@ -38,15 +34,14 @@ Filter::Filter()
     m_envMod = midiBroker->getParameter(identifiers::controls::ENV_MOD);
 }
 
+//==============================================================================
 void Filter::prepare(float sampleRate, int blockSize) noexcept
 {
-    // m_ladderFilter.prepare({sampleRate, juce::uint32(blockSize), 1});
     m_oberheimFilter = std::make_unique<OberheimVariationMoog>(sampleRate);
 }
 
 void Filter::reset()
 {
-    // m_ladderFilter.reset();
     m_oberheimFilter.reset();
 }
 
@@ -72,6 +67,7 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     m_oberheimFilter->SetResonance(m_resonance.getCurrentValue());
     m_oberheimFilter->SetSaturation(m_drive.getCurrentValue());
 
+    // Process
     auto outputBlock = context.getOutputBlock();
     m_oberheimFilter->Process(outputBlock.getChannelPointer(0), 
             outputBlock.getNumSamples());
