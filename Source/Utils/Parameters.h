@@ -12,6 +12,15 @@
 
 #include <JuceHeader.h>
 
+/**
+ * @file This files hold the values of all the parameters of the synthesiser, not
+ * only the controllable ones.
+ * 
+ * This should never be included from a header file. This content will probably
+ * move to an XML file at some point to avoid recompiling when testing new 
+ * values
+ */
+
 namespace parameters
 {
 
@@ -31,6 +40,8 @@ namespace device
 
 namespace midiCC
 {
+    /* The midi CC assignement for every controllable parameter */
+
     // ADSR
     constexpr int           ATTACK = 73;
     constexpr int           DECAY = 75;
@@ -49,6 +60,8 @@ namespace midiCC
 
 namespace values
 {
+    /* The actual default and range values of each controllable parameter */
+
     // ADR values in seconds
     constexpr double        ATTACK_DEFAULT = 0.1;
     constexpr double        DECAY_DEFAULT = 0.1;

@@ -14,8 +14,20 @@
 
 namespace utils {
 
+/**
+ * @brief Generates a random phase btw 0 and 2pi
+ * @note This method uses static random generator, so the first call will be longer
+ */
 float generateRandomPhase();
+
+/**
+ * @brief Returns the sinewave function as a std::function
+ */
 const std::function<float(float)>& getSineWave();
+
+/**
+ * @brief Recast the radian value within [0; 2pi] range
+ */
 float shiftRadians(float radianValueToShift);
 
 namespace waveform
