@@ -8,23 +8,19 @@ to run on a Raspberry Pi with a Pisound extension.
 quickly**
 
 ### Where we at ?
- - [o] Waveform control
+ - [x] Waveform control (to be improved)
  - [x] Ladder filter + controls
  - [x] ASDR amplitude envelope + controls + filter modulation
- - [_] Accent's envelope to modulate filter + controls
- - [_] Noise on each parameter to get a more vintage sound
- - [_] Wavetable synthesis to get more authentics waveforms
- - [_] FM modulation + controls
- - [_] Dynamic detection of midi controllers
- - [_] Read parameters from an XML file
- - [_] Automated tests
- - [_] Write-and-go iso image for rapsberry pi
+ - [ ] Accent's envelope to modulate filter + controls
+ - [ ] Noise on each parameter to get a more vintage sound
+ - [ ] Wavetable synthesis to get more authentics waveforms
+ - [ ] FM modulation + controls
+ - [ ] Dynamic detection of midi controllers
+ - [ ] Read parameters from an XML file
+ - [ ] Automated tests
+ - [ ] Write-and-go iso image for rapsberry pi
  - [x] Documentation
- - [o] Readme
-
- *[_] : Not implemented   
- [x] : Implemented  
- [o] : Implemented, to be improved*
+ - [x] Readme(to be improved)
 
 ## Requirements
 Synthesiser requirements:
