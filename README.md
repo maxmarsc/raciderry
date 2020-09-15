@@ -7,6 +7,25 @@ to run on a Raspberry Pi with a Pisound extension.
 **Please note this project is still under active development and should evolve
 quickly**
 
+### Where we at ?
+ - [o] Waveform control
+ - [x] Ladder filter + controls
+ - [x] ASDR amplitude envelope + controls + filter modulation
+ - [_] Accent's envelope to modulate filter + controls
+ - [_] Noise on each parameter to get a more vintage sound
+ - [_] Wavetable synthesis to get more authentics waveforms
+ - [_] FM modulation + controls
+ - [_] Dynamic detection of midi controllers
+ - [_] Read parameters from an XML file
+ - [_] Automated tests
+ - [_] Write-and-go iso image for rapsberry pi
+ - [x] Documentation
+ - [o] Readme
+
+ *[_] : Not implemented   
+ [x] : Implemented  
+ [o] : Implemented, to be improved*
+
 ## Requirements
 Synthesiser requirements:
  - Raspberry Pi 3B+ (not tested on other models, volunteers are welcome)
@@ -95,5 +114,8 @@ Default settings are 96000kHz with 256 buffer size => ~5ms latency
 ### Controls
 TODO: table with MIDI bindings when I'll stop changing midi assignments every
 two days
+
+---
+## Contributions
 
 
