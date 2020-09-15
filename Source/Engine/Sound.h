@@ -14,13 +14,22 @@
 
 namespace engine {
 
+/**
+ * @brief Simple inheritance of juce::SynthesiserSound.
+ */
 class Sound : public juce::SynthesiserSound
 {
 public:
     Sound();
 
+//==============================================================================
+    /**
+     * @name juce::SynthesiserSound overrides.
+     */
+    ///@{
     bool appliesToNote(int) override;
     bool appliesToChannel(int) override;
+    ///@}
 };
 
 }//namespace engine

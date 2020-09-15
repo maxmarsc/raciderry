@@ -23,11 +23,13 @@ Voice::Voice()
     /// Nothing to do here
 }
 
+//==============================================================================
 std::weak_ptr<DualOscillator> Voice::getOscPtr()
 {
     return m_osc;
 }
 
+//==============================================================================
 void Voice::startNote(int midiNoteNumber, float velocity, 
                                juce::SynthesiserSound *sound, 
                                int currentPitchWheelPosition)

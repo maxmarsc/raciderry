@@ -18,13 +18,33 @@ namespace engine {
 
 class DualOscillator;
 
+/**
+ * @class engine::Voice
+ * @brief Represents a voice played by the raciderry juce::Synthesiser instance
+ * 
+ * Custom inheritance of the juce::SynthesiserVoice class to fit our needs
+ * 
+ * Handles waveforms oscillators and envelope generators
+ */
 class Voice : public juce::SynthesiserVoice
 {
 public:
     Voice();
 
+//==============================================================================
+    /**
+     * @brief Returns a weak_ptr to the oscillator
+     * @note This is needed in order to updates the oscillator when the buffer
+     * size if changed, as the juce::dsp::Synthesiser class holding this voice
+     * will only propagate samplerate changes.
+     */
     std::weak_ptr<DualOscillator> getOscPtr();
 
+//==============================================================================
+     /**
+     * @name juce::SynthesiserVoice overrides.
+     */
+    ///@{
     bool canPlaySound(juce::SynthesiserSound*) override { return true; };
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, 
                    int currentPitchWheelPosition) override;
@@ -33,11 +53,12 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) override;
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
     void setCurrentPlaybackSampleRate(double newRate) override;
+    ///@}
 
 private:
-    EnvelopeGenerator                                            m_envelope;
+//==============================================================================
+    EnvelopeGenerator                               m_envelope;
     std::shared_ptr<DualOscillator>                 m_osc;
-
     juce::Atomic<bool>                              m_noteStarted;
 };
 
