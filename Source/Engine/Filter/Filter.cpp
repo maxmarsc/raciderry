@@ -55,12 +55,12 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
         megValue = signalBus->readSignal(SignalBus::SignalId::VEG);
     }
     auto envModRatio = (megValue * m_envMod.getCurrentValue() * ENV_MOD_RATIO_AMMOUNT)
-            + m_cutoffFreq.getCurrentRatio();
+            + m_cutoffFreq.getUnscaledRatioForCurrentValue();
     if (envModRatio > 1.0)
     {
         envModRatio = 1.0;
     }
-    auto envModCutoff = m_cutoffFreq.getScaledValueForRatio(envModRatio);
+    auto envModCutoff = m_cutoffFreq.getScaledValueForUnscaledRatio(envModRatio);
 
     // Update the parameters
     m_oberheimFilter->SetCutoff(envModCutoff);

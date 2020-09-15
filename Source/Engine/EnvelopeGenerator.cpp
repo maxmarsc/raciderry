@@ -8,7 +8,7 @@
   ==============================================================================
 */
 
-#include "ADSR.h"
+#include "EnvelopeGenerator.h"
 
 #include "Engine/SignalBus.h"
 
@@ -19,11 +19,12 @@
 
 namespace engine {
 
+// Empirical values
 constexpr double ATTACK_RATIO = 0.3;
 constexpr double DECAY_RATIO = 0.0001;
 constexpr double RELEASE_RATIO = 0.0001;
 
-ADSR::ADSR()
+EnvelopeGenerator::EnvelopeGenerator()
     : m_attack(),
       m_decay(),
       m_sustain(),
@@ -50,7 +51,7 @@ ADSR::ADSR()
     updateSustain();
 }
 
-void ADSR::changeListenerCallback(juce::ChangeBroadcaster* source)
+void EnvelopeGenerator::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (m_attack == source)
     {
@@ -70,7 +71,7 @@ void ADSR::changeListenerCallback(juce::ChangeBroadcaster* source)
     }
 }
 
-void ADSR::setSampleRate(double sampleRate)
+void EnvelopeGenerator::setSampleRate(double sampleRate)
 {
     jassert(sampleRate > 0.);
     if (sampleRate != m_sampleRate.get())
@@ -84,13 +85,13 @@ void ADSR::setSampleRate(double sampleRate)
     }
 }
 
-void ADSR::reset()
+void EnvelopeGenerator::reset()
 {
     m_state = State::idle;
     m_lastEnvValue.set(0);
 }
 
-void ADSR::noteOn()
+void EnvelopeGenerator::noteOn()
 {
     // custom made kindof legato
     if (m_state.get() == State::idle || m_state.get() == State::release) 
@@ -99,7 +100,7 @@ void ADSR::noteOn()
     }
 }
 
-void ADSR::noteOff()
+void EnvelopeGenerator::noteOff()
 {
     if (m_state.get() != State::idle)
     {
@@ -107,12 +108,7 @@ void ADSR::noteOff()
     }
 }
 
-bool ADSR::isActive()
-{
-    return m_state.get() != State::idle;
-}
-
-void ADSR::applyEnvelopeToBuffer(juce::AudioBuffer<float>& buffer, 
+void EnvelopeGenerator::applyAmpEnvelopeToBuffer(juce::AudioBuffer<float>& buffer, 
         int startSample, int numSamples)
 {
     jassert(numSamples > 0);
@@ -137,41 +133,56 @@ void ADSR::applyEnvelopeToBuffer(juce::AudioBuffer<float>& buffer,
     }
 }
 
-void ADSR::updateAttack()
+void EnvelopeGenerator::updateAttack()
 {
     // DBG("New attack : " + juce::String(attack));
     jassert(m_attack.getCurrentValue() > 0.);
-    m_attackNumSamples.set(m_attack.getCurrentValue() * m_sampleRate.get());
-    m_attackCoeff.set(computeEnvCoeff(m_attackNumSamples.get(), ATTACK_RATIO));
+    auto atkNumSamples = int(m_attack.getCurrentValue() * m_sampleRate.get());
+
+    // Settings these two consecutively without mutex could lead to a 
+    // computation error on one sample if the read performs between the two sets
+    // However the computation error is bounded, inaudible, and allows lock-free
+    // updates
+    m_attackCoeff.set(computeEnvCoeff(atkNumSamples, ATTACK_RATIO));
     m_attackBase.set((1.0 + ATTACK_RATIO) * (1.0 - m_attackCoeff.get()));
 }
 
-void ADSR::updateDecay()
+void EnvelopeGenerator::updateDecay()
 {
     jassert(m_decay.getCurrentValue() > 0.);
     // DBG("New decay : " + juce::String(decay));
-    m_decayNumSamples.set(m_decay.getCurrentValue() * m_sampleRate.get());
-    m_decayCoeff.set(computeEnvCoeff(m_decayNumSamples.get(), DECAY_RATIO));
+    auto decNumSamples = int(m_decay.getCurrentValue() * m_sampleRate.get());
+
+    // Settings these two consecutively without mutex could lead to a 
+    // computation error on one sample if the read performs between the two sets
+    // However the computation error is bounded, inaudible, and allows lock-free
+    // updates
+    m_decayCoeff.set(computeEnvCoeff(decNumSamples, DECAY_RATIO));
     m_decayBase.set((m_sustain.getCurrentValue() - DECAY_RATIO) * (1.0 - m_decayCoeff.get()));
 }
 
-void ADSR::updateRelease()
+void EnvelopeGenerator::updateRelease()
 {
     jassert(m_release.getCurrentValue() > 0.);
     // DBG("New release : " + juce::String(release));
-    releaseNumSamples_.set(m_release.getCurrentValue() * m_sampleRate.get());
-    m_releaseCoeff.set(computeEnvCoeff(releaseNumSamples_.get(), RELEASE_RATIO));
+    auto relNumSamples = int(m_release.getCurrentValue() * m_sampleRate.get());
+
+    // Settings these two consecutively without mutex could lead to a 
+    // computation error on one sample if the read performs between the two sets
+    // However the computation error is bounded, inaudible, and allows lock-free
+    // updates
+    m_releaseCoeff.set(computeEnvCoeff(relNumSamples, RELEASE_RATIO));
     m_releaseBase.set( - RELEASE_RATIO * (1.0 - m_releaseCoeff.get()));
 }
 
-void ADSR::updateSustain()
+void EnvelopeGenerator::updateSustain()
 {
     jassert(m_sustain.getCurrentValue() >= 0. && m_sustain.getCurrentValue() <= 1.0);
     // DBG("New sustain : " + juce::String(sustain));
     m_decayBase.set((m_sustain.getCurrentValue() - DECAY_RATIO) * (1.0 - m_decayCoeff.get()));
 }
 
-void ADSR::computeNextEnvValue()
+void EnvelopeGenerator::computeNextEnvValue()
 {
     float newValue;
     switch(m_state.get())
@@ -214,7 +225,7 @@ void ADSR::computeNextEnvValue()
     }
 }
 
-double ADSR::computeEnvCoeff(int rateInSample, double targetRatio)
+double EnvelopeGenerator::computeEnvCoeff(int rateInSample, double targetRatio)
 {
     if (rateInSample > 0)
     {

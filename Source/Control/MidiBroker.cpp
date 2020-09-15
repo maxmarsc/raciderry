@@ -45,7 +45,6 @@ ControllableParameter MidiBroker::getParameter(const juce::Identifier& id)
 }
 
 //==============================================================================
-
 void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& msg)
 {
     // DBG(msg.getDescription());
@@ -60,7 +59,6 @@ void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::
 }
 
 //==============================================================================
-
 void MidiBroker::initParameters()
 {
     // We create and assign parameters to midi control signals

@@ -70,7 +70,6 @@ public:
             float maxValue, ScaleType scale = ScaleType::linear, int discretRange = 128);
 
 //==============================================================================
-
     /**
      * @brief Usefull to identify which parameters has changed
      */
@@ -87,10 +86,10 @@ public:
      * @brief Get the ratio corresponding to the current float value of the 
      * parameter
      * 
-     * @return float Btw 0 and 1. Relative position in the precomputed scaled (
-     * linear/logaritmic/exponential) range. 0 the min, 1 the max.
+     * @return float Btw 0 and 1. Position in the precomputed scaled (linear/
+     * logaritmic/exponential) range. 0 the min, 1 the max.
      */
-    float getCurrentRatio();
+    float getUnscaledRatioForCurrentValue();
     /**
      * @brief Get the number of possibles discret value in the range
      */
@@ -98,12 +97,13 @@ public:
     /**
      * @brief Get the precomputed value for the given ratio
      * 
-     * @param ratio Btw 0 and 1. Relative position in the precomputed scaled (
-     * linear/logaritmic/exponential) range. 0 the min, 1 the max.
+     * @param ratio Btw 0 and 1. Position in the precomputed scaled (linear/
+     * logaritmic/exponential) range. 0 the min, 1 the max.
      * @return float The corresponding value
      */
-    float getScaledValueForRatio(float ratio);
+    float getScaledValueForUnscaledRatio(float ratio);
 
+//==============================================================================
     /**
      * @brief Changes the current value
      * @note This function is NOT safe to call from the audio thread

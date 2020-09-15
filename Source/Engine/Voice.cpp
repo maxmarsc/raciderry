@@ -67,8 +67,8 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer,
         // Write the osc output to the buffer
         m_osc->process(outputBuffer, startSample, numSamples);
 
-        // Reshape the audio according to the ADSR
-        m_envelope.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+        // Reshape the audio according to the EnvelopeGenerator
+        m_envelope.applyAmpEnvelopeToBuffer(outputBuffer, startSample, numSamples);
     }
 }
 

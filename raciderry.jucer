@@ -23,14 +23,16 @@
                 file="Source/Engine/Filter/OberheimVariationModel.h"/>
           <FILE id="jZKKkB" name="Util.h" compile="0" resource="0" file="Source/Engine/Filter/Util.h"/>
         </GROUP>
-        <FILE id="dMCMH4" name="ADSR.cpp" compile="1" resource="0" file="Source/Engine/ADSR.cpp"/>
-        <FILE id="rZZSQQ" name="ADSR.h" compile="0" resource="0" file="Source/Engine/ADSR.h"/>
         <FILE id="Jq9gKi" name="DualOscillator.cpp" compile="1" resource="0"
               file="Source/Engine/DualOscillator.cpp"/>
         <FILE id="gvhnpE" name="DualOscillator.h" compile="0" resource="0"
               file="Source/Engine/DualOscillator.h"/>
         <FILE id="IoINXN" name="Engine.cpp" compile="1" resource="0" file="Source/Engine/Engine.cpp"/>
         <FILE id="QlnmHH" name="Engine.h" compile="0" resource="0" file="Source/Engine/Engine.h"/>
+        <FILE id="CEfBPd" name="EnvelopeGenerator.cpp" compile="1" resource="0"
+              file="Source/Engine/EnvelopeGenerator.cpp"/>
+        <FILE id="YWaSLj" name="EnvelopeGenerator.h" compile="0" resource="0"
+              file="Source/Engine/EnvelopeGenerator.h"/>
         <FILE id="xEhc2Z" name="SignalBus.cpp" compile="1" resource="0" file="Source/Engine/SignalBus.cpp"/>
         <FILE id="p1sOdj" name="SignalBus.h" compile="0" resource="0" file="Source/Engine/SignalBus.h"/>
         <FILE id="kVhptw" name="Sound.cpp" compile="1" resource="0" file="Source/Engine/Sound.cpp"/>

@@ -12,7 +12,7 @@
 
 #include <JuceHeader.h>
 
-#include "Engine/ADSR.h"
+#include "Engine/EnvelopeGenerator.h"
 
 namespace engine {
 
@@ -35,7 +35,7 @@ public:
     void setCurrentPlaybackSampleRate(double newRate) override;
 
 private:
-    ADSR                                            m_envelope;
+    EnvelopeGenerator                                            m_envelope;
     std::shared_ptr<DualOscillator>                 m_osc;
 
     juce::Atomic<bool>                              m_noteStarted;

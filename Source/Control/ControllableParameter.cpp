@@ -198,7 +198,7 @@ float ControllableParameter::getCurrentValue()
     return -1.0; // To avoid potential division by zero
 }
 
-float ControllableParameter::getCurrentRatio()
+float ControllableParameter::getUnscaledRatioForCurrentValue()
 {
     jassert(m_impl != nullptr);
     if (m_impl != nullptr)
@@ -218,7 +218,7 @@ int ControllableParameter::getDiscretRange()
     return 0; 
 }
 
-float ControllableParameter::getScaledValueForRatio(float ratio)
+float ControllableParameter::getScaledValueForUnscaledRatio(float ratio)
 {
     jassert(m_impl != nullptr);
     jassert(ratio >= 0.0 && ratio <= 1.0);
