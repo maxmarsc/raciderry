@@ -182,17 +182,17 @@ ControllableParameter::ControllableParameter()
 }
 
 //==============================================================================
-bool ControllableParameter::operator==(juce::ChangeBroadcaster* source)
+bool ControllableParameter::operator==(juce::ChangeBroadcaster* source) const
 {
     return dynamic_cast<Impl*>(source) == m_impl.get();
 }
 
-bool ControllableParameter::isValid()
+bool ControllableParameter::isValid() const
 {
     return m_impl != nullptr;
 }
 
-float ControllableParameter::getCurrentValue()
+float ControllableParameter::getCurrentValue() const
 {
     jassert(m_impl != nullptr);
 
@@ -204,7 +204,7 @@ float ControllableParameter::getCurrentValue()
     return -1.0; // To avoid potential division by zero
 }
 
-float ControllableParameter::getUnscaledRatioForCurrentValue()
+float ControllableParameter::getUnscaledRatioForCurrentValue() const
 {
     jassert(m_impl != nullptr);
 
@@ -216,7 +216,7 @@ float ControllableParameter::getUnscaledRatioForCurrentValue()
     return 0.0;
 }
 
-int ControllableParameter::getDiscretRange()
+int ControllableParameter::getDiscretRange() const
 {
     jassert(m_impl != nullptr);
 
@@ -228,7 +228,7 @@ int ControllableParameter::getDiscretRange()
     return 0;
 }
 
-float ControllableParameter::getScaledValueForUnscaledRatio(float ratio)
+float ControllableParameter::getScaledValueForUnscaledRatio(float ratio) const
 {
     jassert(m_impl != nullptr);
     jassert(ratio >= 0.0 && ratio <= 1.0);
@@ -268,7 +268,7 @@ void ControllableParameter::updateCurrentDiscretValue(int delta)
 void ControllableParameter::addListener(juce::ChangeListener* listener)
 {
     jassert(m_impl != nullptr);
-    
+
     if (m_impl != nullptr)
     {
         juce::MessageManagerLock lock;

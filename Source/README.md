@@ -11,9 +11,10 @@ Once JUCE downloaded, you can open the `.projucer` file to generate a makefile f
 See : https://juce.com/
 
 ## Coding Style
-This project uses the JUCE guidelines with a few  additions :
+This project uses the JUCE guidelines with a few modifications :
  - JUCE coding standards : https://juce.com/discover/stories/coding-standards
  - Member variables are prepended with the `m_` prefix
+ - AAA : Almost Always Auto https://herbsutter.com/2013/08/12/gotw-94-solution-aaa-style-almost-always-auto/
  - Use classic Doxygen documentation format like the following
 
  ```cpp

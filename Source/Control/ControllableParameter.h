@@ -73,15 +73,15 @@ public:
     /**
      * @brief Usefull to identify which parameters has changed
      */
-    bool operator==(juce::ChangeBroadcaster* source);
+    bool operator==(juce::ChangeBroadcaster* source) const;
     /**
      * @brief Test if the object is a valid or an empty one
      */
-    bool isValid();
+    bool isValid() const;
     /**
      * @brief Get the current value of the parameter
      */
-    float getCurrentValue();
+    float getCurrentValue() const;
     /**
      * @brief Get the ratio corresponding to the current float value of the 
      * parameter
@@ -89,11 +89,11 @@ public:
      * @return float Btw 0 and 1. Position in the precomputed scaled (linear/
      * logaritmic/exponential) range. 0 the min, 1 the max.
      */
-    float getUnscaledRatioForCurrentValue();
+    float getUnscaledRatioForCurrentValue() const;
     /**
      * @brief Get the number of possibles discret value in the range
      */
-    int getDiscretRange();
+    int getDiscretRange() const;
     /**
      * @brief Get the precomputed value for the given ratio
      * 
@@ -101,7 +101,7 @@ public:
      * logaritmic/exponential) range. 0 the min, 1 the max.
      * @return float The corresponding value
      */
-    float getScaledValueForUnscaledRatio(float ratio);
+    float getScaledValueForUnscaledRatio(float ratio) const;
 
 //==============================================================================
     /**

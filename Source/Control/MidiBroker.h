@@ -44,7 +44,7 @@ public:
      * 
      * @param id The identifier look for
      */
-    ControllableParameter getParameter(const juce::Identifier& id);
+    ControllableParameter getParameter(const juce::Identifier& id) const;
 
 //==============================================================================
     /**

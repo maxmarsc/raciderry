@@ -55,7 +55,7 @@ public:
      * @param voltageId The id of the signal to read
      * @return The value of the signal if the id is a valid one, 0 otherwise
      */
-    forcedinline float readSignal(SignalId voltageId) noexcept
+    forcedinline float readSignal(SignalId voltageId) const noexcept
     {
         if (voltageId >= 0 && voltageId < SignalId::MAX)
         {
