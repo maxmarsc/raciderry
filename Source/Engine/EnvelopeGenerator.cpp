@@ -76,6 +76,7 @@ void EnvelopeGenerator::changeListenerCallback(juce::ChangeBroadcaster* source)
 void EnvelopeGenerator::setSampleRate(double sampleRate)
 {
     jassert(sampleRate > 0.);
+
     if (sampleRate != m_sampleRate.get())
     {
         m_sampleRate.set(sampleRate);
@@ -129,6 +130,7 @@ void EnvelopeGenerator::applyAmpEnvelopeToBuffer(juce::AudioBuffer<float>& buffe
     
     // We send the mean value to others units (filter, ...)
     auto* signalBus = SignalBus::getInstanceWithoutCreating();
+
     if (signalBus != nullptr)
     {
         signalBus->updateSignal(SignalBus::SignalId::VEG, sum/count);
@@ -187,6 +189,7 @@ void EnvelopeGenerator::updateSustain()
 void EnvelopeGenerator::computeNextEnvValue()
 {
     float newValue;
+
     switch(m_state.get())
     {
         case State::idle:
@@ -234,6 +237,7 @@ double EnvelopeGenerator::computeEnvCoeff(int rateInSample, double targetRatio)
         // May need some optimization if too cpu-hungry
         return exp(-log((1.0 + targetRatio) / targetRatio) / rateInSample);
     }
+    
     return 0.;
 }
 

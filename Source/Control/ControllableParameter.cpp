@@ -89,6 +89,7 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
         m_precomputedValues[0] = m_minValue;
         m_precomputedValues[m_discretRange - 1] = m_maxValue;
         int discretInitValue = 0;
+
         if (initValue == m_maxValue)
         {
             discretInitValue = m_discretRange - 1;
@@ -108,6 +109,7 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
         {
             base += step;
             m_precomputedValues[i] = pow(2, base);
+
             if (m_precomputedValues[i] <= initValue)
             {
                 ++discretInitValue;
@@ -123,6 +125,7 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
         m_precomputedValues[0] = m_minValue;
         m_precomputedValues[m_discretRange - 1] = m_maxValue;
         int discretInitValue = 0;
+
         if (initValue == m_maxValue)
         {
             discretInitValue = m_discretRange - 1;
@@ -141,7 +144,8 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
         for (auto i = 1; i < m_discretRange-1; ++i)
         {
             base += step;
-            m_precomputedValues[i] = log2(base);   
+            m_precomputedValues[i] = log2(base);
+
             if (m_precomputedValues[i] <= initValue)
             {
                 ++discretInitValue;
@@ -191,42 +195,50 @@ bool ControllableParameter::isValid()
 float ControllableParameter::getCurrentValue()
 {
     jassert(m_impl != nullptr);
+
     if (m_impl != nullptr)
     {
         return m_impl->m_precomputedValues[m_impl->m_currentDiscretValue.get()];
     }
+
     return -1.0; // To avoid potential division by zero
 }
 
 float ControllableParameter::getUnscaledRatioForCurrentValue()
 {
     jassert(m_impl != nullptr);
+
     if (m_impl != nullptr)
     {
         return float(m_impl->m_currentDiscretValue.get()) / (m_impl->m_discretRange - 1);
     }
+
     return 0.0;
 }
 
 int ControllableParameter::getDiscretRange()
 {
     jassert(m_impl != nullptr);
+
     if (m_impl != nullptr)
     {
         return m_impl->m_discretRange;
     }
-    return 0; 
+
+    return 0;
 }
 
 float ControllableParameter::getScaledValueForUnscaledRatio(float ratio)
 {
     jassert(m_impl != nullptr);
     jassert(ratio >= 0.0 && ratio <= 1.0);
+
     if (m_impl != nullptr && ratio >= 0.0 && ratio <= 1.0)
     {
         int discretIndex = (m_impl->m_discretRange - 1) * ratio;
         return m_impl->m_precomputedValues[discretIndex];
     }
+
     return -1.0; // To avoid potential division by zero
 }
 
@@ -234,9 +246,11 @@ float ControllableParameter::getScaledValueForUnscaledRatio(float ratio)
 void ControllableParameter::updateCurrentDiscretValue(int delta)
 {
     jassert(m_impl != nullptr);
+
     if (m_impl != nullptr && delta != 0)
     {
         auto newDiscretValue = m_impl->m_currentDiscretValue.get() + delta;
+
         if (newDiscretValue > m_impl->m_discretRange - 1)
         {
             newDiscretValue = m_impl->m_discretRange - 1;
@@ -245,6 +259,7 @@ void ControllableParameter::updateCurrentDiscretValue(int delta)
         {
             newDiscretValue = 0;
         }
+
         m_impl->m_currentDiscretValue.set(newDiscretValue);
         m_impl->sendChangeMessage();
     }
@@ -253,6 +268,7 @@ void ControllableParameter::updateCurrentDiscretValue(int delta)
 void ControllableParameter::addListener(juce::ChangeListener* listener)
 {
     jassert(m_impl != nullptr);
+    
     if (m_impl != nullptr)
     {
         juce::MessageManagerLock lock;

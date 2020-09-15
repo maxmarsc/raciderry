@@ -50,16 +50,20 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     /// Compute the env Modulated cutoff frequency
     auto* signalBus = SignalBus::getInstanceWithoutCreating();
     float megValue = 0.0;
+
     if (signalBus != nullptr)
     {
         megValue = signalBus->readSignal(SignalBus::SignalId::VEG);
     }
+
     auto envModRatio = (megValue * m_envMod.getCurrentValue() * ENV_MOD_RATIO_AMMOUNT)
             + m_cutoffFreq.getUnscaledRatioForCurrentValue();
+
     if (envModRatio > 1.0)
     {
         envModRatio = 1.0;
     }
+    
     auto envModCutoff = m_cutoffFreq.getScaledValueForUnscaledRatio(envModRatio);
 
     // Update the parameters

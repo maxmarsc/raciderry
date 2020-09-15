@@ -41,6 +41,7 @@ ControllableParameter MidiBroker::getParameter(const juce::Identifier& id)
     {
         return m_idToParameterMap[id];
     }
+
     return ControllableParameter();
 }
 
@@ -135,20 +136,24 @@ void MidiBroker::handleNoteMessage(const juce::MidiMessage& msg)
     // After 10 attemps we delete the message
     ///TODO: rewrite to be really thread-safe
     int attempts = 10;
+
     while(m_atomicBufferIsLocked.get())
     {
         attempts--;
+
         if (attempts <= 0)
         {
             return;
         }
     }
+
     m_atomicMidiBuffer.addEvent(msg, 0);
 }
 
 void MidiBroker::handleControllerMessage(const juce::MidiMessage& msg)
 {
     auto controllerNumber = msg.getControllerNumber();
+
     if (m_midiCCToParameterMap.count(controllerNumber) == 1)
     {
         // If this controller is assigned
@@ -158,6 +163,7 @@ void MidiBroker::handleControllerMessage(const juce::MidiMessage& msg)
         // 58 -> 63 : negative movement, 58 the faster
         // 65 -> 70 : positive movement, 65 the faster
         auto controlDelta = msg.getControllerValue() - 64;
+        
         if (controlDelta < -10 || controlDelta > 10)
         {
             DBG("Invalid midi control input detected");

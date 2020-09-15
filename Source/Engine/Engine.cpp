@@ -81,6 +81,7 @@ void RaciderryEngine::audioDeviceIOCallback(const float **inputChannelData,
 
     // 1. The synth produces the main output
     auto* midiBroker = control::MidiBroker::getInstanceWithoutCreating();
+
     if (midiBroker)
     {
         m_synth->renderNextBlock(outputBuffer, midiBroker->getNoteMidiBuffer(), 0, numSamples);
@@ -117,6 +118,7 @@ void RaciderryEngine::audioDeviceAboutToStart(juce::AudioIODevice* device)
     m_synth->setCurrentPlaybackSampleRate(m_sampleRate);
     m_limiter.prepare({m_sampleRate, numSamples, 1});
     m_filter.prepare(m_sampleRate, numSamples);
+
     if (auto safePtr = m_oscWeakPtr.lock())
     {
         safePtr->prepare(m_sampleRate, numSamples);
@@ -130,6 +132,7 @@ void RaciderryEngine::audioDeviceStopped()
 
     m_limiter.reset();
     m_filter.reset();
+    
     if (auto safePtr = m_oscWeakPtr.lock())
     {
         safePtr->reset();

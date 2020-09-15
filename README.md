@@ -113,5 +113,9 @@ two days
 
 ---
 ## Contributions
+Contributions are very welcome, especially concerning the dsp.
 
+
+As the project is very new, please take contact at maxime.coutant@protonmail.com
+or on discord at Groumpf#2353
 

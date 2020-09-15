@@ -61,6 +61,7 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer,
                                      int startSample, int numSamples)
 {
     outputBuffer.clear();
+
     if (m_noteStarted.get())
     {
         jassert(m_osc != nullptr);
@@ -77,7 +78,8 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer,
 void Voice::setCurrentPlaybackSampleRate(double newRate)
 {
     juce::SynthesiserVoice::setCurrentPlaybackSampleRate(newRate);
-    if (newRate != 0.) { m_envelope.setSampleRate(newRate); }
+
+    if (newRate != 0.) m_envelope.setSampleRate(newRate);
 }
 
 }//namespace engine
