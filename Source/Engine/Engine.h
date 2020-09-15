@@ -20,18 +20,33 @@ namespace engine {
 
 class DualOscillator;
 
+/**
+ * @class engine::RaciderryEngine
+ * @brief The main class of the Audio Engine, holds and connect the differents 
+ * audio modules 
+ * 
+ * This engine manages all the audio modules, init and reset them when needed, 
+ * and call them in the appropriate order to produce the audio output
+ */
 class RaciderryEngine :   public juce::AudioIODeviceCallback
 {
 public:
     RaciderryEngine();
     ~RaciderryEngine();
 
+//==============================================================================
+    /**
+     * @name juce::AudioIODeviceCallback overrides.
+     */
+    ///@{
     void audioDeviceIOCallback (const float **inputChannelData, int numInputChannels, 
             float **outputChannelData, int numOutputChannels, int numSamples) override;
     void audioDeviceAboutToStart(juce::AudioIODevice* device) override;
     void audioDeviceStopped() override;
+    ///@}
 
 private:
+//==============================================================================
     std::unique_ptr<juce::Synthesiser>              m_synth;
     std::weak_ptr<DualOscillator>                   m_oscWeakPtr;
     juce::dsp::Limiter<float>                       m_limiter;

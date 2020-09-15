@@ -53,6 +53,7 @@ RaciderryEngine::~RaciderryEngine()
     SignalBus::deleteInstance();
 }
 
+//==============================================================================
 void RaciderryEngine::audioDeviceIOCallback(const float **inputChannelData, 
                                               int numInputChannels, 
                                               float **outputChannelData, 

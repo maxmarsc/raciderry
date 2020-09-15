@@ -31,6 +31,7 @@ DualOscillator::DualOscillator()
     jassert(m_oscRatio.isValid());
 }
 
+//==============================================================================
 void DualOscillator::setFrequency(float newFrequency, bool force)
 {
     m_osc1.setFrequency(newFrequency, force);

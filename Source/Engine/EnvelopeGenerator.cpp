@@ -51,6 +51,7 @@ EnvelopeGenerator::EnvelopeGenerator()
     updateSustain();
 }
 
+//==============================================================================
 void EnvelopeGenerator::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (m_attack == source)
@@ -71,6 +72,7 @@ void EnvelopeGenerator::changeListenerCallback(juce::ChangeBroadcaster* source)
     }
 }
 
+//==============================================================================
 void EnvelopeGenerator::setSampleRate(double sampleRate)
 {
     jassert(sampleRate > 0.);

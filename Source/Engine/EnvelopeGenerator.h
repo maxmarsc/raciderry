@@ -78,6 +78,8 @@ private:
     forcedinline void computeNextEnvValue();
     forcedinline double computeEnvCoeff(int rateInSample, double targetRatio);
 
+//==============================================================================
+
     // Parameters the user can control
     control::ControllableParameter          m_attack;
     control::ControllableParameter          m_decay;
