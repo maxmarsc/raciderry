@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 
 #include "Engine/Envelopes/VCAEnvelope.h"
+#include "Engine/Envelopes/AccentEnvelope.h"
 
 namespace engine {
 
@@ -57,7 +58,8 @@ public:
 
 private:
 //==============================================================================
-    VCAEnvelope                                     m_envelope;
+    VCAEnvelope                                     m_ampEnvelope;
+    AccentEnvelope                                  m_accEnvelope;
     std::shared_ptr<DualOscillator>                 m_osc;
     juce::Atomic<bool>                              m_noteStarted;
 };

@@ -16,7 +16,8 @@
 namespace engine {
 
 Voice::Voice()
-    : m_envelope(),
+    : m_ampEnvelope(),
+      m_accEnvelope(),
       m_osc(std::make_shared<DualOscillator>()),
       m_noteStarted(false)
 {
@@ -36,15 +37,17 @@ void Voice::startNote(int midiNoteNumber, float velocity,
 {
     m_osc->setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber), m_noteStarted.get());
     m_noteStarted.set(true);
-    m_envelope.noteOn();
+    m_ampEnvelope.noteOn();
+    m_accEnvelope.noteOn();
 }
 
 void Voice::stopNote(float velocity, bool allowTailOff)
 {
     if (allowTailOff)
     {
-        m_envelope.noteOff();
+        m_ampEnvelope.noteOff();
     }
+    m_accEnvelope.noteOff();        // does nothing
 }
 
 void Voice::pitchWheelMoved(int newValue)
@@ -71,15 +74,20 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer,
         m_osc->process(outputBuffer, startSample, numSamples);
 
         // Reshape the audio according to the EnvelopeGenerator
-        m_envelope.applyAmpEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+        m_ampEnvelope.applyAmpEnvelopeToBuffer(outputBuffer, startSample, numSamples);
     }
+    m_accEnvelope.nextValue(numSamples);
 }
 
 void Voice::setCurrentPlaybackSampleRate(double newRate)
 {
     juce::SynthesiserVoice::setCurrentPlaybackSampleRate(newRate);
 
-    if (newRate != 0.) m_envelope.setSampleRate(newRate);
+    if (newRate != 0.)
+    {
+        m_ampEnvelope.setSampleRate(newRate);
+        m_accEnvelope.setSampleRate(newRate);
+    }
 }
 
 }//namespace engine
