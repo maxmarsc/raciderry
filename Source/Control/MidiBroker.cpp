@@ -129,6 +129,20 @@ void MidiBroker::initParameters()
             parameters::values::ENV_MOD_MAX);
     m_midiCCToParameterMap[parameters::midiCC::ENV_MOD] = envMod;
     m_idToParameterMap[identifiers::controls::ENV_MOD] = envMod;
+
+    // Accent amount
+    auto accent = ControllableParameter(parameters::values::ACCENT_DEFAULT,
+            parameters::values::ACCENT_MIN,
+            parameters::values::ACCENT_MAX);
+    m_midiCCToParameterMap[parameters::midiCC::ACCENT] = accent;
+    m_idToParameterMap[identifiers::controls::ACCENT] = accent;
+
+    // Accent decay
+    auto accentDec = ControllableParameter(parameters::values::ACC_DEC_DEFAULT,
+            parameters::values::ACC_DEC_MIN,
+            parameters::values::ACC_DEC_MAX);
+    m_midiCCToParameterMap[parameters::midiCC::ACCENT_DECAY] = accentDec;
+    m_idToParameterMap[identifiers::controls::ACCENT_DECAY] = accentDec;
 }
 
 void MidiBroker::handleNoteMessage(const juce::MidiMessage& msg)
