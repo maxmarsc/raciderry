@@ -1,15 +1,16 @@
 /*
   ==============================================================================
 
-    ADSR.cpp
-    Created: 21 Aug 2020 8:33:48pm
+    AmplitudeEnvelope.cpp
+    Created: 15 Sep 2020 5:45:39pm
     Author:  maxime
 
   ==============================================================================
 */
 
-#include "EnvelopeGenerator.h"
+#include "VCAEnvelope.h"
 
+#include "Engine/Envelopes/Utils.h"
 #include "Engine/SignalBus.h"
 
 #include "Control/MidiBroker.h"
@@ -24,7 +25,7 @@ constexpr double ATTACK_RATIO = 0.3;
 constexpr double DECAY_RATIO = 0.0001;
 constexpr double RELEASE_RATIO = 0.0001;
 
-EnvelopeGenerator::EnvelopeGenerator()
+VCAEnvelope::VCAEnvelope()
     : m_attack(),
       m_decay(),
       m_sustain(),
@@ -52,7 +53,7 @@ EnvelopeGenerator::EnvelopeGenerator()
 }
 
 //==============================================================================
-void EnvelopeGenerator::changeListenerCallback(juce::ChangeBroadcaster* source)
+void VCAEnvelope::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (m_attack == source)
     {
@@ -73,7 +74,7 @@ void EnvelopeGenerator::changeListenerCallback(juce::ChangeBroadcaster* source)
 }
 
 //==============================================================================
-void EnvelopeGenerator::setSampleRate(double sampleRate)
+void VCAEnvelope::setSampleRate(double sampleRate)
 {
     jassert(sampleRate > 0.);
 
@@ -88,13 +89,13 @@ void EnvelopeGenerator::setSampleRate(double sampleRate)
     }
 }
 
-void EnvelopeGenerator::reset()
+void VCAEnvelope::reset()
 {
     m_state = State::idle;
     m_lastEnvValue.set(0);
 }
 
-void EnvelopeGenerator::noteOn()
+void VCAEnvelope::noteOn()
 {
     // custom made kindof legato
     if (m_state.get() == State::idle || m_state.get() == State::release) 
@@ -103,7 +104,7 @@ void EnvelopeGenerator::noteOn()
     }
 }
 
-void EnvelopeGenerator::noteOff()
+void VCAEnvelope::noteOff()
 {
     if (m_state.get() != State::idle)
     {
@@ -111,7 +112,7 @@ void EnvelopeGenerator::noteOff()
     }
 }
 
-void EnvelopeGenerator::applyAmpEnvelopeToBuffer(juce::AudioBuffer<float>& buffer, 
+void VCAEnvelope::applyAmpEnvelopeToBuffer(juce::AudioBuffer<float>& buffer, 
         int startSample, int numSamples)
 {
     jassert(numSamples > 0);
@@ -137,7 +138,7 @@ void EnvelopeGenerator::applyAmpEnvelopeToBuffer(juce::AudioBuffer<float>& buffe
     }
 }
 
-void EnvelopeGenerator::updateAttack()
+void VCAEnvelope::updateAttack()
 {
     // DBG("New attack : " + juce::String(attack));
     jassert(m_attack.getCurrentValue() > 0.);
@@ -147,11 +148,11 @@ void EnvelopeGenerator::updateAttack()
     // computation error on one sample if the read performs between the two sets
     // However the computation error is bounded, inaudible, and allows lock-free
     // updates
-    m_attackCoeff.set(computeEnvCoeff(atkNumSamples, ATTACK_RATIO));
+    m_attackCoeff.set(computeExpEnvCoeff(atkNumSamples, ATTACK_RATIO));
     m_attackBase.set((1.0 + ATTACK_RATIO) * (1.0 - m_attackCoeff.get()));
 }
 
-void EnvelopeGenerator::updateDecay()
+void VCAEnvelope::updateDecay()
 {
     jassert(m_decay.getCurrentValue() > 0.);
     // DBG("New decay : " + juce::String(decay));
@@ -161,11 +162,11 @@ void EnvelopeGenerator::updateDecay()
     // computation error on one sample if the read performs between the two sets
     // However the computation error is bounded, inaudible, and allows lock-free
     // updates
-    m_decayCoeff.set(computeEnvCoeff(decNumSamples, DECAY_RATIO));
+    m_decayCoeff.set(computeExpEnvCoeff(decNumSamples, DECAY_RATIO));
     m_decayBase.set((m_sustain.getCurrentValue() - DECAY_RATIO) * (1.0 - m_decayCoeff.get()));
 }
 
-void EnvelopeGenerator::updateRelease()
+void VCAEnvelope::updateRelease()
 {
     jassert(m_release.getCurrentValue() > 0.);
     // DBG("New release : " + juce::String(release));
@@ -175,18 +176,18 @@ void EnvelopeGenerator::updateRelease()
     // computation error on one sample if the read performs between the two sets
     // However the computation error is bounded, inaudible, and allows lock-free
     // updates
-    m_releaseCoeff.set(computeEnvCoeff(relNumSamples, RELEASE_RATIO));
+    m_releaseCoeff.set(computeExpEnvCoeff(relNumSamples, RELEASE_RATIO));
     m_releaseBase.set( - RELEASE_RATIO * (1.0 - m_releaseCoeff.get()));
 }
 
-void EnvelopeGenerator::updateSustain()
+void VCAEnvelope::updateSustain()
 {
     jassert(m_sustain.getCurrentValue() >= 0. && m_sustain.getCurrentValue() <= 1.0);
     // DBG("New sustain : " + juce::String(sustain));
     m_decayBase.set((m_sustain.getCurrentValue() - DECAY_RATIO) * (1.0 - m_decayCoeff.get()));
 }
 
-void EnvelopeGenerator::computeNextEnvValue()
+void VCAEnvelope::computeNextEnvValue()
 {
     float newValue;
 
@@ -230,15 +231,15 @@ void EnvelopeGenerator::computeNextEnvValue()
     }
 }
 
-double EnvelopeGenerator::computeEnvCoeff(int rateInSample, double targetRatio)
-{
-    if (rateInSample > 0)
-    {
-        // May need some optimization if too cpu-hungry
-        return exp(-log((1.0 + targetRatio) / targetRatio) / rateInSample);
-    }
+// double VCAEnvelope::computeEnvCoeff(int rateInSample, double targetRatio)
+// {
+//     if (rateInSample > 0)
+//     {
+//         // May need some optimization if too cpu-hungry
+//         return exp(-log((1.0 + targetRatio) / targetRatio) / rateInSample);
+//     }
     
-    return 0.;
-}
+//     return 0.;
+// }
 
 }//namespace engine

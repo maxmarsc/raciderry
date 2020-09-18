@@ -14,6 +14,15 @@
         <FILE id="HcUIS2" name="MidiBroker.h" compile="0" resource="0" file="Source/Control/MidiBroker.h"/>
       </GROUP>
       <GROUP id="{8D3FB390-F569-CF3E-9469-3595DB6D0268}" name="Engine">
+        <GROUP id="{5CA1F139-1ED1-D71A-B897-E536E84CD5F9}" name="Envelopes">
+          <FILE id="xsTNcg" name="AccentEnvelope.cpp" compile="1" resource="0"
+                file="Source/Engine/Envelopes/AccentEnvelope.cpp"/>
+          <FILE id="ujrfaP" name="AccentEnvelope.h" compile="0" resource="0"
+                file="Source/Engine/Envelopes/AccentEnvelope.h"/>
+          <FILE id="NTphtH" name="Utils.h" compile="0" resource="0" file="Source/Engine/Envelopes/Utils.h"/>
+          <FILE id="p30Wpv" name="VCAEnvelope.cpp" compile="1" resource="0" file="Source/Engine/Envelopes/VCAEnvelope.cpp"/>
+          <FILE id="r9Pmq6" name="VCAEnvelope.h" compile="0" resource="0" file="Source/Engine/Envelopes/VCAEnvelope.h"/>
+        </GROUP>
         <GROUP id="{76A4312F-D08A-A543-9687-3CA6A3E98B78}" name="Filter">
           <FILE id="W9izFZ" name="Filter.cpp" compile="1" resource="0" file="Source/Engine/Filter/Filter.cpp"/>
           <FILE id="Iyxz5T" name="Filter.h" compile="0" resource="0" file="Source/Engine/Filter/Filter.h"/>
@@ -29,10 +38,6 @@
               file="Source/Engine/DualOscillator.h"/>
         <FILE id="IoINXN" name="Engine.cpp" compile="1" resource="0" file="Source/Engine/Engine.cpp"/>
         <FILE id="QlnmHH" name="Engine.h" compile="0" resource="0" file="Source/Engine/Engine.h"/>
-        <FILE id="CEfBPd" name="EnvelopeGenerator.cpp" compile="1" resource="0"
-              file="Source/Engine/EnvelopeGenerator.cpp"/>
-        <FILE id="YWaSLj" name="EnvelopeGenerator.h" compile="0" resource="0"
-              file="Source/Engine/EnvelopeGenerator.h"/>
         <FILE id="xEhc2Z" name="SignalBus.cpp" compile="1" resource="0" file="Source/Engine/SignalBus.cpp"/>
         <FILE id="p1sOdj" name="SignalBus.h" compile="0" resource="0" file="Source/Engine/SignalBus.h"/>
         <FILE id="kVhptw" name="Sound.cpp" compile="1" resource="0" file="Source/Engine/Sound.cpp"/>

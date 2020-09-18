@@ -12,7 +12,7 @@
 
 #include <JuceHeader.h>
 
-#include "Engine/EnvelopeGenerator.h"
+#include "Engine/Envelopes/VCAEnvelope.h"
 
 namespace engine {
 
@@ -57,7 +57,7 @@ public:
 
 private:
 //==============================================================================
-    EnvelopeGenerator                               m_envelope;
+    VCAEnvelope                                     m_envelope;
     std::shared_ptr<DualOscillator>                 m_osc;
     juce::Atomic<bool>                              m_noteStarted;
 };

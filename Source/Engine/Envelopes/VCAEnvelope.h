@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    ADSR.h
-    Created: 21 Aug 2020 8:33:48pm
+    AmplitudeEnvelope.h
+    Created: 15 Sep 2020 5:45:39pm
     Author:  maxime
 
   ==============================================================================
@@ -14,21 +14,13 @@
 
 #include "Control/ControllableParameter.h"
 
-namespace engine {
+namespace engine
+{
 
-/**
- * @class engine::EnvelopeGenerator
- * @brief Envelope Generator
- * 
- * Exponential ADSR class, based on the linear design from juce::ADSR class.
- * 
- * This class is a juce::ChangeListener, because it needs to recompute coefficients
- * when its parameters are updated
- */
-class EnvelopeGenerator : public juce::ChangeListener
+class VCAEnvelope : public juce::ChangeListener
 {
 public:
-    EnvelopeGenerator();
+    VCAEnvelope();
 
 //==============================================================================
     /**
@@ -76,7 +68,7 @@ private:
     void updateSustain();
 
     forcedinline void computeNextEnvValue();
-    forcedinline double computeEnvCoeff(int rateInSample, double targetRatio);
+    // forcedinline double computeEnvCoeff(int rateInSample, double targetRatio);
 
 //==============================================================================
 
@@ -101,4 +93,4 @@ private:
     juce::Atomic<State>     m_state;
 };
 
-}//namespace engine
+} // namespace engine

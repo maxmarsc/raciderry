@@ -48,6 +48,10 @@ namespace midiCC
     constexpr int           SUSTAIN = 64;
     constexpr int           RELEASE = 72;
 
+    // Accent
+    constexpr int           ACCENT_DECAY = 81;      // GP 6
+    constexpr int           ACCENT = 82;            // GP 7
+
     // OSC
     constexpr int           WAVEFORM_RATIO = 80;    // General purpose 5
 
@@ -86,6 +90,14 @@ namespace values
     // Limiter values
     constexpr float         LIMITER_RELEASE_MS = 10.0;
     constexpr float         LIMITER_THRESHOLD_DB = -0.1;
+
+    // Accent
+    constexpr float         ACCENT_DEFAULT = 0.;
+    constexpr float         ACCENT_MIN = 0.;
+    constexpr float         ACCENT_MAX = 1.0;
+    constexpr float         ACC_DEC_DEFAULT = 0.1;
+    constexpr float         ACC_DEC_MIN = 0.005;
+    constexpr float         ACC_DEC_MAX = 5.0;
 
     // Filter
     constexpr float         CUTOFF_DEFAULT =  11000.0;   // Hz

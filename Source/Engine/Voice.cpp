@@ -34,14 +34,14 @@ void Voice::startNote(int midiNoteNumber, float velocity,
                                juce::SynthesiserSound *sound, 
                                int currentPitchWheelPosition)
 {
-    m_osc->setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber), true);
+    m_osc->setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber), m_noteStarted.get());
     m_noteStarted.set(true);
     m_envelope.noteOn();
 }
 
 void Voice::stopNote(float velocity, bool allowTailOff)
 {
-    if (allowTailOff) 
+    if (allowTailOff)
     {
         m_envelope.noteOff();
     }

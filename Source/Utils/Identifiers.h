@@ -30,6 +30,9 @@ const juce::Identifier  RESONANCE("RESONANCE");
 const juce::Identifier  DRIVE("DRIVE");
 const juce::Identifier  ENV_MOD("ENV_MOD");
 
+const juce::Identifier  ACCENT("ACCENT");
+const juce::Identifier  ACCENT_DECAY("ACCENT_DECAY");
+
 } //namespace controls
 
 } // namespace identifiers

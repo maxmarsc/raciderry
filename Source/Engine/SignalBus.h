@@ -38,7 +38,8 @@ public:
      */
     enum SignalId
     {
-        VEG = 0,           // Volume Envelope Generator
+        VEG = 0,            // VCA Envelope
+        AEG = 1,            // Accent Envelope
 
         /* This should always be the highest value */
         MAX
