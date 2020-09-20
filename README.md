@@ -11,7 +11,7 @@ quickly**
  - [x] Waveform control (to be improved)
  - [x] Ladder filter + controls
  - [x] ASDR amplitude envelope + controls + filter modulation
- - [ ] Accent's envelope to modulate filter + controls
+ - [x] Accent's envelope to modulate filter + controls
  - [ ] Noise on each parameter to get a more vintage sound
  - [ ] Wavetable synthesis to get more authentics waveforms
  - [ ] FM modulation + controls
