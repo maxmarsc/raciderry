@@ -95,9 +95,9 @@ namespace values
     constexpr float         ACCENT_DEFAULT = 0.;
     constexpr float         ACCENT_MIN = 0.;
     constexpr float         ACCENT_MAX = 1.0;
-    constexpr float         ACC_DEC_DEFAULT = 0.1;
+    constexpr float         ACC_DEC_DEFAULT = 0.3;
     constexpr float         ACC_DEC_MIN = 0.005;
-    constexpr float         ACC_DEC_MAX = 5.0;
+    constexpr float         ACC_DEC_MAX = 1.0;
 
     // Filter
     constexpr float         CUTOFF_DEFAULT =  11000.0;   // Hz

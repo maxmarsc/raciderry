@@ -74,6 +74,9 @@ void AccentEnvelope::noteOn()
 
     if (state != State::idle)
     {
+        // We change the max value to partially reproduce the behaviour of the
+        // accent circuit when notes overlaps
+        // See https://www.firstpr.com.au/rwi/dfish/303-unique.html
         auto newMax = m_crtMax.get() + 1.0 / (10.0 * m_crtMax.get());
         
         if (newMax > 2.0)
@@ -89,20 +92,26 @@ void AccentEnvelope::noteOn()
 
 void AccentEnvelope::noteOff()
 {
-    // Nothing to do here
+    if (m_state.get() == State::attack)
+    {
+        m_state.set(State::decay);
+    }
 }
 
 void AccentEnvelope::nextValue(int numSamples)
 {
     jassert(numSamples > 0);
 
-    auto sum = float(0.);
-    auto count = numSamples;
+    auto max = float(0.);
+
 
     while(numSamples--)
     {
         computeNextEnvValue();
-        sum += m_lastEnvValue.get();
+        if (m_lastEnvValue.get() > max)
+        {
+            max = m_lastEnvValue.get();
+        }
     }
 
     // We send the mean value in the signal bus
@@ -110,7 +119,8 @@ void AccentEnvelope::nextValue(int numSamples)
 
     if (signalBus != nullptr)
     {
-        signalBus->updateSignal(SignalBus::SignalId::AEG, sum/count);
+        // We multiply the env value by the new max
+        signalBus->updateSignal(SignalBus::SignalId::AEG, m_crtMax.get() * max);
     }
 }
 
@@ -142,13 +152,14 @@ void AccentEnvelope::computeNextEnvValue()
     switch(m_state.get())
     {
         case State::idle:
+            m_crtMax.set(1.0);
             break;
 
         case State::attack:
             newValue = m_attackBase + m_lastEnvValue.get() * m_attackCoeff;
-            if (newValue >= m_crtMax.get())
+            if (newValue >= 1.0)
             {
-                newValue = m_crtMax.get();
+                newValue = 1.0;
                 m_state.set(State::decay);
             }
             m_lastEnvValue.set(newValue);
@@ -164,6 +175,8 @@ void AccentEnvelope::computeNextEnvValue()
             m_lastEnvValue.set(newValue);
             break;
     }
+
+    // DBG(juce::String(newValue));
 }
 
 

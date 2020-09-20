@@ -55,6 +55,7 @@ private:
     control::ControllableParameter              m_resonance;
     control::ControllableParameter              m_drive;
     control::ControllableParameter              m_envMod;
+    control::ControllableParameter              m_accent;
 };
 
 } // namespace engine
