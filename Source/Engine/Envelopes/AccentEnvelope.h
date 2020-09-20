@@ -17,6 +17,16 @@
 namespace engine
 {
 
+/**
+ * @class  engine::AccentEnvelope
+ * @brief  The envelope generator for the accent modulation
+ * 
+ * Based on the juce::ADSR design
+ * 
+ * Computes a Attack-Decay envelope, with fixed sharp attack and controllable
+ * decay. It internally updates its value in the Signal Bus with the max value
+ * of each block
+ */
 class AccentEnvelope : public juce::ChangeListener
 {
 public:
@@ -71,7 +81,6 @@ private:
     control::ControllableParameter          m_decay;
 
     /// AD compute values
-    // ADSR
     float                   m_attackCoeff;
     float                   m_attackBase;
     juce::Atomic<float>     m_crtMax;

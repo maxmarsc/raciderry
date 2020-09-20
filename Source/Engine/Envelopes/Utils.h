@@ -15,6 +15,13 @@
 namespace engine
 {
 
+/**
+ * @brief Computes the coeff for a step of an exponential envelope
+ * 
+ * @param rateInSample      The rate of the concerned step
+ * @param targetRatio       The ratio of the concerned step
+ * @return double  The computed coefficient
+ */
 forcedinline double computeExpEnvCoeff(int rateInSample, double targetRatio)
 {
     if (rateInSample > 0)

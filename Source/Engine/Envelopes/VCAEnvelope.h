@@ -17,6 +17,16 @@
 namespace engine
 {
 
+/**
+ * @class  engine::VCAEnvelope
+ * @brief  The ADSR envelope generator for the VCA
+ * 
+ * Based on the juce::ADSR design
+ * 
+ * Computes a Attack-Decay envelope, with fixed sharp attack and controllable
+ * decay. It internally updates its value in the Signal Bus with the max value
+ * of each block
+ */
 class VCAEnvelope : public juce::ChangeListener
 {
 public:
