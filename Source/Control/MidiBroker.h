@@ -35,10 +35,10 @@ public:
      * 
      * @return const juce::MidiBuffer& A midi buffer containing every note 
      * note message received since the last call
-     * @note This should only be called by the audio thread, the access is
-     * atomic lock-free but not thread-safe.
+     * @note Lock-free & thread safe, might return an empty buffer if the 
+     * main buffer is locked due to an incoming message
      */
-    const juce::MidiBuffer& getNoteMidiBuffer() noexcept;
+    juce::MidiBuffer getNoteMidiBuffer() noexcept;
     /**
      * @brief Get the Parameter object corresponding to the given identifier
      * 
@@ -64,9 +64,9 @@ private:
 //==============================================================================
 
     // Midi notes handling
-    juce::MidiBuffer                        m_rtMidiBuffer;
-    juce::MidiBuffer                        m_atomicMidiBuffer;
-    juce::Atomic<bool>                      m_atomicBufferIsLocked;
+    juce::SpinLock                          m_spinLock;
+    juce::MidiBuffer                        m_midiBuffer;
+    juce::MidiBuffer                        m_fallbackMidiBuffer;
 
     // Midi control handling
     std::map<int, ControllableParameter>    m_midiCCToParameterMap;

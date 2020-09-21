@@ -17,22 +17,27 @@ namespace control
 {
 
 MidiBroker::MidiBroker()
-    : m_rtMidiBuffer(),
-      m_atomicMidiBuffer(),
-      m_atomicBufferIsLocked(false)
 {
     initParameters();
 }
 
-const juce::MidiBuffer& MidiBroker::getNoteMidiBuffer() noexcept
+juce::MidiBuffer MidiBroker::getNoteMidiBuffer() noexcept
 {
-    // We swap rather than recreating the buffer because we'll be called
-    // on the audio thread
-    m_rtMidiBuffer.clear();
-    m_atomicBufferIsLocked.set(true);
-    m_rtMidiBuffer.swapWith(m_atomicMidiBuffer);
-    m_atomicBufferIsLocked.set(false);
-    return m_rtMidiBuffer;
+    // We swap the buffers to make sure we don't block the other thread
+    // on the spinlock for too long
+    // It might be interesting to go for a lock-free FIFO implementation to avoid
+    // introducing some latency to the notes sometimes
+    auto newBuffer = juce::MidiBuffer();
+
+    {
+        auto tryLock = juce::SpinLock::ScopedTryLockType(m_spinLock);
+        if (tryLock.isLocked())
+        {
+            newBuffer.swapWith(m_midiBuffer);
+        }
+    }
+
+    return newBuffer;
 }
 
 ControllableParameter MidiBroker::getParameter(const juce::Identifier& id) const
@@ -147,21 +152,23 @@ void MidiBroker::initParameters()
 
 void MidiBroker::handleNoteMessage(const juce::MidiMessage& msg)
 {
-    // After 10 attemps we delete the message
-    ///TODO: rewrite to be really thread-safe
-    int attempts = 10;
+    auto tryLock = juce::SpinLock::ScopedTryLockType(m_spinLock);
 
-    while(m_atomicBufferIsLocked.get())
+    if (tryLock.isLocked())
     {
-        attempts--;
-
-        if (attempts <= 0)
+        m_midiBuffer.addEvent(msg, 0);
+        
+        for (auto msgIt = m_fallbackMidiBuffer.begin(); msgIt != m_fallbackMidiBuffer.end(); msgIt++)
         {
-            return;
+            m_midiBuffer.addEvent((*msgIt).getMessage(), 0);
         }
+        
+        m_fallbackMidiBuffer.clear();
     }
-
-    m_atomicMidiBuffer.addEvent(msg, 0);
+    else
+    {
+        m_fallbackMidiBuffer.addEvent(msg, 0);
+    }
 }
 
 void MidiBroker::handleControllerMessage(const juce::MidiMessage& msg)
