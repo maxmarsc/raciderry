@@ -23,9 +23,8 @@ namespace engine
  * 
  * Based on the juce::ADSR design
  * 
- * Computes a Attack-Decay envelope, with fixed sharp attack and controllable
- * decay. It internally updates its value in the Signal Bus with the max value
- * of each block
+ * ADSR exponential envelope with controllable values. It also internally 
+ * updates its value in the SignalBus with the mean value of each block
  */
 class VCAEnvelope : public juce::ChangeListener
 {
