@@ -32,10 +32,12 @@
                 file="Source/Engine/Filter/OberheimVariationModel.h"/>
           <FILE id="jZKKkB" name="Util.h" compile="0" resource="0" file="Source/Engine/Filter/Util.h"/>
         </GROUP>
-        <FILE id="Jq9gKi" name="DualOscillator.cpp" compile="1" resource="0"
-              file="Source/Engine/DualOscillator.cpp"/>
-        <FILE id="gvhnpE" name="DualOscillator.h" compile="0" resource="0"
-              file="Source/Engine/DualOscillator.h"/>
+        <GROUP id="{A5FCF048-51E3-FB12-514A-F0D67A103989}" name="Oscillators">
+          <FILE id="lCB51d" name="DualOscillator.cpp" compile="1" resource="0"
+                file="Source/Engine/Oscillators/DualOscillator.cpp"/>
+          <FILE id="jQwJam" name="DualOscillator.h" compile="0" resource="0"
+                file="Source/Engine/Oscillators/DualOscillator.h"/>
+        </GROUP>
         <FILE id="IoINXN" name="Engine.cpp" compile="1" resource="0" file="Source/Engine/Engine.cpp"/>
         <FILE id="QlnmHH" name="Engine.h" compile="0" resource="0" file="Source/Engine/Engine.h"/>
         <FILE id="xEhc2Z" name="SignalBus.cpp" compile="1" resource="0" file="Source/Engine/SignalBus.cpp"/>

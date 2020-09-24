@@ -12,7 +12,7 @@
 
 #include "Engine/Sound.h"
 #include "Engine/Voice.h"
-#include "Engine/DualOscillator.h"
+#include "Engine/Oscillators/DualOscillator.h"
 #include "Engine/SignalBus.h"
 
 #include "Control/MidiBroker.h"

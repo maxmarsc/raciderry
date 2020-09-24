@@ -11,7 +11,7 @@
 #include "Voice.h"
 
 #include "Utils/Utils.h"
-#include "Engine/DualOscillator.h"
+#include "Engine/Oscillators/DualOscillator.h"
 
 namespace engine {
 
