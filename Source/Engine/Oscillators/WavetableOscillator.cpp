@@ -42,7 +42,7 @@ void WavetableOscillator::prepare(float sampleRate, int blockSize) noexcept
     m_tableDelta = 0.0f;
 }
 
-void WavetableOscillator::reset()
+void WavetableOscillator::reset() noexcept
 {
     // Nothing to do here
 }
@@ -70,7 +70,7 @@ void WavetableOscillator::process(const juce::dsp::ProcessContextReplacing<float
     }
 }
 
-forcedinline float WavetableOscillator::getNextSample()
+forcedinline float WavetableOscillator::getNextSample() noexcept
 {
     auto tableSize = m_wavetable.getNumSamples();
     auto* table = m_wavetable.getReadPointer(0);

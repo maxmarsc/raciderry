@@ -28,10 +28,9 @@ public:
     void process(const juce::dsp::ProcessContextReplacing<float>& context) noexcept;
 
 private:
-    forcedinline float getNextSample();
+    forcedinline float getNextSample() noexcept;
 
     const juce::AudioSampleBuffer&          m_wavetable;
-    float                                   m_sampleRate;
     SmoothedFrequency                       m_frequency;
     float                                   m_currentIndex;
     float                                   m_tableDelta;
