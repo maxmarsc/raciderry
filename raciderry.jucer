@@ -37,6 +37,10 @@
                 file="Source/Engine/Oscillators/DualOscillator.cpp"/>
           <FILE id="jQwJam" name="DualOscillator.h" compile="0" resource="0"
                 file="Source/Engine/Oscillators/DualOscillator.h"/>
+          <FILE id="uxEDvo" name="WavetableOscillator.cpp" compile="1" resource="0"
+                file="Source/Engine/Oscillators/WavetableOscillator.cpp"/>
+          <FILE id="WqCS0l" name="WavetableOscillator.h" compile="0" resource="0"
+                file="Source/Engine/Oscillators/WavetableOscillator.h"/>
         </GROUP>
         <FILE id="IoINXN" name="Engine.cpp" compile="1" resource="0" file="Source/Engine/Engine.cpp"/>
         <FILE id="QlnmHH" name="Engine.h" compile="0" resource="0" file="Source/Engine/Engine.h"/>
