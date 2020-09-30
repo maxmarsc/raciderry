@@ -24,8 +24,6 @@ DualOscillator::DualOscillator()
       m_wavetable2(),
       m_wtOsc1(m_wavetable1),
       m_wtOsc2(m_wavetable2),
-      m_osc1(),
-      m_osc2(),
       m_mixingBuffer(),
       m_oscRatio()
 {
