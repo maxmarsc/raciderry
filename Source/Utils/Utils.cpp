@@ -73,6 +73,30 @@ float square(float phase)
     else return 0.f;
 }
 
+void loadWavetableFromBinaryWaveFile(
+        juce::AudioSampleBuffer& bufferToAllocate,
+        const void* sourceData,
+        size_t sourceDataSize)
+{
+    // The given audio buffer should be empty
+    jassert(bufferToAllocate.getNumChannels() == 0);
+    jassert(bufferToAllocate.getNumSamples() == 0);
+
+    // We create a reader for the audio file
+    juce::AudioFormatManager formatManager;
+    formatManager.registerBasicFormats();
+    auto reader = std::unique_ptr<juce::AudioFormatReader>(
+            formatManager.createReaderFor(
+                std::make_unique<juce::MemoryInputStream>(
+                    sourceData, sourceDataSize, false)));
+
+    jassert(reader->numChannels == 1);
+
+    // We allocate the buffer to make it hold the audio data
+    bufferToAllocate.setSize(1, reader->lengthInSamples);
+    reader->read(&bufferToAllocate, 0, reader->lengthInSamples, 0, true, true);
+}
+
 } // namespace waveform
 
 }//namespace utils

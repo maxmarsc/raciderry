@@ -9,6 +9,7 @@
 */
 
 #include "DualOscillator.h"
+
 #include "Utils/Utils.h"
 #include "Utils/Identifiers.h"
 #include "Control/MidiBroker.h"
@@ -19,13 +20,20 @@ namespace engine
 constexpr double        WAFEFORM_GENERAL_GAIN = 0.75;
 
 DualOscillator::DualOscillator()
-    : m_osc1(),
+    : m_wavetable1(),
+      m_wavetable2(),
+      m_wtOsc1(m_wavetable1),
+      m_wtOsc2(m_wavetable2),
+      m_osc1(),
       m_osc2(),
       m_mixingBuffer(),
       m_oscRatio()
 {
-    m_osc1.initialise(utils::waveform::saw, 512);
-    m_osc2.initialise(utils::waveform::square, 512);
+    // Load the wavetables in the buffers
+    utils::waveform::loadWavetableFromBinaryWaveFile(m_wavetable1, 
+            BinaryData::waveform_saw_wav, BinaryData::waveform_saw_wavSize);
+    utils::waveform::loadWavetableFromBinaryWaveFile(m_wavetable2,
+            BinaryData::waveform_square_wav, BinaryData::waveform_square_wavSize);
 
     m_oscRatio = control::MidiBroker::getInstance()->getParameter(identifiers::controls::WAVEFORM_RATIO);
     jassert(m_oscRatio.isValid());
@@ -34,29 +42,26 @@ DualOscillator::DualOscillator()
 //==============================================================================
 void DualOscillator::setFrequency(float newFrequency, bool force)
 {
-    m_osc1.setFrequency(newFrequency, force);
-    m_osc2.setFrequency(newFrequency, force);
+    m_wtOsc1.setFrequency(newFrequency, force);
+    m_wtOsc2.setFrequency(newFrequency, force);
 }
 
 void DualOscillator::prepare(float sampleRate, int blockSize) noexcept
 {
     m_mixingBuffer.setSize(1, blockSize);
-    m_osc1.prepare({sampleRate, blockSize, 1});
-    m_osc2.prepare({sampleRate, blockSize, 1});
+    m_wtOsc1.prepare(sampleRate, blockSize);
+    m_wtOsc2.prepare(sampleRate, blockSize);
 }
 
 void DualOscillator::reset()
 {
-    m_osc1.reset();
-    m_osc2.reset();
+    m_wtOsc1.reset();
+    m_wtOsc2.reset();
 }
 
 void DualOscillator::process(juce::AudioBuffer<float>& outputBuffer, int startSample, 
         int numSamples)
 {
-    jassert(m_osc1.isInitialised());
-    jassert(m_osc2.isInitialised());
-
     // Init
     m_mixingBuffer.clear();
     auto block = juce::dsp::AudioBlock<float>(
@@ -72,7 +77,7 @@ void DualOscillator::process(juce::AudioBuffer<float>& outputBuffer, int startSa
     // Process and apply gain for osc n°1
     { 
         auto context = juce::dsp::ProcessContextReplacing<float>(block);
-        m_osc1.process(context);
+        m_wtOsc1.process(context);
     }
     outputBuffer.applyGain((1.0 - ratio) * WAFEFORM_GENERAL_GAIN);
 
@@ -85,7 +90,7 @@ void DualOscillator::process(juce::AudioBuffer<float>& outputBuffer, int startSa
     );
     { 
         auto context = juce::dsp::ProcessContextReplacing<float>(block);
-        m_osc2.process(context);
+        m_wtOsc2.process(context);
     }
     outputBuffer.addFrom(0, startSample, m_mixingBuffer, 0, 0, numSamples, 
             ratio * WAFEFORM_GENERAL_GAIN);

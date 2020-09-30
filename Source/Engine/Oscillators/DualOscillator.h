@@ -12,6 +12,8 @@
 
 #include <JuceHeader.h>
 
+#include "Engine/Oscillators/WavetableOscillator.h"
+
 #include "Control/ControllableParameter.h"
 
 namespace engine
@@ -41,8 +43,10 @@ public:
 
 private:
 //==============================================================================
-    juce::dsp::Oscillator<float>                m_osc1;
-    juce::dsp::Oscillator<float>                m_osc2;
+    juce::AudioSampleBuffer                     m_wavetable1;
+    juce::AudioSampleBuffer                     m_wavetable2;
+    WavetableOscillator                         m_wtOsc1;
+    WavetableOscillator                         m_wtOsc2;
     juce::AudioBuffer<float>                    m_mixingBuffer;
     
     control::ControllableParameter              m_oscRatio;

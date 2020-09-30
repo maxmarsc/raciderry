@@ -18,9 +18,9 @@ WavetableOscillator::WavetableOscillator(const juce::AudioSampleBuffer& wavetabl
       m_frequency(440.0f),
       m_currentIndex(0.0f),
       m_tableDelta(0.0f),
-      m_tableSizeOverSampleRate((float)wavetable.getNumSamples())
+      m_tableSizeOverSampleRate(0.0f)
 {
-    jassert(wavetable.getNumChannels() == 1);
+    // Nothing to do here
 }
 
 void WavetableOscillator::setFrequency(float newFreq, bool force) noexcept
@@ -37,6 +37,9 @@ void WavetableOscillator::setFrequency(float newFreq, bool force) noexcept
 
 void WavetableOscillator::prepare(float sampleRate, int blockSize) noexcept
 {
+    jassert(m_wavetable.getNumChannels() == 1);
+    jassert(m_wavetable.getNumSamples() > 0);
+
     m_tableSizeOverSampleRate = float(m_wavetable.getNumSamples()) / sampleRate;
     m_currentIndex = 0.0f;
     m_tableDelta = 0.0f;

@@ -59,6 +59,12 @@
       </GROUP>
       <FILE id="yreETs" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
     </GROUP>
+    <GROUP id="{97ED7547-1320-FD12-E237-CDB461CA9FC3}" name="Resources">
+      <FILE id="FO1XaO" name="waveform_saw.wav" compile="0" resource="1"
+            file="Resources/waveform_saw.wav"/>
+      <FILE id="kkHx4x" name="waveform_square.wav" compile="0" resource="1"
+            file="Resources/waveform_square.wav"/>
+    </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_JACK="0" JUCE_ALSA="1"
                JUCE_USE_OGGVORBIS="0" JUCE_USE_FLAC="0" JUCE_USE_MP3AUDIOFORMAT="0"

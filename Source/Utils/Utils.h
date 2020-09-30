@@ -12,6 +12,8 @@
 
 #include <functional>
 
+#include <JuceHeader.h>
+
 namespace utils {
 
 /**
@@ -35,6 +37,11 @@ namespace waveform
 
 float saw(float phase);
 float square(float phase);
+
+void loadWavetableFromBinaryWaveFile(
+        juce::AudioSampleBuffer& bufferToAllocate,
+        const void* sourceData,
+        size_t sourceDataSize);
 
 } // namespace waveform
 
