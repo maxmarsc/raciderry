@@ -17,11 +17,30 @@ namespace engine
 
 using SmoothedFrequency = juce::SmoothedValue<float, juce::ValueSmoothingTypes::Multiplicative>;
 
+/**
+ * @class engine::WavetableOscillator
+ * @brief A simple wavetable oscillator with linear interpolation
+ * 
+ * Based on the juce::dsp::Oscillator design
+ * 
+ * The oscillator will use the entire AudioSampleBuffer provided as the waveform
+ * The more higher the samplerate, the more points the wavetable should contains
+ * in order to avoid interpolation artifacts
+ */
 class WavetableOscillator
 {
 public:
+    /**
+     * @brief Construct a new Wavetable Oscillator object
+     * 
+     * @param wavetable A reference to the sample buffer to use as a waveform. 
+     * The buffer does not need to be filled at build time, but should be 
+     * initialised before calling WavetableOscillator::prepare method.
+     */
     WavetableOscillator(const juce::AudioSampleBuffer& wavetable);
 
+//==============================================================================
+    /// juce::dsp::Oscillator like methods
     void setFrequency(float newFreq, bool force=false) noexcept;
     void prepare(float sampleRate, int blockSize) noexcept;
     void reset() noexcept;
@@ -30,6 +49,7 @@ public:
 private:
     forcedinline float getNextSample() noexcept;
 
+//==============================================================================
     const juce::AudioSampleBuffer&          m_wavetable;
     SmoothedFrequency                       m_frequency;
     float                                   m_currentIndex;
