@@ -96,7 +96,7 @@ namespace values
     constexpr float         ACCENT_MIN = 0.;
     constexpr float         ACCENT_MAX = 1.0;
     constexpr float         ACC_DEC_DEFAULT = 0.3;
-    constexpr float         ACC_DEC_MIN = 0.005;
+    constexpr float         ACC_DEC_MIN = 0.010;
     constexpr float         ACC_DEC_MAX = 1.0;
 
     // Filter
