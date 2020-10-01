@@ -72,14 +72,16 @@ void MidiBroker::initParameters()
     // Attack
     auto attack = ControllableParameter(parameters::values::ATTACK_DEFAULT,
             parameters::values::ATTACK_MIN,
-            parameters::values::ATTACK_MAX);
+            parameters::values::ATTACK_MAX,
+            ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::ATTACK] = attack;
     m_idToParameterMap[identifiers::controls::ATTACK] = attack;
 
     // Decay
     auto decay = ControllableParameter(parameters::values::DECAY_DEFAULT,
             parameters::values::DECAY_MIN,
-            parameters::values::DECAY_MAX);
+            parameters::values::DECAY_MAX,
+            ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::DECAY] = decay;
     m_idToParameterMap[identifiers::controls::DECAY] = decay;
 
@@ -93,7 +95,8 @@ void MidiBroker::initParameters()
     // Release
     auto release = ControllableParameter(parameters::values::RELEASE_DEFAULT,
             parameters::values::RELEASE_MIN,
-            parameters::values::RELEASE_MAX);
+            parameters::values::RELEASE_MAX,
+            ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::RELEASE] = release;
     m_idToParameterMap[identifiers::controls::RELEASE] = release;
 
@@ -110,7 +113,7 @@ void MidiBroker::initParameters()
             parameters::values::CUTOFF_MIN,
             parameters::values::CUTOFF_MAX,
             ControllableParameter::ScaleType::logarithmic,
-            430);
+            512);
     m_midiCCToParameterMap[parameters::midiCC::CUTOFF] = cutoff;
     m_idToParameterMap[identifiers::controls::CUTOFF] = cutoff;
 
@@ -145,7 +148,8 @@ void MidiBroker::initParameters()
     // Accent decay
     auto accentDec = ControllableParameter(parameters::values::ACC_DEC_DEFAULT,
             parameters::values::ACC_DEC_MIN,
-            parameters::values::ACC_DEC_MAX);
+            parameters::values::ACC_DEC_MAX,
+            ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::ACCENT_DECAY] = accentDec;
     m_idToParameterMap[identifiers::controls::ACCENT_DECAY] = accentDec;
 }

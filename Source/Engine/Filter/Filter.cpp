@@ -71,15 +71,18 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     auto cutoffRatio =  + m_cutoffFreq.getUnscaledRatioForCurrentValue()
             + envModRatio + accentRatio;
 
+    float modulatedCutoff;
     if (cutoffRatio > 1.0)
     {
-        cutoffRatio = 1.0;
+        modulatedCutoff = cutoffRatio * m_cutoffFreq.getScaledValueForUnscaledRatio(1.0);
     }
-    
-    auto envModCutoff = m_cutoffFreq.getScaledValueForUnscaledRatio(cutoffRatio);
+    else
+    {
+        modulatedCutoff = m_cutoffFreq.getScaledValueForUnscaledRatio(cutoffRatio);
+    }
 
     // Update the parameters
-    m_oberheimFilter->SetCutoff(envModCutoff);
+    m_oberheimFilter->SetCutoff(modulatedCutoff);
     m_oberheimFilter->SetResonance(m_resonance.getCurrentValue());
     m_oberheimFilter->SetSaturation(m_drive.getCurrentValue());
 

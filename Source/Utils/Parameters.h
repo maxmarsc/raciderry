@@ -100,12 +100,12 @@ namespace values
     constexpr float         ACC_DEC_MAX = 1.0;
 
     // Filter
-    constexpr float         CUTOFF_DEFAULT =  11000.0;   // Hz
-    constexpr float         CUTOFF_MIN = 60.0;
-    constexpr float         CUTOFF_MAX = 22000.0;
+    constexpr float         CUTOFF_DEFAULT =  440.0;   // Hz
+    constexpr float         CUTOFF_MIN = 40.0;
+    constexpr float         CUTOFF_MAX = 6000.0;
     constexpr float         RESONANCE_DEFAULT = 0.0;     // > 0.
     constexpr float         RESONANCE_MIN = 0.0;
-    constexpr float         RESONANCE_MAX = 10.0;
+    constexpr float         RESONANCE_MAX = 8.0;
     constexpr float         DRIVE_DEFAULT = 1.0;        // > 1.
     constexpr float         DRIVE_MIN = 1.0;
     constexpr float         DRIVE_MAX = 1.5;
