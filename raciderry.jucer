@@ -52,6 +52,8 @@
         <FILE id="XLT9ca" name="Voice.h" compile="0" resource="0" file="Source/Engine/Voice.h"/>
       </GROUP>
       <GROUP id="{F90F4DE3-B020-9B2C-F2CF-7A169B5DBFCE}" name="Utils">
+        <FILE id="sRZE1Y" name="CustomSmoothValue.h" compile="0" resource="0"
+              file="Source/Utils/CustomSmoothValue.h"/>
         <FILE id="oI97Mf" name="Identifiers.h" compile="0" resource="0" file="Source/Utils/Identifiers.h"/>
         <FILE id="p5LkaU" name="Parameters.h" compile="0" resource="0" file="Source/Utils/Parameters.h"/>
         <FILE id="vt208h" name="Utils.cpp" compile="1" resource="0" file="Source/Utils/Utils.cpp"/>

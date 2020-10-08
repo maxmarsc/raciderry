@@ -9,6 +9,7 @@
 */
 
 #include "WavetableOscillator.h"
+#include "Utils/CustomSmoothValue.h"
 
 namespace engine
 {
