@@ -12,10 +12,12 @@
 
 #include <JuceHeader.h>
 
+#include "Utils/CustomSmoothValue.h"
+
 namespace engine
 {
 
-using SmoothedFrequency = juce::SmoothedValue<float, juce::ValueSmoothingTypes::Multiplicative>;
+using SmoothedFrequency = utils::CustomSmoothedValue<float, juce::ValueSmoothingTypes::Multiplicative>;
 
 /**
  * @class engine::WavetableOscillator
@@ -46,6 +48,14 @@ public:
     void reset() noexcept;
     void process(const juce::dsp::ProcessContextReplacing<float>& context) noexcept;
 
+//==============================================================================
+    /**
+     * @brief Set the Glide time time, default to 0
+     * 
+     * @param glideTime New glide time in seconds
+     */
+    void setGlide(float glideTime) noexcept;
+
 private:
     forcedinline float getNextSample() noexcept;
 
@@ -55,7 +65,8 @@ private:
     float                                   m_currentIndex;
     float                                   m_tableDelta;
     float                                   m_tableSizeOverSampleRate;
-
+    float                                   m_sampleRate;
+    float                                   m_glide;
 };
 
 } // namespace engine

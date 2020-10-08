@@ -9,7 +9,6 @@
 */
 
 #include "WavetableOscillator.h"
-#include "Utils/CustomSmoothValue.h"
 
 namespace engine
 {
@@ -19,7 +18,9 @@ WavetableOscillator::WavetableOscillator(const juce::AudioSampleBuffer& wavetabl
       m_frequency(440.0f),
       m_currentIndex(0.0f),
       m_tableDelta(0.0f),
-      m_tableSizeOverSampleRate(0.0f)
+      m_tableSizeOverSampleRate(0.0f),
+      m_sampleRate(0.0),
+      m_glide(0.0)
 {
     // Nothing to do here
 }
@@ -44,6 +45,8 @@ void WavetableOscillator::prepare(float sampleRate, int blockSize) noexcept
     m_tableSizeOverSampleRate = float(m_wavetable.getNumSamples()) / sampleRate;
     m_currentIndex = 0.0f;
     m_tableDelta = 0.0f;
+    m_sampleRate = sampleRate;
+    m_frequency.reset(m_sampleRate, m_glide);
 }
 
 void WavetableOscillator::reset() noexcept
@@ -71,6 +74,17 @@ void WavetableOscillator::process(const juce::dsp::ProcessContextReplacing<float
     {
         *data = getNextSample();
         ++data;
+    }
+}
+
+void WavetableOscillator::setGlide(float glideTime) noexcept
+{
+    jassert(glideTime >= 0);
+    m_glide = glideTime;
+
+    if (glideTime > 0)
+    {
+        m_frequency.update(m_sampleRate, glideTime);
     }
 }
 
