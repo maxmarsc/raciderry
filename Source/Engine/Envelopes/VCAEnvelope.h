@@ -41,6 +41,10 @@ public:
 
 //==============================================================================
     /**
+     * @brief Returns true if the env is in an active stage
+     */
+    bool isActive() { return m_state.get() != State::idle; }
+    /**
      * @brief Updates the sample rate - thread safe
      * 
      * @param sampleRate The new sample rate

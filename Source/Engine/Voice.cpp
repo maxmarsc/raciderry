@@ -35,7 +35,13 @@ void Voice::startNote(int midiNoteNumber, float velocity,
                                juce::SynthesiserSound *sound, 
                                int currentPitchWheelPosition)
 {
-    m_osc->setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber), m_noteStarted.get());
+    // Hard update to handle random MIDI side-effects
+    if (! m_ampEnvelope.isActive())
+    {
+        m_noteStarted.set(false);
+    }
+
+    m_osc->setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber), !m_noteStarted.get());
     m_noteStarted.set(true);
     m_ampEnvelope.noteOn();
     m_accEnvelope.noteOn();
@@ -75,7 +81,13 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer,
 
         // Reshape the audio according to the EnvelopeGenerator
         m_ampEnvelope.applyAmpEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+
+        if (! m_ampEnvelope.isActive())
+        {
+            m_noteStarted.set(false);
+        }
     }
+
     m_accEnvelope.nextValue(numSamples);
 }
 

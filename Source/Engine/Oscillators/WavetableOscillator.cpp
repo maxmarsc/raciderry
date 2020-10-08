@@ -20,7 +20,7 @@ WavetableOscillator::WavetableOscillator(const juce::AudioSampleBuffer& wavetabl
       m_tableDelta(0.0f),
       m_tableSizeOverSampleRate(0.0f),
       m_sampleRate(0.0),
-      m_glide(0.0)
+      m_glide(0.25)
 {
     // Nothing to do here
 }
@@ -58,11 +58,11 @@ void WavetableOscillator::process(const juce::dsp::ProcessContextReplacing<float
 {
     auto& outblock = context.getOutputBlock();
     jassert(outblock.getNumChannels() == 1);
-    auto numSamples = outblock.getNumSamples();
+    auto numSamples = int(outblock.getNumSamples());
     auto* data = outblock.getChannelPointer(0);
 
     // Processing with freq smoothing, should not happens to often
-    while (m_frequency.isSmoothing() && numSamples--)
+    while (m_frequency.isSmoothing() && numSamples-- > 0)
     {
         m_tableDelta = m_frequency.getNextValue() * m_tableSizeOverSampleRate;
         *data = getNextSample();
@@ -70,7 +70,7 @@ void WavetableOscillator::process(const juce::dsp::ProcessContextReplacing<float
     }
 
     // Processing without freq smoothing
-    while (numSamples--)
+    while (numSamples-- > 0)
     {
         *data = getNextSample();
         ++data;
