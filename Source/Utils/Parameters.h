@@ -91,7 +91,6 @@ namespace values
     // Oscillator glide in seconds
     constexpr float        GLIDE_DEFAULT = 0.0;
     constexpr float        GLIDE_MIN = 0.0;
-    constexpr float        GLIDE_MIN_PLUSONE = 0.002;
     constexpr float        GLIDE_MAX = 1.0;
 
     // Limiter values
