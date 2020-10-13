@@ -20,8 +20,8 @@ namespace control
  */
 struct ControllableParameter::Impl : public juce::ChangeBroadcaster
 {
-    Impl(float initValue, float minValue, 
-            float maxValue, ScaleType scale, int discretRange)
+    Impl(float initValue, float minValue, float maxValue, ScaleType scale, 
+            int discretRange, float minPlusOneValue)
         : m_discretRange(discretRange),
           m_precomputedValues(),
           m_maxValue(maxValue),
@@ -29,6 +29,8 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
           m_currentDiscretValue(0)
     {
         jassert(discretRange > 0);
+        jassert(minValue < maxValue);
+        jassert(scale == ScaleType::linear || minValue > 0.0 || minPlusOneValue > 0.0);
 
         if (initValue < m_minValue || initValue > m_maxValue)
         {
@@ -42,16 +44,16 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
             break;
         
         case ScaleType::logarithmic:
-            m_currentDiscretValue.set(precomputeLogValues(initValue));
+            m_currentDiscretValue.set(precomputeLogValues(initValue, minPlusOneValue));
             break;
 
         default:
-            m_currentDiscretValue.set(precomputeLinearValues(initValue));
+            m_currentDiscretValue.set(precomputeLinearValues(initValue, minPlusOneValue));
             break;
         }
     }
 
-    int precomputeLinearValues(double initValue)
+    int precomputeLinearValues(double initValue, double minPlusOne)
     {
         jassert(m_precomputedValues.empty());
         m_precomputedValues.resize(m_discretRange);
@@ -82,7 +84,7 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
         }
     }
 
-    int precomputeLogValues(double initValue)
+    int precomputeLogValues(double initValue, double minPlusOne)
     {
         jassert(m_precomputedValues.empty());
         m_precomputedValues.resize(m_discretRange);
@@ -95,20 +97,29 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
             discretInitValue = m_discretRange - 1;
         }
 
+        double minToLog = m_minValue;
+        double rangeToLog = m_discretRange;
+        if (m_minValue == 0.0)
+        {
+            minToLog = minPlusOne;
+            rangeToLog--;
+            m_precomputedValues[1] = minToLog;
+        }
         auto upperLogBound = log2(m_maxValue);
-        auto lowerLogBound = log2(m_minValue);
-        auto diffLogBound = upperLogBound - lowerLogBound; 
+        auto lowerLogBound = log2(minToLog);
+        auto diffLogBound = upperLogBound - lowerLogBound;
 
         // Using recursive multiplication could introduce more error than wanted
         // This algorithm may be re-rewritten for efficiency if the current
         // trade-off efficiency/accuracy was not properly estimated
-        auto step = diffLogBound / m_discretRange;
+        auto step = diffLogBound / rangeToLog;
         auto base = lowerLogBound;
 
-        for (auto i = 1; i < m_discretRange-1; ++i)
+        for (auto i = 1 + (m_discretRange - rangeToLog); i < rangeToLog-1; ++i)
         {
             base += step;
             m_precomputedValues[i] = pow(2, base);
+            // DBG(juce::String(m_precomputedValues[i]));
 
             if (m_precomputedValues[i] <= initValue)
             {
@@ -169,8 +180,9 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
 
 //==============================================================================
 ControllableParameter::ControllableParameter(float initValue, 
-        float minValue, float maxValue, ScaleType scale, int discretRange)
-    : m_impl(std::make_shared<Impl>(initValue, minValue, maxValue, scale, discretRange))
+        float minValue, float maxValue, ScaleType scale, int discretRange,
+        float minPlusOneValue)
+    : m_impl(std::make_shared<Impl>(initValue, minValue, maxValue, scale, discretRange, minPlusOneValue))
 {
     // Nothing to do here
 }

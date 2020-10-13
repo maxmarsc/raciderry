@@ -33,12 +33,19 @@ DualOscillator::DualOscillator()
     utils::waveform::loadWavetableFromBinaryWaveFile(m_wavetable2,
             BinaryData::waveform_square_wav, BinaryData::waveform_square_wavSize);
 
+    // Get the controllable parameters
     m_oscRatio = control::MidiBroker::getInstance()->getParameter(identifiers::controls::WAVEFORM_RATIO);
+    m_glide = control::MidiBroker::getInstance()->getParameter(identifiers::controls::GLIDE);
     jassert(m_oscRatio.isValid());
+    jassert(m_glide.isValid());
+
+    // Set osc glide
+    m_wtOsc1.setGlide(m_glide.getCurrentValue());
+    m_wtOsc2.setGlide(m_glide.getCurrentValue());
 }
 
 //==============================================================================
-void DualOscillator::setFrequency(float newFrequency, bool force)
+void DualOscillator::setFrequency(float newFrequency, bool force) noexcept
 {
     m_wtOsc1.setFrequency(newFrequency, force);
     m_wtOsc2.setFrequency(newFrequency, force);
@@ -51,14 +58,14 @@ void DualOscillator::prepare(float sampleRate, int blockSize) noexcept
     m_wtOsc2.prepare(sampleRate, blockSize);
 }
 
-void DualOscillator::reset()
+void DualOscillator::reset() noexcept
 {
     m_wtOsc1.reset();
     m_wtOsc2.reset();
 }
 
 void DualOscillator::process(juce::AudioBuffer<float>& outputBuffer, int startSample, 
-        int numSamples)
+        int numSamples) noexcept
 {
     // Init
     m_mixingBuffer.clear();
@@ -69,8 +76,11 @@ void DualOscillator::process(juce::AudioBuffer<float>& outputBuffer, int startSa
         numSamples
     );
 
-    // We make sure we use the same value for the whole block
+    // We get the controllable values for the whole block
+    auto glide = m_glide.getCurrentValue();
     auto ratio = m_oscRatio.getCurrentValue();
+    m_wtOsc1.setGlide(glide);
+    m_wtOsc2.setGlide(glide);
 
     // Process and apply gain for osc n°1
     { 

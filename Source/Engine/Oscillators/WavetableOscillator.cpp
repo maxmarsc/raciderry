@@ -20,14 +20,14 @@ WavetableOscillator::WavetableOscillator(const juce::AudioSampleBuffer& wavetabl
       m_tableDelta(0.0f),
       m_tableSizeOverSampleRate(0.0f),
       m_sampleRate(0.0),
-      m_glide(0.25)
+      m_glide(0.0)
 {
     // Nothing to do here
 }
 
 void WavetableOscillator::setFrequency(float newFreq, bool force) noexcept
 {
-    if (force)
+    if (force || m_glide == 0.0)
     {
         m_frequency.setCurrentAndTargetValue(newFreq);
         m_tableDelta = m_frequency.getCurrentValue() * m_tableSizeOverSampleRate;
@@ -51,7 +51,7 @@ void WavetableOscillator::prepare(float sampleRate, int blockSize) noexcept
 
 void WavetableOscillator::reset() noexcept
 {
-    // Nothing to do here
+    m_sampleRate = 0.0;
 }
 
 void WavetableOscillator::process(const juce::dsp::ProcessContextReplacing<float>& context) noexcept
@@ -79,12 +79,28 @@ void WavetableOscillator::process(const juce::dsp::ProcessContextReplacing<float
 
 void WavetableOscillator::setGlide(float glideTime) noexcept
 {
-    jassert(glideTime >= 0);
+    jassert(glideTime >= 0.0);
+
+    if (glideTime == m_glide)
+    {
+        return;
+    }
+
     m_glide = glideTime;
 
-    if (glideTime > 0)
+    if (!(m_sampleRate > 0))
+    {
+        // If the samplerate is not set, no need to update the smoothedFreq
+        return;
+    }
+
+    if (glideTime > 0.)
     {
         m_frequency.update(m_sampleRate, glideTime);
+    }
+    else if (glideTime == 0.)
+    {
+        m_frequency.skipRamp();
     }
 }
 

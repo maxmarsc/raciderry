@@ -108,6 +108,15 @@ void MidiBroker::initParameters()
     m_midiCCToParameterMap[parameters::midiCC::WAVEFORM_RATIO] = waveformRatio;
     m_idToParameterMap[identifiers::controls::WAVEFORM_RATIO] = waveformRatio;
 
+    // Glide
+    auto glide = ControllableParameter(parameters::values::GLIDE_DEFAULT,
+            parameters::values::GLIDE_MIN,
+            parameters::values::GLIDE_MAX,
+            ControllableParameter::ScaleType::linear,
+            256);
+    m_midiCCToParameterMap[parameters::midiCC::GLIDE] = glide;
+    m_idToParameterMap[identifiers::controls::GLIDE] = glide;
+
     // Filter Cutoff Frequency
     auto cutoff = ControllableParameter(parameters::values::CUTOFF_DEFAULT,
             parameters::values::CUTOFF_MIN,

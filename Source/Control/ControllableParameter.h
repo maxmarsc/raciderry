@@ -62,12 +62,13 @@ public:
      * provided range. It will be casted to the nearest value in the precomputed
      * discret distribution
      * @param minValue  Minimum of the value range
-     * @param maxValue  MAximum of the value range 
+     * @param maxValue  Maximum of the value range 
      * @param scale     Type of distribution scale, default to linear
      * @param discretRange The number of samples of the discret distribution
      */
-    ControllableParameter(float initValue, float minValue, 
-            float maxValue, ScaleType scale = ScaleType::linear, int discretRange = 128);
+    ControllableParameter(float initValue, float minValue, float maxValue, 
+            ScaleType scale = ScaleType::linear, int discretRange = 128,
+            float minPlusOneValue=0.0);
 
 //==============================================================================
     /**

@@ -36,10 +36,10 @@ public:
 
 //==============================================================================
     /// juce::dsp::Oscillator like methods
-    void setFrequency(float newFrequency, bool force=false);
+    void setFrequency(float newFrequency, bool force=false) noexcept;
     void prepare(float sampleRate, int blockSize) noexcept;
-    void reset();
-    void process(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples);
+    void reset() noexcept;
+    void process(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) noexcept;
 
 private:
 //==============================================================================
@@ -50,6 +50,7 @@ private:
     juce::AudioBuffer<float>                    m_mixingBuffer;
     
     control::ControllableParameter              m_oscRatio;
+    control::ControllableParameter              m_glide;
 };
 
 } // namespace engine

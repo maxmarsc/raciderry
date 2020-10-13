@@ -24,6 +24,7 @@ const juce::Identifier  SUSTAIN("SUSTAIN");
 const juce::Identifier  RELEASE("RELEASE");
 
 const juce::Identifier  WAVEFORM_RATIO("WAVEFORM RATIO");
+const juce::Identifier  GLIDE("GLIDE");
 
 const juce::Identifier  CUTOFF("CUTOFF");
 const juce::Identifier  RESONANCE("RESONANCE");

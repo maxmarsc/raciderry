@@ -179,6 +179,14 @@ public:
         return this->currentValue;
     }
 
+    /**
+     * @brief Skip the current ramp and goes directly to the target value
+     */
+    void skipRamp () noexcept
+    {
+        skip(this->countdown);
+    }
+
     //==============================================================================
     /** THIS FUNCTION IS DEPRECATED.
 

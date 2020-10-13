@@ -49,11 +49,12 @@ namespace midiCC
     constexpr int           RELEASE = 72;
 
     // Accent
-    constexpr int           ACCENT_DECAY = 81;      // GP 6
-    constexpr int           ACCENT = 82;            // GP 7
+    constexpr int           ACCENT_DECAY = 82;      // GP 7
+    constexpr int           ACCENT = 83;            // GP 8
 
     // OSC
     constexpr int           WAVEFORM_RATIO = 80;    // General purpose 5
+    constexpr int           GLIDE = 81;             // General purpose 6
 
     // FILTER
     constexpr int           CUTOFF = 16;            // General purpose 1
@@ -86,6 +87,12 @@ namespace values
     constexpr double        WAFEFORM_RATIO_DEFAULT = 0.5;
     constexpr double        WAFEFORM_RATIO_MIN = 0.0;
     constexpr double        WAFEFORM_RATIO_MAX = 1.0;
+
+    // Oscillator glide in seconds
+    constexpr float        GLIDE_DEFAULT = 0.0;
+    constexpr float        GLIDE_MIN = 0.0;
+    constexpr float        GLIDE_MIN_PLUSONE = 0.002;
+    constexpr float        GLIDE_MAX = 1.0;
 
     // Limiter values
     constexpr float         LIMITER_RELEASE_MS = 10.0;
