@@ -30,8 +30,13 @@ int main (int argc, char* argv[])
     DBG(device_manager->initialise(0, 2, nullptr, true, "", &parameters::device::PISOUND_SETUP));
     if (device_manager->getCurrentAudioDevice() == nullptr) 
     {
-        // If the pisound config failed to load (debug on x86_64 as an example)
-        // We try with pulseaudio
+        // If the pisound config is not available we try with custom pulseaudio
+        DBG(device_manager->initialise(0, 2, nullptr, true, "", &parameters::device::DEV_SETUP));
+    }
+    if (device_manager->getCurrentAudioDevice() == nullptr) 
+    {
+        // If the pisound config and the dev config failed to load
+        // We try with basic pulseaudio
         device_manager->initialise(0, 2, nullptr, true, "*PulseAudio*", nullptr);
     }
     if (device_manager->getCurrentAudioDevice() == nullptr)

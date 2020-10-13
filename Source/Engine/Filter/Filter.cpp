@@ -68,13 +68,16 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     // Compute the accent ratio
     auto accentRatio = (accent * m_accent.getCurrentValue() * ACCENT_RATIO_AMMOUNT);
 
-    auto cutoffRatio =  + m_cutoffFreq.getUnscaledRatioForCurrentValue()
+    auto cutoffRatio = m_cutoffFreq.getUnscaledRatioForCurrentValue()
             + envModRatio + accentRatio;
 
     float modulatedCutoff;
     if (cutoffRatio > 1.0)
     {
-        modulatedCutoff = cutoffRatio * m_cutoffFreq.getScaledValueForUnscaledRatio(1.0);
+        auto pow = cutoffRatio * cutoffRatio;
+        modulatedCutoff = pow * m_cutoffFreq.getScaledValueForUnscaledRatio(1.0);
+        // auto toPow = pow(4, cutoffRatio);
+        // modulatedCutoff = pow(toPow, cutoffRatio - 1) * m_cutoffFreq.getScaledValueForUnscaledRatio(1.0);
     }
     else
     {

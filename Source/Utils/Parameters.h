@@ -36,6 +36,17 @@ namespace device
         2,
         true
     });
+
+    const juce::AudioDeviceManager::AudioDeviceSetup DEV_SETUP({
+        juce::String("Playback/recording through the PulseAudio sound server"),
+        juce::String("Playback/recording through the PulseAudio sound server"),
+        96000,
+        256,
+        0,
+        true,
+        2,
+        true
+    });
 } // namespace device
 
 namespace midiCC
@@ -111,10 +122,10 @@ namespace values
     constexpr float         CUTOFF_MAX = 6000.0;
     constexpr float         RESONANCE_DEFAULT = 0.0;     // > 0.
     constexpr float         RESONANCE_MIN = 0.0;
-    constexpr float         RESONANCE_MAX = 8.0;
-    constexpr float         DRIVE_DEFAULT = 1.0;        // > 1.
+    constexpr float         RESONANCE_MAX = 8.5;
+    constexpr float         DRIVE_DEFAULT = 1.10;        // > 1.
     constexpr float         DRIVE_MIN = 1.0;
-    constexpr float         DRIVE_MAX = 1.5;
+    constexpr float         DRIVE_MAX = 1.12;
     constexpr float         ENV_MOD_DEFAULT = 0.0;
     constexpr float         ENV_MOD_MIN = 0.0;
     constexpr float         ENV_MOD_MAX = 1.0;
