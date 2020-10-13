@@ -76,8 +76,6 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     {
         auto pow = cutoffRatio * cutoffRatio;
         modulatedCutoff = pow * m_cutoffFreq.getScaledValueForUnscaledRatio(1.0);
-        // auto toPow = pow(4, cutoffRatio);
-        // modulatedCutoff = pow(toPow, cutoffRatio - 1) * m_cutoffFreq.getScaledValueForUnscaledRatio(1.0);
     }
     else
     {
