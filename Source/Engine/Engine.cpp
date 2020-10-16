@@ -14,6 +14,7 @@
 #include "Engine/Voice.h"
 #include "Engine/Oscillators/DualOscillator.h"
 #include "Engine/SignalBus.h"
+#include "Engine/NoiseGenerator.h"
 
 #include "Control/MidiBroker.h"
 
@@ -46,6 +47,8 @@ RaciderryEngine::RaciderryEngine()
     // Set the limiter
     m_limiter.setRelease(parameters::values::LIMITER_RELEASE_MS);
     m_limiter.setThreshold(parameters::values::LIMITER_THRESHOLD_DB);
+
+    auto test = NoiseGenerator(0.05);
 }
 
 RaciderryEngine::~RaciderryEngine()

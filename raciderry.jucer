@@ -44,6 +44,10 @@
         </GROUP>
         <FILE id="IoINXN" name="Engine.cpp" compile="1" resource="0" file="Source/Engine/Engine.cpp"/>
         <FILE id="QlnmHH" name="Engine.h" compile="0" resource="0" file="Source/Engine/Engine.h"/>
+        <FILE id="MIeWyn" name="NoiseGenerator.cpp" compile="1" resource="0"
+              file="Source/Engine/NoiseGenerator.cpp"/>
+        <FILE id="MdTVp0" name="NoiseGenerator.h" compile="0" resource="0"
+              file="Source/Engine/NoiseGenerator.h"/>
         <FILE id="xEhc2Z" name="SignalBus.cpp" compile="1" resource="0" file="Source/Engine/SignalBus.cpp"/>
         <FILE id="p1sOdj" name="SignalBus.h" compile="0" resource="0" file="Source/Engine/SignalBus.h"/>
         <FILE id="kVhptw" name="Sound.cpp" compile="1" resource="0" file="Source/Engine/Sound.cpp"/>
