@@ -19,11 +19,12 @@ namespace engine
 
 constexpr double        WAFEFORM_GENERAL_GAIN = 0.75;
 
-DualOscillator::DualOscillator()
+DualOscillator::DualOscillator(NoiseGenerator& noiseGenerator)
     : m_wavetable1(),
       m_wavetable2(),
-      m_wtOsc1(m_wavetable1),
-      m_wtOsc2(m_wavetable2),
+      m_wtOsc1(m_wavetable1, noiseGenerator),
+      m_wtOsc2(m_wavetable2, noiseGenerator),
+      m_noiseGenerator(noiseGenerator),
       m_mixingBuffer(),
       m_oscRatio()
 {
@@ -78,9 +79,9 @@ void DualOscillator::process(juce::AudioBuffer<float>& outputBuffer, int startSa
 
     // We get the controllable values for the whole block
     auto glide = m_glide.getCurrentValue();
-    auto ratio = m_oscRatio.getCurrentValue();
-    m_wtOsc1.setGlide(glide);
-    m_wtOsc2.setGlide(glide);
+    auto ratio = m_oscRatio.getCurrentValue() * m_noiseGenerator.getNoiseFactor();
+    m_wtOsc1.setGlide(glide * m_noiseGenerator.getNoiseFactor());
+    m_wtOsc2.setGlide(glide * m_noiseGenerator.getNoiseFactor());
 
     // Process and apply gain for osc n°1
     { 

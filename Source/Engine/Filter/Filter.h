@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 
 #include "Engine/Filter/OberheimVariationModel.h"
+#include "Engine/NoiseGenerator.h"
 
 #include "Control/ControllableParameter.h"
 
@@ -33,7 +34,7 @@ namespace engine
 class Filter
 {
 public:
-    Filter();
+    Filter(NoiseGenerator& noiseGenerator);
     ~Filter() {};
 
 //==============================================================================
@@ -51,6 +52,7 @@ public:
 private:
 //==============================================================================
     std::unique_ptr<OberheimVariationMoog>      m_oberheimFilter;
+    NoiseGenerator&                             m_noiseGenerator;
     control::ControllableParameter              m_cutoffFreq;
     control::ControllableParameter              m_resonance;
     control::ControllableParameter              m_drive;

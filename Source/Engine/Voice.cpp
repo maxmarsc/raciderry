@@ -15,10 +15,10 @@
 
 namespace engine {
 
-Voice::Voice()
+Voice::Voice(NoiseGenerator& noiseGenerator)
     : m_ampEnvelope(),
       m_accEnvelope(),
-      m_osc(std::make_shared<DualOscillator>()),
+      m_osc(std::make_shared<DualOscillator>(noiseGenerator)),
       m_noteStarted(false)
 {
     /// Nothing to do here

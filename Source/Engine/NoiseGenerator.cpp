@@ -23,9 +23,4 @@ NoiseGenerator::NoiseGenerator(float noisePercent)
     ));
 }
 
-forcedinline float NoiseGenerator::getNoiseFactor() noexcept
-{
-    return m_distrib(m_generator);
-}
-
 } // namespace engine

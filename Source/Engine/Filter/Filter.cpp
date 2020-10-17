@@ -22,8 +22,9 @@ namespace engine
 constexpr float ENV_MOD_RATIO_AMMOUNT = 0.5;
 constexpr float ACCENT_RATIO_AMMOUNT = 0.25;
 
-Filter::Filter()
+Filter::Filter(NoiseGenerator& noiseGenerator)
     : m_oberheimFilter(nullptr),
+      m_noiseGenerator(noiseGenerator),
       m_cutoffFreq(),
       m_resonance(),
       m_drive(),
@@ -83,9 +84,9 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     }
 
     // Update the parameters
-    m_oberheimFilter->SetCutoff(modulatedCutoff);
-    m_oberheimFilter->SetResonance(m_resonance.getCurrentValue());
-    m_oberheimFilter->SetSaturation(m_drive.getCurrentValue());
+    m_oberheimFilter->SetCutoff(modulatedCutoff * m_noiseGenerator.getNoiseFactor());
+    m_oberheimFilter->SetResonance(m_resonance.getCurrentValue() * m_noiseGenerator.getNoiseFactor());
+    m_oberheimFilter->SetSaturation(m_drive.getCurrentValue() * m_noiseGenerator.getNoiseFactor());
 
     // Process
     auto outputBlock = context.getOutputBlock();

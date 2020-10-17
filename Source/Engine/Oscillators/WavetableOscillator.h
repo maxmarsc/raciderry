@@ -12,6 +12,8 @@
 
 #include <JuceHeader.h>
 
+#include "Engine/NoiseGenerator.h"
+
 #include "Utils/CustomSmoothValue.h"
 
 namespace engine
@@ -39,7 +41,8 @@ public:
      * The buffer does not need to be filled at build time, but should be 
      * initialised before calling WavetableOscillator::prepare method.
      */
-    WavetableOscillator(const juce::AudioSampleBuffer& wavetable);
+    WavetableOscillator(const juce::AudioSampleBuffer& wavetable, 
+            NoiseGenerator& noiseGenerator);
 
 //==============================================================================
     /// juce::dsp::Oscillator like methods
@@ -61,6 +64,7 @@ private:
 
 //==============================================================================
     const juce::AudioSampleBuffer&          m_wavetable;
+    NoiseGenerator&                         m_noiseGenerator;
     SmoothedFrequency                       m_frequency;
     float                                   m_currentIndex;
     float                                   m_tableDelta;

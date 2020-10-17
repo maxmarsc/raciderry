@@ -22,7 +22,10 @@ class NoiseGenerator
 public:
     NoiseGenerator(float noisePercent);
 
-    forcedinline float getNoiseFactor() noexcept;
+    forcedinline float getNoiseFactor() noexcept
+    {
+        return m_distrib(m_generator);
+    }
 
 private:
     std::mt19937                            m_generator;

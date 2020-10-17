@@ -14,6 +14,7 @@
 
 #include "Engine/Envelopes/VCAEnvelope.h"
 #include "Engine/Envelopes/AccentEnvelope.h"
+#include "Engine/NoiseGenerator.h"
 
 namespace engine {
 
@@ -30,7 +31,7 @@ class DualOscillator;
 class Voice : public juce::SynthesiserVoice
 {
 public:
-    Voice();
+    Voice(NoiseGenerator& noiseGenerator);
 
 //==============================================================================
     /**

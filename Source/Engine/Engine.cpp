@@ -14,7 +14,6 @@
 #include "Engine/Voice.h"
 #include "Engine/Oscillators/DualOscillator.h"
 #include "Engine/SignalBus.h"
-#include "Engine/NoiseGenerator.h"
 
 #include "Control/MidiBroker.h"
 
@@ -23,9 +22,11 @@
 namespace engine {
 
 RaciderryEngine::RaciderryEngine()
-    : m_synth(std::make_unique<juce::Synthesiser>()),
+    : m_noiseGenerator(0.05),
+      m_synth(std::make_unique<juce::Synthesiser>()),
       m_oscWeakPtr(),
       m_limiter(),
+      m_filter(m_noiseGenerator),
       m_blockLength(0),
       m_sampleRate(0.)
 {
@@ -33,7 +34,7 @@ RaciderryEngine::RaciderryEngine()
     SignalBus::getInstance();
 
     // Init the Voice and Sound for the synth
-    auto voice = std::make_unique<Voice>();
+    auto voice = std::make_unique<Voice>(m_noiseGenerator);
     auto sound = std::make_unique<Sound>();
 
     // Get a weak pointer to the osc to update its samplerate/blocksize
@@ -47,8 +48,6 @@ RaciderryEngine::RaciderryEngine()
     // Set the limiter
     m_limiter.setRelease(parameters::values::LIMITER_RELEASE_MS);
     m_limiter.setThreshold(parameters::values::LIMITER_THRESHOLD_DB);
-
-    auto test = NoiseGenerator(0.05);
 }
 
 RaciderryEngine::~RaciderryEngine()

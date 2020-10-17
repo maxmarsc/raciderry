@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 
 #include "Engine/Oscillators/WavetableOscillator.h"
+#include "Engine/NoiseGenerator.h"
 
 #include "Control/ControllableParameter.h"
 
@@ -32,7 +33,7 @@ namespace engine
 class DualOscillator
 {
 public:
-    DualOscillator();
+    DualOscillator(NoiseGenerator& noiseGenerator);
 
 //==============================================================================
     /// juce::dsp::Oscillator like methods
@@ -47,6 +48,7 @@ private:
     juce::AudioSampleBuffer                     m_wavetable2;
     WavetableOscillator                         m_wtOsc1;
     WavetableOscillator                         m_wtOsc2;
+    NoiseGenerator&                             m_noiseGenerator;
     juce::AudioBuffer<float>                    m_mixingBuffer;
     
     control::ControllableParameter              m_oscRatio;

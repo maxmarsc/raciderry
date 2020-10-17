@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 
 #include "Engine/Filter/Filter.h"
+#include "Engine/NoiseGenerator.h"
 
 #include "Control/MidiBroker.h"
 
@@ -47,6 +48,7 @@ public:
 
 private:
 //==============================================================================
+    NoiseGenerator                                  m_noiseGenerator;
     std::unique_ptr<juce::Synthesiser>              m_synth;
     std::weak_ptr<DualOscillator>                   m_oscWeakPtr;
     juce::dsp::Limiter<float>                       m_limiter;
