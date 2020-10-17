@@ -17,7 +17,7 @@
 namespace engine
 {
 
-constexpr double        WAFEFORM_GENERAL_GAIN = 0.75;
+constexpr double        WAFEFORM_GENERAL_GAIN = 0.5;
 
 DualOscillator::DualOscillator(NoiseGenerator& noiseGenerator)
     : m_wavetable1(),
