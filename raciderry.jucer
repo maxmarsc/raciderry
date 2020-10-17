@@ -12,6 +12,10 @@
               file="Source/Control/ControllableParameter.h"/>
         <FILE id="eS43Yj" name="MidiBroker.cpp" compile="1" resource="0" file="Source/Control/MidiBroker.cpp"/>
         <FILE id="HcUIS2" name="MidiBroker.h" compile="0" resource="0" file="Source/Control/MidiBroker.h"/>
+        <FILE id="lnYUp4" name="MidiDeviceMonitor.cpp" compile="1" resource="0"
+              file="Source/Control/MidiDeviceMonitor.cpp"/>
+        <FILE id="ssWDYd" name="MidiDeviceMonitor.h" compile="0" resource="0"
+              file="Source/Control/MidiDeviceMonitor.h"/>
       </GROUP>
       <GROUP id="{8D3FB390-F569-CF3E-9469-3595DB6D0268}" name="Engine">
         <GROUP id="{5CA1F139-1ED1-D71A-B897-E536E84CD5F9}" name="Envelopes">

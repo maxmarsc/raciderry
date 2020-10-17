@@ -13,6 +13,7 @@
 
 #include "Engine/Engine.h"
 #include "Control/MidiBroker.h"
+#include "Control/MidiDeviceMonitor.h"
 #include "Utils/Parameters.h"
 
 //==============================================================================
@@ -53,22 +54,25 @@ int main (int argc, char* argv[])
     device_manager->addAudioCallback(&engine);
 
     // Start listening to MIDI inputs
+    auto midiMonitor = control::MidiDeviceMonitor(*device_manager);
     device_manager->addMidiInputDeviceCallback("", control::MidiBroker::getInstance());
-    auto midiDeviceInfo = juce::MidiInput::getAvailableDevices();
-    for (auto& device : midiDeviceInfo)
-    {
-        device_manager->setMidiInputDeviceEnabled(device.identifier, true);
-        DBG(device.name);
-        DBG(device.identifier);
-        auto enabled = device_manager->isMidiInputDeviceEnabled(device.identifier);
-        if(enabled)
-        {
-            DBG("ENABLED");
-        } else 
-        {
-            DBG("DISABLED");
-        }
-    }
+    // // Start listening to MIDI inputs
+    // device_manager->addMidiInputDeviceCallback("", control::MidiBroker::getInstance());
+    // auto midiDeviceInfo = juce::MidiInput::getAvailableDevices();
+    // for (auto& device : midiDeviceInfo)
+    // {
+    //     device_manager->setMidiInputDeviceEnabled(device.identifier, true);
+    //     DBG(device.name);
+    //     DBG(device.identifier);
+    //     auto enabled = device_manager->isMidiInputDeviceEnabled(device.identifier);
+    //     if(enabled)
+    //     {
+    //         DBG("ENABLED");
+    //     } else 
+    //     {
+    //         DBG("DISABLED");
+    //     }
+    // }
 
     messageManager->runDispatchLoop();
 

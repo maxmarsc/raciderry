@@ -22,7 +22,7 @@
 namespace engine {
 
 RaciderryEngine::RaciderryEngine()
-    : m_noiseGenerator(0.05),
+    : m_noiseGenerator(0.03),
       m_synth(std::make_unique<juce::Synthesiser>()),
       m_oscWeakPtr(),
       m_limiter(),
