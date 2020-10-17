@@ -12,7 +12,7 @@ quickly**
  - [x] Ladder filter + controls
  - [x] ASDR amplitude envelope + controls + filter modulation
  - [x] Accent's envelope to modulate filter + controls
- - [ ] Noise on each parameter to get a more vintage sound
+ - [x] Noise on each parameter to get a more vintage sound
  - [x] Wavetable synthesis to get more authentics waveforms
  - [ ] FM modulation + controls
  - [ ] Dynamic detection of midi controllers
