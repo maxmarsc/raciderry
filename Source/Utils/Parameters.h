@@ -70,7 +70,8 @@ namespace midiCC
     // FILTER
     constexpr int           CUTOFF = 16;            // General purpose 1
     constexpr int           RESONANCE = 17;         // General purpose 2
-    constexpr int           FILTER_DRIVE = 18;      // General purpose 3
+    constexpr int           FILTER_MIX = 18;
+    // constexpr int           FILTER_DRIVE = 18;      // General purpose 3
     constexpr int           ENV_MOD = 19;            // General purpose 4
 }
 
@@ -129,6 +130,9 @@ namespace values
     constexpr float         ENV_MOD_DEFAULT = 0.0;
     constexpr float         ENV_MOD_MIN = 0.0;
     constexpr float         ENV_MOD_MAX = 1.0;
+    constexpr float         MIX_MIN = 0.0;
+    constexpr float         MIX_MAX = 1.0;
+    constexpr float         MIX_DEFAULT = 0.5;
 }
 
 

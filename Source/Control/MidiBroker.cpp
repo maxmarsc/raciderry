@@ -133,12 +133,20 @@ void MidiBroker::initParameters()
     m_midiCCToParameterMap[parameters::midiCC::RESONANCE] = resonance;
     m_idToParameterMap[identifiers::controls::RESONANCE] = resonance;
 
-    // Filter Drive
-    auto drive = ControllableParameter(parameters::values::DRIVE_DEFAULT,
-            parameters::values::DRIVE_MIN,
-            parameters::values::DRIVE_MAX);
-    m_midiCCToParameterMap[parameters::midiCC::FILTER_DRIVE] = drive;
-    m_idToParameterMap[identifiers::controls::DRIVE] = drive;
+    // Filter Mix
+    auto filterMix = ControllableParameter(parameters::values::MIX_DEFAULT,
+            parameters::values::MIX_MIN,
+            parameters::values::MIX_MAX);
+    m_midiCCToParameterMap[parameters::midiCC::FILTER_MIX] = filterMix;
+    m_idToParameterMap[identifiers::controls::FILTER_MIX] = filterMix;
+ 
+
+    // // Filter Drive
+    // auto drive = ControllableParameter(parameters::values::DRIVE_DEFAULT,
+    //         parameters::values::DRIVE_MIN,
+    //         parameters::values::DRIVE_MAX);
+    // m_midiCCToParameterMap[parameters::midiCC::FILTER_DRIVE] = drive;
+    // m_idToParameterMap[identifiers::controls::DRIVE] = drive;
 
     // Envelope filter modulation
     auto envMod = ControllableParameter(parameters::values::ENV_MOD_DEFAULT,

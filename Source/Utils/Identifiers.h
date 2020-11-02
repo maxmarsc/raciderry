@@ -30,6 +30,7 @@ const juce::Identifier  CUTOFF("CUTOFF");
 const juce::Identifier  RESONANCE("RESONANCE");
 const juce::Identifier  DRIVE("DRIVE");
 const juce::Identifier  ENV_MOD("ENV_MOD");
+const juce::Identifier  FILTER_MIX("FILTER_MIX");
 
 const juce::Identifier  ACCENT("ACCENT");
 const juce::Identifier  ACCENT_DECAY("ACCENT_DECAY");

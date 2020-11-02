@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 
 #include "Engine/Filter/OberheimVariationModel.h"
+#include "Engine/Filter/rosic_TeeBeeFilter.h"
 #include "Engine/NoiseGenerator.h"
 
 #include "Control/ControllableParameter.h"
@@ -39,7 +40,7 @@ public:
 
 //==============================================================================
     /// juce::dsp::processor like methods
-    void prepare(float sampleRate, int blockSize) noexcept;
+    void prepare(float sampleRate, int blockSize);
     void reset();
     /**
      * @brief Filter the audio block
@@ -52,12 +53,15 @@ public:
 private:
 //==============================================================================
     std::unique_ptr<OberheimVariationMoog>      m_oberheimFilter;
+    rosic::TeeBeeFilter                         m_open303Filter;
     NoiseGenerator&                             m_noiseGenerator;
+    juce::AudioBuffer<float>                    m_mixBuffer;
     control::ControllableParameter              m_cutoffFreq;
     control::ControllableParameter              m_resonance;
     control::ControllableParameter              m_drive;
     control::ControllableParameter              m_envMod;
     control::ControllableParameter              m_accent;
+    control::ControllableParameter              m_filtersMix;
 };
 
 } // namespace engine

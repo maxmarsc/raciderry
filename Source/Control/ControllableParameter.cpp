@@ -199,12 +199,12 @@ bool ControllableParameter::operator==(juce::ChangeBroadcaster* source) const
     return dynamic_cast<Impl*>(source) == m_impl.get();
 }
 
-bool ControllableParameter::isValid() const
+bool ControllableParameter::isValid() const noexcept
 {
     return m_impl != nullptr;
 }
 
-float ControllableParameter::getCurrentValue() const
+float ControllableParameter::getCurrentValue() const noexcept
 {
     jassert(m_impl != nullptr);
 
@@ -216,7 +216,7 @@ float ControllableParameter::getCurrentValue() const
     return -1.0; // To avoid potential division by zero
 }
 
-float ControllableParameter::getUnscaledRatioForCurrentValue() const
+float ControllableParameter::getUnscaledRatioForCurrentValue() const noexcept
 {
     jassert(m_impl != nullptr);
 
@@ -228,7 +228,7 @@ float ControllableParameter::getUnscaledRatioForCurrentValue() const
     return 0.0;
 }
 
-int ControllableParameter::getDiscretRange() const
+int ControllableParameter::getDiscretRange() const noexcept
 {
     jassert(m_impl != nullptr);
 
@@ -240,7 +240,7 @@ int ControllableParameter::getDiscretRange() const
     return 0;
 }
 
-float ControllableParameter::getScaledValueForUnscaledRatio(float ratio) const
+float ControllableParameter::getScaledValueForUnscaledRatio(float ratio) const noexcept
 {
     jassert(m_impl != nullptr);
     jassert(ratio >= 0.0 && ratio <= 1.0);
