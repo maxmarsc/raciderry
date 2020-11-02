@@ -28,32 +28,36 @@
           <FILE id="r9Pmq6" name="VCAEnvelope.h" compile="0" resource="0" file="Source/Engine/Envelopes/VCAEnvelope.h"/>
         </GROUP>
         <GROUP id="{76A4312F-D08A-A543-9687-3CA6A3E98B78}" name="Filter">
+          <GROUP id="{FA2666AB-A2A9-A127-44A7-36E56BC52072}" name="Open303">
+            <FILE id="SW8TiZ" name="GlobalDefinitions.h" compile="0" resource="0"
+                  file="Source/Engine/Filter/Open303/GlobalDefinitions.h"/>
+            <FILE id="dOBPuV" name="GlobalFunctions.h" compile="0" resource="0"
+                  file="Source/Engine/Filter/Open303/GlobalFunctions.h"/>
+            <FILE id="O8d1k0" name="rosic_NumberManipulations.cpp" compile="1"
+                  resource="0" file="Source/Engine/Filter/Open303/rosic_NumberManipulations.cpp"/>
+            <FILE id="XSLyOo" name="rosic_NumberManipulations.h" compile="0" resource="0"
+                  file="Source/Engine/Filter/Open303/rosic_NumberManipulations.h"/>
+            <FILE id="RV6VUs" name="rosic_OnePoleFilter.cpp" compile="1" resource="0"
+                  file="Source/Engine/Filter/Open303/rosic_OnePoleFilter.cpp"/>
+            <FILE id="Phl264" name="rosic_OnePoleFilter.h" compile="0" resource="0"
+                  file="Source/Engine/Filter/Open303/rosic_OnePoleFilter.h"/>
+            <FILE id="kIYQsL" name="rosic_RealFunctions.h" compile="0" resource="0"
+                  file="Source/Engine/Filter/Open303/rosic_RealFunctions.h"/>
+            <FILE id="LQ13Ie" name="rosic_TeeBeeFilter.cpp" compile="1" resource="0"
+                  file="Source/Engine/Filter/Open303/rosic_TeeBeeFilter.cpp"/>
+            <FILE id="RKzKYz" name="rosic_TeeBeeFilter.h" compile="0" resource="0"
+                  file="Source/Engine/Filter/Open303/rosic_TeeBeeFilter.h"/>
+          </GROUP>
+          <GROUP id="{C7F14847-B243-39AA-CDED-704A04E31CE0}" name="MoogLadders">
+            <FILE id="pYADAr" name="LadderFilterBase.h" compile="0" resource="0"
+                  file="Source/Engine/Filter/MoogLadders/LadderFilterBase.h"/>
+            <FILE id="gN99t9" name="OberheimVariationModel.h" compile="0" resource="0"
+                  file="Source/Engine/Filter/MoogLadders/OberheimVariationModel.h"/>
+            <FILE id="yNT9C5" name="Util.h" compile="0" resource="0" file="Source/Engine/Filter/MoogLadders/Util.h"/>
+          </GROUP>
           <FILE id="W9izFZ" name="Filter.cpp" compile="1" resource="0" file="Source/Engine/Filter/Filter.cpp"
                 skipPCH="0"/>
           <FILE id="Iyxz5T" name="Filter.h" compile="0" resource="0" file="Source/Engine/Filter/Filter.h"/>
-          <FILE id="YdM3Lz" name="GlobalDefinitions.h" compile="0" resource="0"
-                file="Source/Engine/Filter/GlobalDefinitions.h"/>
-          <FILE id="O4JCw8" name="GlobalFunctions.h" compile="0" resource="0"
-                file="Source/Engine/Filter/GlobalFunctions.h"/>
-          <FILE id="lCc6Y8" name="LadderFilterBase.h" compile="0" resource="0"
-                file="Source/Engine/Filter/LadderFilterBase.h"/>
-          <FILE id="wJRuih" name="OberheimVariationModel.h" compile="0" resource="0"
-                file="Source/Engine/Filter/OberheimVariationModel.h"/>
-          <FILE id="fwvfnt" name="rosic_NumberManipulations.cpp" compile="1"
-                resource="0" file="Source/Engine/Filter/rosic_NumberManipulations.cpp"/>
-          <FILE id="AWel0h" name="rosic_NumberManipulations.h" compile="0" resource="0"
-                file="Source/Engine/Filter/rosic_NumberManipulations.h"/>
-          <FILE id="jfCwpz" name="rosic_OnePoleFilter.cpp" compile="1" resource="0"
-                file="Source/Engine/Filter/rosic_OnePoleFilter.cpp"/>
-          <FILE id="bqncEm" name="rosic_OnePoleFilter.h" compile="0" resource="0"
-                file="Source/Engine/Filter/rosic_OnePoleFilter.h"/>
-          <FILE id="lItFjQ" name="rosic_RealFunctions.h" compile="0" resource="0"
-                file="Source/Engine/Filter/rosic_RealFunctions.h"/>
-          <FILE id="rXfyz7" name="rosic_TeeBeeFilter.cpp" compile="1" resource="0"
-                file="Source/Engine/Filter/rosic_TeeBeeFilter.cpp"/>
-          <FILE id="M5WxtM" name="rosic_TeeBeeFilter.h" compile="0" resource="0"
-                file="Source/Engine/Filter/rosic_TeeBeeFilter.h"/>
-          <FILE id="jZKKkB" name="Util.h" compile="0" resource="0" file="Source/Engine/Filter/Util.h"/>
         </GROUP>
         <GROUP id="{A5FCF048-51E3-FB12-514A-F0D67A103989}" name="Oscillators">
           <FILE id="lCB51d" name="DualOscillator.cpp" compile="1" resource="0"

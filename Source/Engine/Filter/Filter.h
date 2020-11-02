@@ -12,8 +12,8 @@
 
 #include <JuceHeader.h>
 
-#include "Engine/Filter/OberheimVariationModel.h"
-#include "Engine/Filter/rosic_TeeBeeFilter.h"
+#include "Engine/Filter/MoogLadders/OberheimVariationModel.h"
+#include "Engine/Filter/Open303/rosic_TeeBeeFilter.h"
 #include "Engine/NoiseGenerator.h"
 
 #include "Control/ControllableParameter.h"
