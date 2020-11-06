@@ -35,6 +35,7 @@ void Voice::startNote(int midiNoteNumber, float velocity,
                                juce::SynthesiserSound *sound, 
                                int currentPitchWheelPosition)
 {
+    DBG(juce::String("Note on : ") + juce::String(midiNoteNumber));
     // Hard update to handle random MIDI side-effects
     if (! m_ampEnvelope.isActive())
     {
@@ -49,9 +50,12 @@ void Voice::startNote(int midiNoteNumber, float velocity,
 
 void Voice::stopNote(float velocity, bool allowTailOff)
 {
+    DBG("Note off");
     if (allowTailOff)
     {
+        DBG("AllowTailOff");
         m_ampEnvelope.noteOff();
+        m_noteStarted.set(false);
     }
     m_accEnvelope.noteOff();        // does nothing
 }
