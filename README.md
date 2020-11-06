@@ -8,7 +8,7 @@ to run on a Raspberry Pi with a Pisound extension.
 quickly**
 
 ### Where we at ?
- - [x] Waveform control (to be improved)
+ - [x] Waveform control
  - [x] Ladder filter + controls
  - [x] ASDR amplitude envelope + controls + filter modulation
  - [x] Accent's envelope to modulate filter + controls
