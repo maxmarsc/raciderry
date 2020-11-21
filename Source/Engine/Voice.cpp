@@ -44,7 +44,7 @@ void Voice::startNote(int midiNoteNumber, float velocity,
     m_osc->setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber), !m_noteStarted.get());
     m_noteStarted.set(true);
     m_ampEnvelope.noteOn();
-    m_accEnvelope.noteOn();
+    m_accEnvelope.noteOn(velocity);
 }
 
 void Voice::stopNote(float velocity, bool allowTailOff)
@@ -72,7 +72,7 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer,
 {
     outputBuffer.clear();
 
-    if (m_noteStarted.get())
+    if (m_noteStarted.get() || m_ampEnvelope.isActive())
     {
         jassert(m_osc != nullptr);
         jassert(outputBuffer.getNumChannels() == 1);

@@ -54,7 +54,7 @@ public:
     /**
      * @brief Indicates the Accent Envelope a new note has started
      */
-    void noteOn();
+    void noteOn(float velocity);
     /**
      * @brief Indicates the Accent Envelope a note has ended
      */
@@ -79,6 +79,7 @@ private:
 
     // Parameters the user can control
     control::ControllableParameter          m_decay;
+    control::ControllableParameter          m_accent;
 
     /// AD compute values
     float                   m_attackCoeff;
@@ -91,6 +92,7 @@ private:
     juce::Atomic<float>     m_sampleRate;
     juce::Atomic<float>     m_lastEnvValue;
     juce::Atomic<State>     m_state;
+    float                   m_noteAmount;
 };
 
 } // namespace engine

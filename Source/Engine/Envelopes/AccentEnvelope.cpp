@@ -24,16 +24,20 @@ namespace engine
 constexpr double ATTACK_RATIO = 0.3;
 constexpr double DECAY_RATIO = 0.0001;
 constexpr double ATTACK_S = 0.005;
+constexpr float  AMOUNT_MIN = 0.2;
 
 AccentEnvelope::AccentEnvelope()
     : m_decay(),
       m_crtMax(1.0),
-      m_state(State::idle)
+      m_state(State::idle),
+      m_noteAmount(0.0)
 {
     // bind to midi broker
     auto* midiBroker = control::MidiBroker::getInstance();
     m_decay = midiBroker->getParameter(identifiers::controls::ACCENT_DECAY);
+    m_accent = midiBroker->getParameter(identifiers::controls::ACCENT);
     jassert(m_decay.isValid());
+    jassert(m_accent.isValid());
     m_decay.addListener(this);
     updateAttack();
     updateDecay();
@@ -68,9 +72,10 @@ void AccentEnvelope::reset()
     m_lastEnvValue.set(0);
 }
 
-void AccentEnvelope::noteOn()
+void AccentEnvelope::noteOn(float velocity)
 {
     auto state = m_state.get();
+    m_noteAmount = velocity;
 
     if (state != State::idle)
     {
@@ -102,17 +107,21 @@ void AccentEnvelope::nextValue(int numSamples)
 {
     jassert(numSamples > 0);
 
-    auto max = float(0.);
+    auto envBlockMax = float(0.);
 
 
     while(numSamples--)
     {
         computeNextEnvValue();
-        if (m_lastEnvValue.get() > max)
+        if (m_lastEnvValue.get() > envBlockMax)
         {
-            max = m_lastEnvValue.get();
+            envBlockMax = m_lastEnvValue.get();
         }
     }
+
+    // Compute the actual value once modulated
+    auto envValue = m_crtMax.get() * envBlockMax;
+    auto modulatedValue = envValue * (AMOUNT_MIN + m_noteAmount * m_accent.getCurrentValue());
 
     // We send the mean value in the signal bus
     auto* signalBus = SignalBus::getInstanceWithoutCreating();
@@ -120,7 +129,7 @@ void AccentEnvelope::nextValue(int numSamples)
     if (signalBus != nullptr)
     {
         // We multiply the env value by the new max
-        signalBus->updateSignal(SignalBus::SignalId::AEG, m_crtMax.get() * max);
+        signalBus->updateSignal(SignalBus::SignalId::AEG, modulatedValue);
     }
 }
 
