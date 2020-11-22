@@ -16,9 +16,13 @@
 namespace control
 {
 
+const auto presetPrefix = juce::String("preset_");
+
 MidiBroker::MidiBroker()
+    : m_readyToSavePreset(false)
 {
     initParameters();
+    initPresets();
 }
 
 juce::MidiBuffer MidiBroker::getNoteMidiBuffer() noexcept
@@ -53,10 +57,22 @@ ControllableParameter MidiBroker::getParameter(const juce::Identifier& id) const
 //==============================================================================
 void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& msg)
 {
-    // DBG(msg.getDescription());
-    if (msg.isNoteOnOrOff())
+    DBG(msg.getDescription());
+    if (msg.isNoteOnOrOff() && (true || msg.getChannel() == 2))
     {
         handleNoteMessage(msg);
+    }
+    else if (msg.isProgramChange())
+    {
+        if (m_readyToSavePreset)
+        {
+            saveToPreset(msg.getProgramChangeNumber());
+        }
+        else
+        {
+            loadPreset(msg.getProgramChangeNumber());
+        }
+        
     }
     else if (msg.isController())
     {
@@ -139,14 +155,6 @@ void MidiBroker::initParameters()
             parameters::values::MIX_MAX);
     m_midiCCToParameterMap[parameters::midiCC::FILTER_MIX] = filterMix;
     m_idToParameterMap[identifiers::controls::FILTER_MIX] = filterMix;
- 
-
-    // // Filter Drive
-    // auto drive = ControllableParameter(parameters::values::DRIVE_DEFAULT,
-    //         parameters::values::DRIVE_MIN,
-    //         parameters::values::DRIVE_MAX);
-    // m_midiCCToParameterMap[parameters::midiCC::FILTER_DRIVE] = drive;
-    // m_idToParameterMap[identifiers::controls::DRIVE] = drive;
 
     // Envelope filter modulation
     auto envMod = ControllableParameter(parameters::values::ENV_MOD_DEFAULT,
@@ -169,6 +177,81 @@ void MidiBroker::initParameters()
             ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::ACCENT_DECAY] = accentDec;
     m_idToParameterMap[identifiers::controls::ACCENT_DECAY] = accentDec;
+}
+
+void MidiBroker::initPresets()
+{
+    auto presetFile = juce::File::getCurrentWorkingDirectory().getChildFile(parameters::files::PRESETS_FILE);
+    
+    if (presetFile.existsAsFile())
+    {
+        m_presets = juce::XmlDocument::parse(presetFile);
+    }
+
+    if (! presetFile.existsAsFile() || m_presets == nullptr)
+    {
+        // If we cannot load a valid preset xml, we create a new one
+        DBG("No valid XML preset file found");
+        m_presets = std::make_unique<juce::XmlElement>(identifiers::miscellaneous::PRESETS);
+    }  
+}
+
+void MidiBroker::serializePresets()
+{
+    jassert(m_presets != nullptr);
+    DBG(m_presets->toString());
+    auto presetFile = juce::File::getCurrentWorkingDirectory().getChildFile(parameters::files::PRESETS_FILE);
+    auto success = m_presets->writeTo(presetFile);
+
+    if (! success)
+    {
+        DBG("Could not save presets to preset file");
+    }
+}
+
+void MidiBroker::loadPreset(int presetId)
+{
+    jassert(m_presets != nullptr);
+    
+    auto* preset = m_presets->getChildByName(presetPrefix + juce::String(presetId));
+
+    if (preset != nullptr)
+    {
+        for (auto it = m_idToParameterMap.begin(); it != m_idToParameterMap.end(); ++it)
+        {
+            const auto& parameterId = it->first;
+            auto& parameter = it->second;
+
+            if (preset->hasAttribute(parameterId))
+            {
+                auto presetValue = preset->getIntAttribute(parameterId);
+                parameter.setDiscretValue(presetValue);
+            }
+        }
+
+        DBG(juce::String("Preset loaded : ") + juce::String(presetId));
+    }
+    else
+    {
+        DBG(juce::String("No such preset ") + juce::String(presetId));
+    }
+    
+}
+
+void MidiBroker::saveToPreset(int presetId)
+{
+    jassert(m_presets != nullptr);
+    auto* newPresetXml = m_presets->createNewChildElement(presetPrefix + juce::String(presetId));
+
+    for (auto it = m_idToParameterMap.begin(); it != m_idToParameterMap.end(); ++it)
+    {
+        const auto& parameterId = it->first;
+        const auto& parameter = it->second;
+
+        newPresetXml->setAttribute(parameterId, parameter.getCurrentDiscretValue());
+    }
+
+    serializePresets();
 }
 
 void MidiBroker::handleNoteMessage(const juce::MidiMessage& msg)
@@ -195,6 +278,13 @@ void MidiBroker::handleNoteMessage(const juce::MidiMessage& msg)
 void MidiBroker::handleControllerMessage(const juce::MidiMessage& msg)
 {
     auto controllerNumber = msg.getControllerNumber();
+
+    if (msg.isControllerOfType(parameters::midiCC::SAVE_PATCH))
+    {
+        m_readyToSavePreset = ! m_readyToSavePreset;
+        DBG("Switching");
+        return;
+    }
 
     if (m_midiCCToParameterMap.count(controllerNumber) == 1)
     {

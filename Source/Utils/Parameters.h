@@ -49,9 +49,14 @@ namespace device
     });
 } // namespace device
 
+namespace files
+{
+    const auto PRESETS_FILE = juce::String("presets.xml");
+}
+
 namespace midiCC
 {
-    /* The midi CC assignement for every controllable parameter */
+    /* midi CC assignements */
 
     // ADSR
     constexpr int           ATTACK = 73;
@@ -71,8 +76,10 @@ namespace midiCC
     constexpr int           CUTOFF = 16;            // General purpose 1
     constexpr int           RESONANCE = 17;         // General purpose 2
     constexpr int           FILTER_MIX = 18;
-    // constexpr int           FILTER_DRIVE = 18;      // General purpose 3
     constexpr int           ENV_MOD = 19;            // General purpose 4
+
+    // PRESETS
+    constexpr int           SAVE_PATCH = 20;
 }
 
 namespace values

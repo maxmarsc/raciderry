@@ -216,6 +216,17 @@ float ControllableParameter::getCurrentValue() const noexcept
     return -1.0; // To avoid potential division by zero
 }
 
+int ControllableParameter::getCurrentDiscretValue() const noexcept
+{
+    jassert(m_impl != nullptr);
+    
+    if (m_impl != nullptr)
+    {
+        return m_impl->m_currentDiscretValue.get();
+    }
+    return 0;
+}
+
 float ControllableParameter::getUnscaledRatioForCurrentValue() const noexcept
 {
     jassert(m_impl != nullptr);
@@ -273,6 +284,17 @@ void ControllableParameter::updateCurrentDiscretValue(int delta)
         }
 
         m_impl->m_currentDiscretValue.set(newDiscretValue);
+        m_impl->sendChangeMessage();
+    }
+}
+
+void ControllableParameter::setDiscretValue(int newValue)
+{
+    jassert(m_impl != nullptr);
+
+    if (m_impl != nullptr)
+    {
+        m_impl->m_currentDiscretValue.set(newValue);
         m_impl->sendChangeMessage();
     }
 }

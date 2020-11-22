@@ -84,6 +84,10 @@ public:
      */
     float getCurrentValue() const noexcept;
     /**
+     * @brief Get the current discret value of the parameter
+     */
+    int getCurrentDiscretValue() const noexcept;
+    /**
      * @brief Get the ratio corresponding to the current float value of the 
      * parameter
      * 
@@ -112,6 +116,13 @@ public:
      * @param delta The delta to apply to the discret position of the parameter
      */
     void updateCurrentDiscretValue(int delta);
+    /**
+     * @brief Set the current value
+     * @note This function is NOT safe to call from the audio thread
+     * 
+     * @param newValue The new discret value, btw 0 and discret range
+     */
+    void setDiscretValue(int newValue);
     /**
      * @brief Add a listener to the parameter to be noticed when the value
      * changes

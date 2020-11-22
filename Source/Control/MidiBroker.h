@@ -58,6 +58,10 @@ public:
     JUCE_DECLARE_SINGLETON(MidiBroker, false)
 private:
     void initParameters();
+    void initPresets();
+    void serializePresets();
+    void loadPreset(int presetId);
+    void saveToPreset(int presetId);
     void handleNoteMessage(const juce::MidiMessage& msg);
     void handleControllerMessage(const juce::MidiMessage& msg);
 
@@ -68,11 +72,13 @@ private:
     juce::MidiBuffer                        m_midiBuffer;
     juce::MidiBuffer                        m_fallbackMidiBuffer;
 
-    // Midi control handling
+    // Parameters mapping
     std::map<int, ControllableParameter>    m_midiCCToParameterMap;
-
-    // Parameters holding
     std::map<juce::Identifier, ControllableParameter>   m_idToParameterMap;
+
+    // Presets mapping
+    std::unique_ptr<juce::XmlElement>       m_presets;
+    bool                                    m_readyToSavePreset;
 };
 
 
