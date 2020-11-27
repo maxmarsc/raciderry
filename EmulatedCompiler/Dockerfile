@@ -19,7 +19,7 @@ RUN apt-get install -y g++ \
 WORKDIR /root
 
 
-RUN wget https://github.com/juce-framework/JUCE/releases/download/6.0.1/juce-6.0.1-linux.zip
-RUN unzip juce-6.0.1-linux.zip
+RUN wget https://github.com/juce-framework/JUCE/releases/download/6.0.4/juce-6.0.4-linux.zip
+RUN unzip juce-6.0.4-linux.zip
 
 CMD ["make", "-j2", "-C", "raciderry/Builds/Armv7Makefile"]
