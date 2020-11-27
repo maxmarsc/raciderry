@@ -57,8 +57,9 @@ ControllableParameter MidiBroker::getParameter(const juce::Identifier& id) const
 //==============================================================================
 void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& msg)
 {
-    DBG(msg.getDescription());
-    if (msg.isNoteOnOrOff() && (true || msg.getChannel() == 2))
+    // DBG(msg.getDescription());
+    if (msg.getChannel() != parameters::midiCC::GLOBAL_CHANNEL) { return; }
+    if (msg.isNoteOnOrOff())
     {
         handleNoteMessage(msg);
     }

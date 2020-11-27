@@ -57,6 +57,7 @@ namespace files
 namespace midiCC
 {
     /* midi CC assignements */
+    constexpr int           GLOBAL_CHANNEL = 2;
 
     // ADSR
     constexpr int           ATTACK = 73;
