@@ -15,7 +15,7 @@ quickly**
  - [x] Noise on each parameter to get a more vintage sound
  - [x] Wavetable synthesis to get more authentics waveforms
  - [x] Dynamic detection of midi controllers
- - [ ] Presets Save & Load
+ - [x] Presets Save & Load
  - [ ] Read parameters from an XML file
  - [ ] Automated tests
  - [ ] Write-and-go iso image for rapsberry pi
