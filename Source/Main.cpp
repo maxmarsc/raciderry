@@ -19,6 +19,7 @@
 //==============================================================================
 int main (int argc, char* argv[])
 {
+#ifndef TESTING
     auto device_manager = std::make_unique<juce::AudioDeviceManager>();
     auto* messageManager = juce::MessageManager::getInstance();
     auto engine = engine::RaciderryEngine();
@@ -82,4 +83,12 @@ int main (int argc, char* argv[])
     }
 
     return 0;
+#else
+  // Test mode
+  auto tester = juce::UnitTestRunner();
+  tester.setAssertOnFailure(true);
+
+  tester.runAllTests();
+
+#endif
 }

@@ -5,6 +5,10 @@
               cppLanguageStandard="17">
   <MAINGROUP id="GxApm7" name="raciderry">
     <GROUP id="{BC7D1E92-E2D6-A910-9FBB-C372716ED9E5}" name="Source">
+      <GROUP id="{25F26B2F-4727-ECE6-7670-0D105AD8873A}" name="Tests">
+        <FILE id="z1pIjw" name="CustomTestUnit.h" compile="0" resource="0"
+              file="Source/Tests/CustomTestUnit.h"/>
+      </GROUP>
       <GROUP id="{36A98914-3C4A-6C70-4206-52B37E729ABB}" name="Control">
         <FILE id="s3iC7x" name="ControllableParameter.cpp" compile="1" resource="0"
               file="Source/Control/ControllableParameter.cpp"/>
@@ -106,6 +110,8 @@
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="raciderry" headerPath="../../Source/"/>
+        <CONFIGURATION isDebug="1" name="UnitTests" targetName="tests" headerPath="../../Source/"
+                       defines="TESTING"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="raciderry" headerPath="../../Source/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
