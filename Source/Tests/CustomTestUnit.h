@@ -14,20 +14,26 @@
 
 namespace Tests {
 
-class CustomTestUnit : juce::UnitTest
+class CustomTestUnit : public juce::UnitTest
 {
 public:
-  virtual void singleTestInit() {};
-  virtual void singleTestShutdown() {};
-  void singleTest(juce::String name, std::function<void(void)> function)
-  {
-    singleTestInit();
-    beginTest(name);
+    CustomTestUnit(const juce::String& name, const juce::String& category)
+        : UnitTest(name, category)
+    {
+      
+    }
 
-    function();
+    virtual void singleTestInit() {};
+    virtual void singleTestShutdown() {};
+    void TEST(juce::String name, std::function<void(void)> function)
+    {
+        singleTestInit();
+        beginTest(name);
 
-    singleTestShutdown();
-  }
+        function();
+
+        singleTestShutdown();
+    }
 
 
 private:
