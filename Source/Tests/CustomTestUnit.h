@@ -32,6 +32,6 @@ public:
 
 private:
 
-}
+};
 
 } //namespace Tests
