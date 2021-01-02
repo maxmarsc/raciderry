@@ -9,15 +9,16 @@
 */
 
 #include "Tests/CustomTestUnit.h"
+#include "Tests/Utils.h"
 #include "Engine/Sound.h"
 
-namespace Tests
+namespace tests
 {
 
 class SoundTestUnit : public CustomTestUnit
 {
 public:
-    SoundTestUnit() : CustomTestUnit("Sound testing", "Sound Engine") {};
+    SoundTestUnit() : CustomTestUnit("Sound testing", category::engine::synth) {};
 
     void runTest() override
     {

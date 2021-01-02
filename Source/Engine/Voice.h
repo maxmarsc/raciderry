@@ -40,7 +40,7 @@ public:
      * size if changed, as the juce::dsp::Synthesiser class holding this voice
      * will only propagate samplerate changes.
      */
-    std::weak_ptr<DualOscillator> getOscPtr();
+    std::weak_ptr<DualOscillator> getOscPtr() const;
 
 //==============================================================================
      /**

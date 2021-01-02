@@ -12,7 +12,7 @@
 
 #include <JuceHeader.h>
 
-namespace Tests {
+namespace tests {
 
 class CustomTestUnit : public juce::UnitTest
 {

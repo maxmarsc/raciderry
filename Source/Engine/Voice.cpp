@@ -25,7 +25,7 @@ Voice::Voice(NoiseGenerator& noiseGenerator)
 }
 
 //==============================================================================
-std::weak_ptr<DualOscillator> Voice::getOscPtr()
+std::weak_ptr<DualOscillator> Voice::getOscPtr() const
 {
     return m_osc;
 }
