@@ -15,9 +15,9 @@ namespace engine
 
 WavetableOscillator::WavetableOscillator(
     const juce::AudioSampleBuffer& wavetable,
-    NoiseGenerator& noiseGenerator)
+    Bindings bindings)
     : m_wavetable(wavetable),
-      m_noiseGenerator(noiseGenerator),
+      m_noiseGenerator(bindings.m_noiseGeneratorRef),
       m_frequency(440.0f),
       m_currentIndex(0.0f),
       m_tableDelta(0.0f),

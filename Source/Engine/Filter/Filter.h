@@ -14,9 +14,10 @@
 
 #include "Engine/Filter/MoogLadders/OberheimVariationModel.h"
 #include "Engine/Filter/Open303/rosic_TeeBeeFilter.h"
-#include "Engine/NoiseGenerator.h"
+// #include "Engine/NoiseGenerator.h"
+#include "Engine/Binding.h"
 
-#include "Control/ControllableParameter.h"
+// #include "Control/ControllableParameter.h"
 
 namespace engine
 {
@@ -35,7 +36,7 @@ namespace engine
 class Filter
 {
 public:
-    Filter(NoiseGenerator& noiseGenerator);
+    Filter(Bindings bindings);
     ~Filter() {};
 
 //==============================================================================
@@ -55,6 +56,7 @@ private:
     std::unique_ptr<OberheimVariationMoog>      m_oberheimFilter;
     rosic::TeeBeeFilter                         m_open303Filter;
     NoiseGenerator&                             m_noiseGenerator;
+    SignalBus&                                  m_signalBusRef;
     juce::AudioBuffer<float>                    m_mixBuffer;
     control::ControllableParameter              m_cutoffFreq;
     control::ControllableParameter              m_resonance;

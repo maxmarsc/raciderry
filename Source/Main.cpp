@@ -21,7 +21,8 @@ int main (int argc, char* argv[])
 {
     auto device_manager = std::make_unique<juce::AudioDeviceManager>();
     auto* messageManager = juce::MessageManager::getInstance();
-    auto engine = engine::RaciderryEngine();
+    auto midiBroker = control::MidiBroker();
+    auto engine = engine::RaciderryEngine(midiBroker.getIdToParameterMap());
     DBG("Created");
 
 
@@ -55,7 +56,7 @@ int main (int argc, char* argv[])
 
     // Start listening to MIDI inputs
     auto midiMonitor = control::MidiDeviceMonitor(*device_manager);
-    device_manager->addMidiInputDeviceCallback("", control::MidiBroker::getInstance());
+    device_manager->addMidiInputDeviceCallback("", &midiBroker);
     // // Start listening to MIDI inputs
     // device_manager->addMidiInputDeviceCallback("", control::MidiBroker::getInstance());
     // auto midiDeviceInfo = juce::MidiInput::getAvailableDevices();

@@ -13,7 +13,7 @@
 #include "Engine/Envelopes/Utils.h"
 #include "Engine/SignalBus.h"
 
-#include "Control/MidiBroker.h"
+// #include "Control/MidiBroker.h"
 
 #include "Utils/Identifiers.h"
 
@@ -26,16 +26,20 @@ constexpr double DECAY_RATIO = 0.0001;
 constexpr double ATTACK_S = 0.005;
 constexpr float  AMOUNT_MIN = 0.2;
 
-AccentEnvelope::AccentEnvelope()
+AccentEnvelope::AccentEnvelope(Bindings bindings)
     : m_decay(),
       m_crtMax(1.0),
       m_state(State::idle),
-      m_noteAmount(0.0)
+      m_noteAmount(0.0),
+      m_signalBusRef(bindings.m_signalBusRef)
 {
-    // bind to midi broker
-    auto* midiBroker = control::MidiBroker::getInstance();
-    m_decay = midiBroker->getParameter(identifiers::controls::ACCENT_DECAY);
-    m_accent = midiBroker->getParameter(identifiers::controls::ACCENT);
+    // bind to controllable parameters
+    // auto* midiBroker = control::MidiBroker::getInstance();
+    auto parameterMap = bindings.m_parameterMap.lock();
+    jassert(parameterMap != nullptr);
+
+    m_decay = (*parameterMap)[identifiers::controls::ACCENT_DECAY];
+    m_accent = (*parameterMap)[identifiers::controls::ACCENT];
     jassert(m_decay.isValid());
     jassert(m_accent.isValid());
     m_decay.addListener(this);
@@ -124,13 +128,14 @@ void AccentEnvelope::nextValue(int numSamples)
     auto modulatedValue = envValue * (AMOUNT_MIN + m_noteAmount * m_accent.getCurrentValue());
 
     // We send the mean value in the signal bus
-    auto* signalBus = SignalBus::getInstanceWithoutCreating();
+    // auto* signalBus = SignalBus::getInstanceWithoutCreating();
 
-    if (signalBus != nullptr)
-    {
-        // We multiply the env value by the new max
-        signalBus->updateSignal(SignalBus::SignalId::AEG, modulatedValue);
-    }
+    // if (signalBus != nullptr)
+    // {
+    //     // We multiply the env value by the new max
+    //     signalBus->updateSignal(SignalBus::SignalId::AEG, modulatedValue);
+    // }
+    m_signalBusRef.updateSignal(SignalBus::SignalId::AEG, modulatedValue);
 }
 
 void AccentEnvelope::updateAttack()

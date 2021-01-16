@@ -22,6 +22,6 @@ SignalBus::SignalBus()
 }
 
 //==============================================================================
-JUCE_IMPLEMENT_SINGLETON(SignalBus)
+// JUCE_IMPLEMENT_SINGLETON(SignalBus)
 
 } // namespace engine

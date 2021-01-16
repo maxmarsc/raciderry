@@ -12,7 +12,8 @@
 
 #include <JuceHeader.h>
 
-#include "Engine/NoiseGenerator.h"
+// #include "Engine/NoiseGenerator.h"
+#include "Engine/Binding.h"
 
 #include "Utils/CustomSmoothValue.h"
 
@@ -42,7 +43,7 @@ public:
      * initialised before calling WavetableOscillator::prepare method.
      */
     WavetableOscillator(const juce::AudioSampleBuffer& wavetable, 
-            NoiseGenerator& noiseGenerator);
+            Bindings bindings);
 
 //==============================================================================
     /// juce::dsp::Oscillator like methods

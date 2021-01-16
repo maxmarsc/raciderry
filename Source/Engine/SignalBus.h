@@ -47,7 +47,7 @@ public:
 
 //==============================================================================
     SignalBus();
-    ~SignalBus() { clearSingletonInstance(); }
+    // ~SignalBus()
 
 //==============================================================================
     /**
@@ -80,7 +80,7 @@ public:
         }
     };
 
-    JUCE_DECLARE_SINGLETON(SignalBus, false)
+    // JUCE_DECLARE_SINGLETON(SignalBus, false)
 private:
 //==============================================================================
     juce::Atomic<float>                      m_voltageArray[MAX];

@@ -28,7 +28,7 @@ class MidiBroker : public juce::MidiInputCallback
 {
 public:
     MidiBroker();
-    ~MidiBroker() { clearSingletonInstance(); }
+    ~MidiBroker() {}
     
     /**
      * @brief Get the next note buffer
@@ -46,6 +46,8 @@ public:
      */
     ControllableParameter getParameter(const juce::Identifier& id) const;
 
+    std::weak_ptr<ParameterMap> getIdToParameterMap();
+
 //==============================================================================
     /**
      * @name juce::MidiInputCallback overrides.
@@ -55,7 +57,7 @@ public:
     ///@}
 //==============================================================================
 
-    JUCE_DECLARE_SINGLETON(MidiBroker, false)
+    // JUCE_DECLARE_SINGLETON(MidiBroker, false)
 private:
     void initParameters();
     void initPresets();
@@ -74,7 +76,7 @@ private:
 
     // Parameters mapping
     std::map<int, ControllableParameter>    m_midiCCToParameterMap;
-    std::map<juce::Identifier, ControllableParameter>   m_idToParameterMap;
+    std::shared_ptr<ParameterMap>           m_idToParameterMap;
 
     // Presets mapping
     std::unique_ptr<juce::XmlElement>       m_presets;

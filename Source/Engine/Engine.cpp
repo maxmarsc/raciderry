@@ -15,26 +15,35 @@
 #include "Engine/Oscillators/DualOscillator.h"
 #include "Engine/SignalBus.h"
 
-#include "Control/MidiBroker.h"
+// #include "Control/MidiBroker.h"
+#include "Engine/Binding.h"
 
 #include "Utils/Parameters.h"
 
 namespace engine {
 
-RaciderryEngine::RaciderryEngine()
+RaciderryEngine::RaciderryEngine(std::weak_ptr<control::ParameterMap> parameterMap)
     : m_noiseGenerator(0.03),
+      m_signalBus(),
       m_synth(std::make_unique<juce::Synthesiser>()),
       m_oscWeakPtr(),
       m_limiter(),
-      m_filter(m_noiseGenerator),
+      m_filter({parameterMap, m_noiseGenerator, m_signalBus}),
       m_blockLength(0),
       m_sampleRate(0.)
 {
     // Creates the signal bus instance
-    SignalBus::getInstance();
+    // SignalBus::getInstance();
+    // auto bindings = Bindings({
+    //     parameterMap,
+    //     m_noiseGenerator,
+    //     m_signalBus
+    // });
+
 
     // Init the Voice and Sound for the synth
-    auto voice = std::make_unique<Voice>(m_noiseGenerator);
+    auto voice = std::make_unique<Voice>(Bindings({parameterMap, 
+            m_noiseGenerator, m_signalBus}));
     auto sound = std::make_unique<Sound>();
 
     // Get a weak pointer to the osc to update its samplerate/blocksize
@@ -52,7 +61,7 @@ RaciderryEngine::RaciderryEngine()
 
 RaciderryEngine::~RaciderryEngine()
 {
-    SignalBus::deleteInstance();
+    // SignalBus::deleteInstance();
 }
 
 //==============================================================================

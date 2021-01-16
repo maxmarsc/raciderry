@@ -46,12 +46,18 @@ juce::MidiBuffer MidiBroker::getNoteMidiBuffer() noexcept
 
 ControllableParameter MidiBroker::getParameter(const juce::Identifier& id) const
 {
-    if (m_idToParameterMap.count(id) == 1)
+    if (m_idToParameterMap->count(id) == 1)
     {
-        return ControllableParameter(m_idToParameterMap.at(id));
+        return ControllableParameter(m_idToParameterMap->at(id));
     }
 
     return ControllableParameter();
+}
+
+std::weak_ptr<ParameterMap> MidiBroker::getIdToParameterMap()
+{
+    // return std::weak_ptr<std::map<juce::Identifier, ControllableParameter>>(m_idToParameterMap);
+    return m_idToParameterMap;
 }
 
 //==============================================================================
@@ -85,6 +91,7 @@ void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::
 void MidiBroker::initParameters()
 {
     // We create and assign parameters to midi control signals
+    m_idToParameterMap = std::make_shared<ParameterMap>();
     
     // Attack
     auto attack = ControllableParameter(parameters::values::ATTACK_DEFAULT,
@@ -92,7 +99,7 @@ void MidiBroker::initParameters()
             parameters::values::ATTACK_MAX,
             ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::ATTACK] = attack;
-    m_idToParameterMap[identifiers::controls::ATTACK] = attack;
+    (*m_idToParameterMap)[identifiers::controls::ATTACK] = attack;
 
     // Decay
     auto decay = ControllableParameter(parameters::values::DECAY_DEFAULT,
@@ -100,14 +107,14 @@ void MidiBroker::initParameters()
             parameters::values::DECAY_MAX,
             ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::DECAY] = decay;
-    m_idToParameterMap[identifiers::controls::DECAY] = decay;
+    (*m_idToParameterMap)[identifiers::controls::DECAY] = decay;
 
     // Sustain
     auto sustain = ControllableParameter(parameters::values::SUSTAIN_DEFAULT,
             parameters::values::SUSTAIN_MIN,
             parameters::values::SUSTAIN_MAX);
     m_midiCCToParameterMap[parameters::midiCC::SUSTAIN] = sustain;
-    m_idToParameterMap[identifiers::controls::SUSTAIN] = sustain;
+    (*m_idToParameterMap)[identifiers::controls::SUSTAIN] = sustain;
 
     // Release
     auto release = ControllableParameter(parameters::values::RELEASE_DEFAULT,
@@ -115,7 +122,7 @@ void MidiBroker::initParameters()
             parameters::values::RELEASE_MAX,
             ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::RELEASE] = release;
-    m_idToParameterMap[identifiers::controls::RELEASE] = release;
+    (*m_idToParameterMap)[identifiers::controls::RELEASE] = release;
 
     // Waveform ratio
     auto waveformRatio = ControllableParameter(
@@ -123,7 +130,7 @@ void MidiBroker::initParameters()
             parameters::values::WAFEFORM_RATIO_MIN,
             parameters::values::WAFEFORM_RATIO_MAX);
     m_midiCCToParameterMap[parameters::midiCC::WAVEFORM_RATIO] = waveformRatio;
-    m_idToParameterMap[identifiers::controls::WAVEFORM_RATIO] = waveformRatio;
+    (*m_idToParameterMap)[identifiers::controls::WAVEFORM_RATIO] = waveformRatio;
 
     // Glide
     auto glide = ControllableParameter(parameters::values::GLIDE_DEFAULT,
@@ -132,7 +139,7 @@ void MidiBroker::initParameters()
             ControllableParameter::ScaleType::linear,
             256);
     m_midiCCToParameterMap[parameters::midiCC::GLIDE] = glide;
-    m_idToParameterMap[identifiers::controls::GLIDE] = glide;
+    (*m_idToParameterMap)[identifiers::controls::GLIDE] = glide;
 
     // Filter Cutoff Frequency
     auto cutoff = ControllableParameter(parameters::values::CUTOFF_DEFAULT,
@@ -141,35 +148,35 @@ void MidiBroker::initParameters()
             ControllableParameter::ScaleType::logarithmic,
             512);
     m_midiCCToParameterMap[parameters::midiCC::CUTOFF] = cutoff;
-    m_idToParameterMap[identifiers::controls::CUTOFF] = cutoff;
+    (*m_idToParameterMap)[identifiers::controls::CUTOFF] = cutoff;
 
     // Filter Resonance
     auto resonance = ControllableParameter(parameters::values::RESONANCE_DEFAULT,
             parameters::values::RESONANCE_MIN,
             parameters::values::RESONANCE_MAX);
     m_midiCCToParameterMap[parameters::midiCC::RESONANCE] = resonance;
-    m_idToParameterMap[identifiers::controls::RESONANCE] = resonance;
+    (*m_idToParameterMap)[identifiers::controls::RESONANCE] = resonance;
 
     // Filter Mix
     auto filterMix = ControllableParameter(parameters::values::MIX_DEFAULT,
             parameters::values::MIX_MIN,
             parameters::values::MIX_MAX);
     m_midiCCToParameterMap[parameters::midiCC::FILTER_MIX] = filterMix;
-    m_idToParameterMap[identifiers::controls::FILTER_MIX] = filterMix;
+    (*m_idToParameterMap)[identifiers::controls::FILTER_MIX] = filterMix;
 
     // Envelope filter modulation
     auto envMod = ControllableParameter(parameters::values::ENV_MOD_DEFAULT,
             parameters::values::ENV_MOD_MIN,
             parameters::values::ENV_MOD_MAX);
     m_midiCCToParameterMap[parameters::midiCC::ENV_MOD] = envMod;
-    m_idToParameterMap[identifiers::controls::ENV_MOD] = envMod;
+    (*m_idToParameterMap)[identifiers::controls::ENV_MOD] = envMod;
 
     // Accent amount
     auto accent = ControllableParameter(parameters::values::ACCENT_DEFAULT,
             parameters::values::ACCENT_MIN,
             parameters::values::ACCENT_MAX);
     m_midiCCToParameterMap[parameters::midiCC::ACCENT] = accent;
-    m_idToParameterMap[identifiers::controls::ACCENT] = accent;
+    (*m_idToParameterMap)[identifiers::controls::ACCENT] = accent;
 
     // Accent decay
     auto accentDec = ControllableParameter(parameters::values::ACC_DEC_DEFAULT,
@@ -177,7 +184,7 @@ void MidiBroker::initParameters()
             parameters::values::ACC_DEC_MAX,
             ControllableParameter::ScaleType::logarithmic);
     m_midiCCToParameterMap[parameters::midiCC::ACCENT_DECAY] = accentDec;
-    m_idToParameterMap[identifiers::controls::ACCENT_DECAY] = accentDec;
+    (*m_idToParameterMap)[identifiers::controls::ACCENT_DECAY] = accentDec;
 }
 
 void MidiBroker::initPresets()
@@ -218,7 +225,7 @@ void MidiBroker::loadPreset(int presetId)
 
     if (preset != nullptr)
     {
-        for (auto it = m_idToParameterMap.begin(); it != m_idToParameterMap.end(); ++it)
+        for (auto it = m_idToParameterMap->begin(); it != m_idToParameterMap->end(); ++it)
         {
             const auto& parameterId = it->first;
             auto& parameter = it->second;
@@ -244,7 +251,7 @@ void MidiBroker::saveToPreset(int presetId)
     jassert(m_presets != nullptr);
     auto* newPresetXml = m_presets->createNewChildElement(presetPrefix + juce::String(presetId));
 
-    for (auto it = m_idToParameterMap.begin(); it != m_idToParameterMap.end(); ++it)
+    for (auto it = m_idToParameterMap->begin(); it != m_idToParameterMap->end(); ++it)
     {
         const auto& parameterId = it->first;
         const auto& parameter = it->second;
@@ -310,6 +317,6 @@ void MidiBroker::handleControllerMessage(const juce::MidiMessage& msg)
     }
 }
 
-JUCE_IMPLEMENT_SINGLETON(MidiBroker)
+// JUCE_IMPLEMENT_SINGLETON(MidiBroker)
 
 }//namespace control
