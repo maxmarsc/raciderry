@@ -56,7 +56,6 @@ ControllableParameter MidiBroker::getParameter(const juce::Identifier& id) const
 
 std::weak_ptr<ParameterMap> MidiBroker::getIdToParameterMap()
 {
-    // return std::weak_ptr<std::map<juce::Identifier, ControllableParameter>>(m_idToParameterMap);
     return m_idToParameterMap;
 }
 
@@ -64,7 +63,7 @@ std::weak_ptr<ParameterMap> MidiBroker::getIdToParameterMap()
 void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& msg)
 {
     // DBG(msg.getDescription());
-    // if (msg.getChannel() != parameters::midiCC::GLOBAL_CHANNEL) { return; }
+    if (msg.getChannel() != parameters::midiCC::GLOBAL_CHANNEL) { return; }
     if (msg.isNoteOnOrOff())
     {
         handleNoteMessage(msg);
@@ -316,7 +315,5 @@ void MidiBroker::handleControllerMessage(const juce::MidiMessage& msg)
         // probably be the place
     }
 }
-
-// JUCE_IMPLEMENT_SINGLETON(MidiBroker)
 
 }//namespace control
