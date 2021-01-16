@@ -132,12 +132,6 @@ void VCAEnvelope::applyAmpEnvelopeToBuffer(juce::AudioBuffer<float>& buffer,
     
     // We send the mean value to others units (filter, ...)
     m_signalBus.updateSignal(SignalBus::SignalId::VEG, sum/count);
-    // auto* signalBus = SignalBus::getInstanceWithoutCreating();
-
-    // if (signalBus != nullptr)
-    // {
-    //     signalBus->updateSignal(SignalBus::SignalId::VEG, sum/count);
-    // }
 }
 
 void VCAEnvelope::updateAttack()
@@ -232,16 +226,5 @@ void VCAEnvelope::computeNextEnvValue()
             break;
     }
 }
-
-// double VCAEnvelope::computeEnvCoeff(int rateInSample, double targetRatio)
-// {
-//     if (rateInSample > 0)
-//     {
-//         // May need some optimization if too cpu-hungry
-//         return exp(-log((1.0 + targetRatio) / targetRatio) / rateInSample);
-//     }
-    
-//     return 0.;
-// }
 
 }//namespace engine
