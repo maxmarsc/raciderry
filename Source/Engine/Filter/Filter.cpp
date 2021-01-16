@@ -12,8 +12,6 @@
 
 #include "Engine/SignalBus.h"
 
-// #include "Control/MidiBroker.h"
-
 #include "Utils/Identifiers.h"
 #include "Utils/Parameters.h"
 
@@ -36,7 +34,6 @@ Filter::Filter(Bindings bindings)
       m_envMod()
 {
     // Bind to the controllable parameters
-    // auto* midiBroker = control::MidiBroker::getInstance();
     auto parameterMap = bindings.m_parameterMap.lock();
     jassert(parameterMap != nullptr);
 
@@ -71,7 +68,6 @@ void Filter::reset()
 void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
 {
     // Get the modulation signals
-    // auto* signalBus = SignalBus::getInstanceWithoutCreating();
     float megValue = 0.0;
     float accent = 0.0;
 

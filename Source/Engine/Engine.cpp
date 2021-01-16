@@ -14,8 +14,6 @@
 #include "Engine/Voice.h"
 #include "Engine/Oscillators/DualOscillator.h"
 #include "Engine/SignalBus.h"
-
-// #include "Control/MidiBroker.h"
 #include "Engine/Binding.h"
 
 #include "Utils/Parameters.h"
@@ -55,7 +53,6 @@ RaciderryEngine::RaciderryEngine(control::MidiBroker& midiBroker)
 
 RaciderryEngine::~RaciderryEngine()
 {
-    // SignalBus::deleteInstance();
 }
 
 //==============================================================================
@@ -72,7 +69,6 @@ void RaciderryEngine::audioDeviceIOCallback(const float **inputChannelData,
     */
     jassert(numInputChannels == 0);
     jassert(numOutputChannels == 2);
-    // jassert(control::MidiBroker::getInstanceWithoutCreating() != nullptr);
 
     // These three structures points toward the same memory block
     auto outputBuffer = juce::AudioBuffer<float>(outputChannelData, 1, numSamples);
