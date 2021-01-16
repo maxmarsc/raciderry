@@ -33,7 +33,7 @@ class DualOscillator;
 class RaciderryEngine :   public juce::AudioIODeviceCallback
 {
 public:
-    RaciderryEngine(std::weak_ptr<control::ParameterMap> parameterMap);
+    RaciderryEngine(control::MidiBroker& midiBroker);
     ~RaciderryEngine();
 
 //==============================================================================
@@ -49,6 +49,7 @@ public:
 
 private:
 //==============================================================================
+    control::MidiBroker&                            r_midiBroker;
     NoiseGenerator                                  m_noiseGenerator;
     SignalBus                                       m_signalBus;
     std::unique_ptr<juce::Synthesiser>              m_synth;

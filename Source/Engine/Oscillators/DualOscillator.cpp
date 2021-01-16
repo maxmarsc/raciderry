@@ -24,7 +24,7 @@ DualOscillator::DualOscillator(Bindings bindings)
       m_wavetable2(),
       m_wtOsc1(m_wavetable1, bindings),
       m_wtOsc2(m_wavetable2, bindings),
-      m_noiseGenerator(bindings.m_noiseGeneratorRef),
+      r_noiseGenerator(bindings.r_noiseGenerator),
       m_mixingBuffer(),
       m_oscRatio()
 {
@@ -81,9 +81,9 @@ void DualOscillator::process(juce::AudioBuffer<float>& outputBuffer, int startSa
 
     // We get the controllable values for the whole block
     auto glide = m_glide.getCurrentValue();
-    auto ratio = m_oscRatio.getCurrentValue() * m_noiseGenerator.getNoiseFactor();
-    m_wtOsc1.setGlide(glide * m_noiseGenerator.getNoiseFactor());
-    m_wtOsc2.setGlide(glide * m_noiseGenerator.getNoiseFactor());
+    auto ratio = m_oscRatio.getCurrentValue() * r_noiseGenerator.getNoiseFactor();
+    m_wtOsc1.setGlide(glide * r_noiseGenerator.getNoiseFactor());
+    m_wtOsc2.setGlide(glide * r_noiseGenerator.getNoiseFactor());
 
     // Process and apply gain for osc n°1
     { 

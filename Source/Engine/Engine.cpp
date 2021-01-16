@@ -22,28 +22,22 @@
 
 namespace engine {
 
-RaciderryEngine::RaciderryEngine(std::weak_ptr<control::ParameterMap> parameterMap)
-    : m_noiseGenerator(0.03),
+RaciderryEngine::RaciderryEngine(control::MidiBroker& midiBroker)
+    : r_midiBroker(midiBroker),
+      m_noiseGenerator(0.03),
       m_signalBus(),
       m_synth(std::make_unique<juce::Synthesiser>()),
       m_oscWeakPtr(),
       m_limiter(),
-      m_filter({parameterMap, m_noiseGenerator, m_signalBus}),
+      m_filter({midiBroker.getIdToParameterMap(), m_noiseGenerator, m_signalBus}),
       m_blockLength(0),
       m_sampleRate(0.)
 {
-    // Creates the signal bus instance
-    // SignalBus::getInstance();
-    // auto bindings = Bindings({
-    //     parameterMap,
-    //     m_noiseGenerator,
-    //     m_signalBus
-    // });
-
-
     // Init the Voice and Sound for the synth
-    auto voice = std::make_unique<Voice>(Bindings({parameterMap, 
-            m_noiseGenerator, m_signalBus}));
+    auto voice = std::make_unique<Voice>(Bindings({
+            midiBroker.getIdToParameterMap(), 
+            m_noiseGenerator, 
+            m_signalBus}));
     auto sound = std::make_unique<Sound>();
 
     // Get a weak pointer to the osc to update its samplerate/blocksize
@@ -78,7 +72,7 @@ void RaciderryEngine::audioDeviceIOCallback(const float **inputChannelData,
     */
     jassert(numInputChannels == 0);
     jassert(numOutputChannels == 2);
-    jassert(control::MidiBroker::getInstanceWithoutCreating() != nullptr);
+    // jassert(control::MidiBroker::getInstanceWithoutCreating() != nullptr);
 
     // These three structures points toward the same memory block
     auto outputBuffer = juce::AudioBuffer<float>(outputChannelData, 1, numSamples);
@@ -91,20 +85,7 @@ void RaciderryEngine::audioDeviceIOCallback(const float **inputChannelData,
     auto outputContext = juce::dsp::ProcessContextReplacing(outputBlock);
 
     // 1. The synth produces the main output
-    auto* midiBroker = control::MidiBroker::getInstanceWithoutCreating();
-
-    if (midiBroker)
-    {
-        m_synth->renderNextBlock(outputBuffer, midiBroker->getNoteMidiBuffer(), 0, numSamples);
-    }
-    else
-    {
-        // This situation should never happen and is prevented in debug with 
-        // previous jassert. This block is only here to prevent the Audio Thread
-        // to crash in an unexpected situation as we don't want to call the
-        // creation of the MidiBroker in the Audio Thread
-        m_synth->renderNextBlock(outputBuffer, juce::MidiBuffer(), 0, numSamples);
-    }
+    m_synth->renderNextBlock(outputBuffer, r_midiBroker.getNoteMidiBuffer(), 0, numSamples);
 
     // 2. We apply the filter on the synth output
     m_filter.process(outputContext);

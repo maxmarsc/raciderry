@@ -20,8 +20,6 @@ namespace engine
  * @brief A small communication bus dedicated to atomic lock-free communication
  * within the audio thread
  * 
- * Implements the JUCE's singleton pattern.
- * 
  * Use this class when you want to propagate signal values (like env values)
  * between differents modules of the engine. 
  * 
@@ -47,7 +45,6 @@ public:
 
 //==============================================================================
     SignalBus();
-    // ~SignalBus()
 
 //==============================================================================
     /**
@@ -80,7 +77,6 @@ public:
         }
     };
 
-    // JUCE_DECLARE_SINGLETON(SignalBus, false)
 private:
 //==============================================================================
     juce::Atomic<float>                      m_voltageArray[MAX];

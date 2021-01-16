@@ -31,7 +31,7 @@ VCAEnvelope::VCAEnvelope(Bindings bindings)
       m_sustain(),
       m_release(),
       m_state(State::idle),
-      m_signalBus(bindings.m_signalBusRef)
+      m_signalBus(bindings.r_signalBus)
 {
     // bind to controllable parameters
     // auto* midiBroker = control::MidiBroker::getInstance();

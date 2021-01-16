@@ -65,7 +65,7 @@ private:
 
 //==============================================================================
     const juce::AudioSampleBuffer&          m_wavetable;
-    NoiseGenerator&                         m_noiseGenerator;
+    NoiseGenerator&                         r_noiseGenerator;
     SmoothedFrequency                       m_frequency;
     float                                   m_currentIndex;
     float                                   m_tableDelta;

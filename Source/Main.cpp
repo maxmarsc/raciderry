@@ -22,7 +22,7 @@ int main (int argc, char* argv[])
     auto device_manager = std::make_unique<juce::AudioDeviceManager>();
     auto* messageManager = juce::MessageManager::getInstance();
     auto midiBroker = control::MidiBroker();
-    auto engine = engine::RaciderryEngine(midiBroker.getIdToParameterMap());
+    auto engine = engine::RaciderryEngine(midiBroker);
     DBG("Created");
 
 

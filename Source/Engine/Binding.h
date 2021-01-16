@@ -19,11 +19,20 @@
 namespace engine
 {
 
-struct Bindings 
+/**
+ * @struct enging::Bindings
+ * @brief Holds weak and strongs references to engine bindings.
+ * 
+ * Store reference to all the bindings a engine module could have
+ *  - m_parameterMap : Holds the MIDI parameters a module could connect to
+ *  - r_noiseGenerator : The noise generator modules can use to modulate their parameter
+ *  - r_signalBus : The signal bus modules can use to share signal to each other
+*/
+struct Bindings
 {
     std::weak_ptr<std::map<juce::Identifier, control::ControllableParameter>> m_parameterMap;
-    NoiseGenerator& m_noiseGeneratorRef;
-    SignalBus& m_signalBusRef;
+    NoiseGenerator& r_noiseGenerator;
+    SignalBus& r_signalBus;
 };
 
 } // namespace engine

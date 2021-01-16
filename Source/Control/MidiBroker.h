@@ -18,11 +18,7 @@ namespace control
 
 /**
  * @class control::MidiBroker
- * @brief Singleton instance, performing the translation btw midi protocol and 
- * internal logic
- * 
- * This implements the JUCE's singleton pattern. Once created it can be declared
- * as the Midi message handler for any DeviceManager.
+ * @brief Performs the translation btw midi protocol and internal logic
  */
 class MidiBroker : public juce::MidiInputCallback
 {
@@ -57,7 +53,6 @@ public:
     ///@}
 //==============================================================================
 
-    // JUCE_DECLARE_SINGLETON(MidiBroker, false)
 private:
     void initParameters();
     void initPresets();

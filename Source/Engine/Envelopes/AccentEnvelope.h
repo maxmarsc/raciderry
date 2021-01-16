@@ -96,7 +96,7 @@ private:
     float                   m_noteAmount;
 
     // Signal Bus
-    SignalBus&              m_signalBusRef;
+    SignalBus&              r_signalBus;
 };
 
 } // namespace engine

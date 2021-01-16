@@ -31,7 +31,7 @@ AccentEnvelope::AccentEnvelope(Bindings bindings)
       m_crtMax(1.0),
       m_state(State::idle),
       m_noteAmount(0.0),
-      m_signalBusRef(bindings.m_signalBusRef)
+      r_signalBus(bindings.r_signalBus)
 {
     // bind to controllable parameters
     // auto* midiBroker = control::MidiBroker::getInstance();
@@ -135,7 +135,7 @@ void AccentEnvelope::nextValue(int numSamples)
     //     // We multiply the env value by the new max
     //     signalBus->updateSignal(SignalBus::SignalId::AEG, modulatedValue);
     // }
-    m_signalBusRef.updateSignal(SignalBus::SignalId::AEG, modulatedValue);
+    r_signalBus.updateSignal(SignalBus::SignalId::AEG, modulatedValue);
 }
 
 void AccentEnvelope::updateAttack()

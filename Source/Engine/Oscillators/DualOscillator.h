@@ -49,7 +49,7 @@ private:
     juce::AudioSampleBuffer                     m_wavetable2;
     WavetableOscillator                         m_wtOsc1;
     WavetableOscillator                         m_wtOsc2;
-    NoiseGenerator&                             m_noiseGenerator;
+    NoiseGenerator&                             r_noiseGenerator;
     juce::AudioBuffer<float>                    m_mixingBuffer;
     
     control::ControllableParameter              m_oscRatio;

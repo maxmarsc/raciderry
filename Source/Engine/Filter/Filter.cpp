@@ -27,8 +27,8 @@ constexpr float OBERHEIM_GAIN_REDUCTION = -9.0;
 Filter::Filter(Bindings bindings)
     : m_oberheimFilter(nullptr),
       m_open303Filter(),
-      m_noiseGenerator(bindings.m_noiseGeneratorRef),
-      m_signalBusRef(bindings.m_signalBusRef),
+      r_noiseGenerator(bindings.r_noiseGenerator),
+      r_signalBus(bindings.r_signalBus),
       m_mixBuffer(),
       m_cutoffFreq(),
       m_resonance(),
@@ -76,8 +76,8 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     float accent = 0.0;
 
 
-    megValue = m_signalBusRef.readSignal(SignalBus::SignalId::VEG);
-    accent = m_signalBusRef.readSignal(SignalBus::SignalId::AEG);
+    megValue = r_signalBus.readSignal(SignalBus::SignalId::VEG);
+    accent = r_signalBus.readSignal(SignalBus::SignalId::AEG);
     jassert(megValue >= 0.);
     jassert(accent >= 0.);
 
@@ -104,10 +104,10 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     }
 
     // Update of both the filters
-    m_oberheimFilter->SetCutoff(modulatedCutoff * m_noiseGenerator.getNoiseFactor());
-    m_oberheimFilter->SetResonance(m_resonance.getCurrentValue() * m_noiseGenerator.getNoiseFactor());
-    m_open303Filter.setCutoff(modulatedCutoff * m_noiseGenerator.getNoiseFactor());
-    m_open303Filter.setResonance(m_resonance.getCurrentValue() * m_noiseGenerator.getNoiseFactor() * 100 / parameters::values::RESONANCE_MAX);
+    m_oberheimFilter->SetCutoff(modulatedCutoff * r_noiseGenerator.getNoiseFactor());
+    m_oberheimFilter->SetResonance(m_resonance.getCurrentValue() * r_noiseGenerator.getNoiseFactor());
+    m_open303Filter.setCutoff(modulatedCutoff * r_noiseGenerator.getNoiseFactor());
+    m_open303Filter.setResonance(m_resonance.getCurrentValue() * r_noiseGenerator.getNoiseFactor() * 100 / parameters::values::RESONANCE_MAX);
 
     // Prepare audio buffers for processing    
     auto outputBlock = context.getOutputBlock();
