@@ -13,8 +13,6 @@
 #include "Engine/Envelopes/Utils.h"
 #include "Engine/SignalBus.h"
 
-// #include "Control/MidiBroker.h"
-
 #include "Utils/Identifiers.h"
 
 
@@ -34,7 +32,6 @@ VCAEnvelope::VCAEnvelope(Bindings bindings)
       m_signalBus(bindings.r_signalBus)
 {
     // bind to controllable parameters
-    // auto* midiBroker = control::MidiBroker::getInstance();
     auto parameterMap = bindings.m_parameterMap.lock();
     jassert(parameterMap != nullptr);
 

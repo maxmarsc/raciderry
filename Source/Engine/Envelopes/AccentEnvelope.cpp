@@ -13,8 +13,6 @@
 #include "Engine/Envelopes/Utils.h"
 #include "Engine/SignalBus.h"
 
-// #include "Control/MidiBroker.h"
-
 #include "Utils/Identifiers.h"
 
 namespace engine
@@ -34,7 +32,6 @@ AccentEnvelope::AccentEnvelope(Bindings bindings)
       r_signalBus(bindings.r_signalBus)
 {
     // bind to controllable parameters
-    // auto* midiBroker = control::MidiBroker::getInstance();
     auto parameterMap = bindings.m_parameterMap.lock();
     jassert(parameterMap != nullptr);
 
@@ -128,13 +125,6 @@ void AccentEnvelope::nextValue(int numSamples)
     auto modulatedValue = envValue * (AMOUNT_MIN + m_noteAmount * m_accent.getCurrentValue());
 
     // We send the mean value in the signal bus
-    // auto* signalBus = SignalBus::getInstanceWithoutCreating();
-
-    // if (signalBus != nullptr)
-    // {
-    //     // We multiply the env value by the new max
-    //     signalBus->updateSignal(SignalBus::SignalId::AEG, modulatedValue);
-    // }
     r_signalBus.updateSignal(SignalBus::SignalId::AEG, modulatedValue);
 }
 
