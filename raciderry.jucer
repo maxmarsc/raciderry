@@ -10,9 +10,9 @@
               file="Source/Tests/CustomTestUnit.h"/>
         <FILE id="lRt5Wq" name="EngineNoiseTestUnit.cpp" compile="1" resource="0"
               file="Source/Tests/EngineNoiseTestUnit.cpp"/>
-        <FILE id="SFi6R3" name="EngineSoundTestUnit.cpp" compile="1" resource="0"
+        <FILE id="SFi6R3" name="EngineSoundTestUnit.cpp" compile="0" resource="0"
               file="Source/Tests/EngineSoundTestUnit.cpp"/>
-        <FILE id="I8KvMA" name="EngineVoiceTestUnit.cpp" compile="1" resource="0"
+        <FILE id="I8KvMA" name="EngineVoiceTestUnit.cpp" compile="0" resource="0"
               file="Source/Tests/EngineVoiceTestUnit.cpp"/>
         <FILE id="vwO2qz" name="MidiBrokerTestUnit.cpp" compile="1" resource="0"
               file="Source/Tests/MidiBrokerTestUnit.cpp"/>

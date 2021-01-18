@@ -25,89 +25,83 @@ friend class control::MidiBroker;
 public:
     MidiBrokerTestUnit() : CustomTestUnit("Midi Broker testing", category::control) {};
 
-    void resetBroker()
-    {
-        auto* broker = control::MidiBroker::getInstanceWithoutCreating();
-
-        if (broker != nullptr)
-        {
-            broker->clearSingletonInstance();
-        }
-    }
-
     void initialise() override
     {
-        resetBroker();
     }
 
     void shutdown() override
     {
-        resetBroker();
     }
 
     void singleTestInit() override
     {
-        resetBroker();
     }
 
     void singleTestShutdown() override
     {
-        resetBroker();
     }
 
     void runTest() override
     {
-    TEST("Singleton constructor", [=] {
-        auto* broker = control::MidiBroker::getInstance();
+    TEST("Constructor", [=] {
+        bool error = false;
 
-        expect(broker != nullptr);
+        try
+        {
+            control::MidiBroker();
+        }
+        catch (const std::exception& err)
+        {
+            error = true;
+        }
+
+        expect(error != true);
     });
 
     TEST("Parameter Getter", [=] {
-        auto* broker = control::MidiBroker::getInstance();
-        jassert(broker != nullptr);
+        auto broker = control::MidiBroker();
         
         // We only test basic parameters, some could change over time and we don't
         // wanna recode the entire test every time
         {
-            auto param = broker->getParameter(identifiers::controls::ACCENT);
+            auto param = broker.getParameter(identifiers::controls::ACCENT);
             expect(param.isValid());
         }
         {
-            auto param = broker->getParameter(identifiers::controls::ACCENT_DECAY);
+            auto param = broker.getParameter(identifiers::controls::ACCENT_DECAY);
             expect(param.isValid());
         }
         {
-            auto param = broker->getParameter(identifiers::controls::ATTACK);
+            auto param = broker.getParameter(identifiers::controls::ATTACK);
             expect(param.isValid());
         }
         {
-            auto param = broker->getParameter(identifiers::controls::DECAY);
+            auto param = broker.getParameter(identifiers::controls::DECAY);
             expect(param.isValid());
         }
         {
-            auto param = broker->getParameter(identifiers::controls::RELEASE);
+            auto param = broker.getParameter(identifiers::controls::RELEASE);
             expect(param.isValid());
         }
         {
-            auto param = broker->getParameter(identifiers::controls::SUSTAIN);
+            auto param = broker.getParameter(identifiers::controls::SUSTAIN);
             expect(param.isValid());
         }
         {
-            auto param = broker->getParameter(identifiers::controls::CUTOFF);
+            auto param = broker.getParameter(identifiers::controls::CUTOFF);
             expect(param.isValid());
         }
         {
-            auto param = broker->getParameter(identifiers::controls::RESONANCE);
+            auto param = broker.getParameter(identifiers::controls::RESONANCE);
             expect(param.isValid());
         }
         {
-            auto param = broker->getParameter(identifiers::controls::WAVEFORM_RATIO);
+            auto param = broker.getParameter(identifiers::controls::WAVEFORM_RATIO);
             expect(param.isValid());
         }
         {
             // Test it twice on purpose
-            auto param = broker->getParameter(identifiers::controls::ACCENT);
+            auto param = broker.getParameter(identifiers::controls::ACCENT);
             expect(param.isValid());
         }
 
