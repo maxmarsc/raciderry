@@ -16,6 +16,7 @@
 #include "Engine/NoiseGenerator.h"
 
 #include "Control/MidiBroker.h"
+#include "Control/ControllableParameter.h"
 
 namespace engine {
 
@@ -32,7 +33,7 @@ class DualOscillator;
 class RaciderryEngine :   public juce::AudioIODeviceCallback
 {
 public:
-    RaciderryEngine();
+    RaciderryEngine(control::MidiBroker& midiBroker);
     ~RaciderryEngine();
 
 //==============================================================================
@@ -48,7 +49,9 @@ public:
 
 private:
 //==============================================================================
+    control::MidiBroker&                            r_midiBroker;
     NoiseGenerator                                  m_noiseGenerator;
+    SignalBus                                       m_signalBus;
     std::unique_ptr<juce::Synthesiser>              m_synth;
     std::weak_ptr<DualOscillator>                   m_oscWeakPtr;
     juce::dsp::Limiter<float>                       m_limiter;

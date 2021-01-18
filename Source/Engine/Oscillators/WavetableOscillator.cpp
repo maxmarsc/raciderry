@@ -15,9 +15,9 @@ namespace engine
 
 WavetableOscillator::WavetableOscillator(
     const juce::AudioSampleBuffer& wavetable,
-    NoiseGenerator& noiseGenerator)
+    Bindings bindings)
     : m_wavetable(wavetable),
-      m_noiseGenerator(noiseGenerator),
+      r_noiseGenerator(bindings.r_noiseGenerator),
       m_frequency(440.0f),
       m_currentIndex(0.0f),
       m_tableDelta(0.0f),
@@ -122,7 +122,7 @@ forcedinline float WavetableOscillator::getNextSample() noexcept
 
     auto interpolatedSample = value0 + frac * (value1 - value0);
 
-    m_currentIndex += m_tableDelta * m_noiseGenerator.getNoiseFactor();
+    m_currentIndex += m_tableDelta * r_noiseGenerator.getNoiseFactor();
 
     if (m_currentIndex > (float) tableSize)
     {

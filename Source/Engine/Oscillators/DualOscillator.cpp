@@ -19,12 +19,12 @@ namespace engine
 
 constexpr double        WAFEFORM_GENERAL_GAIN = 0.5;
 
-DualOscillator::DualOscillator(NoiseGenerator& noiseGenerator)
+DualOscillator::DualOscillator(Bindings bindings)
     : m_wavetable1(),
       m_wavetable2(),
-      m_wtOsc1(m_wavetable1, noiseGenerator),
-      m_wtOsc2(m_wavetable2, noiseGenerator),
-      m_noiseGenerator(noiseGenerator),
+      m_wtOsc1(m_wavetable1, bindings),
+      m_wtOsc2(m_wavetable2, bindings),
+      r_noiseGenerator(bindings.r_noiseGenerator),
       m_mixingBuffer(),
       m_oscRatio()
 {
@@ -35,8 +35,10 @@ DualOscillator::DualOscillator(NoiseGenerator& noiseGenerator)
             BinaryData::waveform_square_wav, BinaryData::waveform_square_wavSize);
 
     // Get the controllable parameters
-    m_oscRatio = control::MidiBroker::getInstance()->getParameter(identifiers::controls::WAVEFORM_RATIO);
-    m_glide = control::MidiBroker::getInstance()->getParameter(identifiers::controls::GLIDE);
+    auto parameterMap = bindings.m_parameterMap.lock();
+
+    m_oscRatio = (*parameterMap)[identifiers::controls::WAVEFORM_RATIO];
+    m_glide = (*parameterMap)[identifiers::controls::GLIDE];
     jassert(m_oscRatio.isValid());
     jassert(m_glide.isValid());
 
@@ -79,9 +81,9 @@ void DualOscillator::process(juce::AudioBuffer<float>& outputBuffer, int startSa
 
     // We get the controllable values for the whole block
     auto glide = m_glide.getCurrentValue();
-    auto ratio = m_oscRatio.getCurrentValue() * m_noiseGenerator.getNoiseFactor();
-    m_wtOsc1.setGlide(glide * m_noiseGenerator.getNoiseFactor());
-    m_wtOsc2.setGlide(glide * m_noiseGenerator.getNoiseFactor());
+    auto ratio = m_oscRatio.getCurrentValue() * r_noiseGenerator.getNoiseFactor();
+    m_wtOsc1.setGlide(glide * r_noiseGenerator.getNoiseFactor());
+    m_wtOsc2.setGlide(glide * r_noiseGenerator.getNoiseFactor());
 
     // Process and apply gain for osc n°1
     { 

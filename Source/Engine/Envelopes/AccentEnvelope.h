@@ -12,7 +12,7 @@
 
 #include <JuceHeader.h>
 
-#include "Control/ControllableParameter.h"
+#include "Engine/Binding.h"
 
 namespace engine
 {
@@ -30,7 +30,7 @@ namespace engine
 class AccentEnvelope : public juce::ChangeListener
 {
 public:
-    AccentEnvelope();
+    AccentEnvelope(Bindings bindings);
 
 //==============================================================================
     /**
@@ -93,6 +93,9 @@ private:
     juce::Atomic<float>     m_lastEnvValue;
     juce::Atomic<State>     m_state;
     float                   m_noteAmount;
+
+    // Signal Bus
+    SignalBus&              r_signalBus;
 };
 
 } // namespace engine

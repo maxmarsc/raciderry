@@ -14,7 +14,6 @@
 
 namespace control
 {
-
 /**
  * @class control::ControllableParameter
  * @brief An atomic thread safe structure which holds the logic and value of a 
@@ -142,5 +141,7 @@ private:
     class Impl;
     std::shared_ptr<Impl>           m_impl;
 };
+
+using ParameterMap = std::map<juce::Identifier, ControllableParameter>;
 
 } // namespace control

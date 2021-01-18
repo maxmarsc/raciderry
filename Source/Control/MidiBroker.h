@@ -18,17 +18,13 @@ namespace control
 
 /**
  * @class control::MidiBroker
- * @brief Singleton instance, performing the translation btw midi protocol and 
- * internal logic
- * 
- * This implements the JUCE's singleton pattern. Once created it can be declared
- * as the Midi message handler for any DeviceManager.
+ * @brief Performs the translation btw midi protocol and internal logic
  */
 class MidiBroker : public juce::MidiInputCallback
 {
 public:
     MidiBroker();
-    ~MidiBroker() { clearSingletonInstance(); }
+    ~MidiBroker() {}
     
     /**
      * @brief Get the next note buffer
@@ -46,6 +42,8 @@ public:
      */
     ControllableParameter getParameter(const juce::Identifier& id) const;
 
+    std::weak_ptr<ParameterMap> getIdToParameterMap();
+
 //==============================================================================
     /**
      * @name juce::MidiInputCallback overrides.
@@ -55,7 +53,6 @@ public:
     ///@}
 //==============================================================================
 
-    JUCE_DECLARE_SINGLETON(MidiBroker, false)
 private:
     void initParameters();
     void initPresets();
@@ -74,7 +71,7 @@ private:
 
     // Parameters mapping
     std::map<int, ControllableParameter>    m_midiCCToParameterMap;
-    std::map<juce::Identifier, ControllableParameter>   m_idToParameterMap;
+    std::shared_ptr<ParameterMap>           m_idToParameterMap;
 
     // Presets mapping
     std::unique_ptr<juce::XmlElement>       m_presets;

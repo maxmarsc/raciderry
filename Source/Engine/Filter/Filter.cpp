@@ -12,8 +12,6 @@
 
 #include "Engine/SignalBus.h"
 
-#include "Control/MidiBroker.h"
-
 #include "Utils/Identifiers.h"
 #include "Utils/Parameters.h"
 
@@ -24,21 +22,29 @@ constexpr float ENV_MOD_RATIO_AMMOUNT = 0.5;
 constexpr float ACCENT_RATIO_AMMOUNT = 0.25;
 constexpr float OBERHEIM_GAIN_REDUCTION = -9.0;
 
-Filter::Filter(NoiseGenerator& noiseGenerator)
+Filter::Filter(Bindings bindings)
     : m_oberheimFilter(nullptr),
       m_open303Filter(),
-      m_noiseGenerator(noiseGenerator),
+      r_noiseGenerator(bindings.r_noiseGenerator),
+      r_signalBus(bindings.r_signalBus),
       m_mixBuffer(),
       m_cutoffFreq(),
       m_resonance(),
       m_drive(),
       m_envMod()
 {
-    auto* midiBroker = control::MidiBroker::getInstance();
-    m_cutoffFreq = midiBroker->getParameter(identifiers::controls::CUTOFF);
-    m_resonance = midiBroker->getParameter(identifiers::controls::RESONANCE);
-    m_envMod = midiBroker->getParameter(identifiers::controls::ENV_MOD);
-    m_filtersMix = midiBroker->getParameter(identifiers::controls::FILTER_MIX);
+    // Bind to the controllable parameters
+    auto parameterMap = bindings.m_parameterMap.lock();
+    jassert(parameterMap != nullptr);
+
+    m_cutoffFreq = (*parameterMap)[identifiers::controls::CUTOFF];
+    m_resonance = (*parameterMap)[identifiers::controls::RESONANCE];
+    m_envMod = (*parameterMap)[identifiers::controls::ENV_MOD];
+    m_filtersMix = (*parameterMap)[identifiers::controls::FILTER_MIX];
+    jassert(m_cutoffFreq.isValid());
+    jassert(m_resonance.isValid());
+    jassert(m_envMod.isValid());
+    jassert(m_filtersMix.isValid());
 
     // Set the filter to the proper mode
     m_open303Filter.setMode(rosic::TeeBeeFilter::TB_303);
@@ -62,17 +68,14 @@ void Filter::reset()
 void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
 {
     // Get the modulation signals
-    auto* signalBus = SignalBus::getInstanceWithoutCreating();
     float megValue = 0.0;
     float accent = 0.0;
 
-    if (signalBus != nullptr)
-    {
-        megValue = signalBus->readSignal(SignalBus::SignalId::VEG);
-        accent = signalBus->readSignal(SignalBus::SignalId::AEG);
-        jassert(megValue >= 0.);
-        jassert(accent >= 0.);
-    }
+
+    megValue = r_signalBus.readSignal(SignalBus::SignalId::VEG);
+    accent = r_signalBus.readSignal(SignalBus::SignalId::AEG);
+    jassert(megValue >= 0.);
+    jassert(accent >= 0.);
 
     // Compute the mod ratio
     auto envModRatio = (megValue * m_envMod.getCurrentValue() * ENV_MOD_RATIO_AMMOUNT);
@@ -97,10 +100,10 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     }
 
     // Update of both the filters
-    m_oberheimFilter->SetCutoff(modulatedCutoff * m_noiseGenerator.getNoiseFactor());
-    m_oberheimFilter->SetResonance(m_resonance.getCurrentValue() * m_noiseGenerator.getNoiseFactor());
-    m_open303Filter.setCutoff(modulatedCutoff * m_noiseGenerator.getNoiseFactor());
-    m_open303Filter.setResonance(m_resonance.getCurrentValue() * m_noiseGenerator.getNoiseFactor() * 100 / parameters::values::RESONANCE_MAX);
+    m_oberheimFilter->SetCutoff(modulatedCutoff * r_noiseGenerator.getNoiseFactor());
+    m_oberheimFilter->SetResonance(m_resonance.getCurrentValue() * r_noiseGenerator.getNoiseFactor());
+    m_open303Filter.setCutoff(modulatedCutoff * r_noiseGenerator.getNoiseFactor());
+    m_open303Filter.setResonance(m_resonance.getCurrentValue() * r_noiseGenerator.getNoiseFactor() * 100 / parameters::values::RESONANCE_MAX);
 
     // Prepare audio buffers for processing    
     auto outputBlock = context.getOutputBlock();

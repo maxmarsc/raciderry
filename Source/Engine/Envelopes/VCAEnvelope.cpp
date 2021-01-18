@@ -13,8 +13,6 @@
 #include "Engine/Envelopes/Utils.h"
 #include "Engine/SignalBus.h"
 
-#include "Control/MidiBroker.h"
-
 #include "Utils/Identifiers.h"
 
 
@@ -25,19 +23,22 @@ constexpr double ATTACK_RATIO = 0.3;
 constexpr double DECAY_RATIO = 0.0001;
 constexpr double RELEASE_RATIO = 0.0001;
 
-VCAEnvelope::VCAEnvelope()
+VCAEnvelope::VCAEnvelope(Bindings bindings)
     : m_attack(),
       m_decay(),
       m_sustain(),
       m_release(),
-      m_state(State::idle)
+      m_state(State::idle),
+      m_signalBus(bindings.r_signalBus)
 {
-    // bind to midi broker
-    auto* midiBroker = control::MidiBroker::getInstance();
-    m_attack = midiBroker->getParameter(identifiers::controls::ATTACK);
-    m_decay = midiBroker->getParameter(identifiers::controls::DECAY);
-    m_sustain = midiBroker->getParameter(identifiers::controls::SUSTAIN);
-    m_release = midiBroker->getParameter(identifiers::controls::RELEASE);
+    // bind to controllable parameters
+    auto parameterMap = bindings.m_parameterMap.lock();
+    jassert(parameterMap != nullptr);
+
+    m_attack = (*parameterMap)[identifiers::controls::ATTACK];
+    m_decay = (*parameterMap)[identifiers::controls::DECAY];
+    m_sustain = (*parameterMap)[identifiers::controls::SUSTAIN];
+    m_release = (*parameterMap)[identifiers::controls::RELEASE];
     jassert(m_attack.isValid());
     jassert(m_decay.isValid());
     jassert(m_sustain.isValid());
@@ -130,12 +131,7 @@ void VCAEnvelope::applyAmpEnvelopeToBuffer(juce::AudioBuffer<float>& buffer,
     }
     
     // We send the mean value to others units (filter, ...)
-    auto* signalBus = SignalBus::getInstanceWithoutCreating();
-
-    if (signalBus != nullptr)
-    {
-        signalBus->updateSignal(SignalBus::SignalId::VEG, sum/count);
-    }
+    m_signalBus.updateSignal(SignalBus::SignalId::VEG, sum/count);
 }
 
 void VCAEnvelope::updateAttack()
@@ -230,16 +226,5 @@ void VCAEnvelope::computeNextEnvValue()
             break;
     }
 }
-
-// double VCAEnvelope::computeEnvCoeff(int rateInSample, double targetRatio)
-// {
-//     if (rateInSample > 0)
-//     {
-//         // May need some optimization if too cpu-hungry
-//         return exp(-log((1.0 + targetRatio) / targetRatio) / rateInSample);
-//     }
-    
-//     return 0.;
-// }
 
 }//namespace engine

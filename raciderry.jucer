@@ -82,6 +82,7 @@
           <FILE id="WqCS0l" name="WavetableOscillator.h" compile="0" resource="0"
                 file="Source/Engine/Oscillators/WavetableOscillator.h"/>
         </GROUP>
+        <FILE id="CUDLiP" name="Binding.h" compile="0" resource="0" file="Source/Engine/Binding.h"/>
         <FILE id="IoINXN" name="Engine.cpp" compile="1" resource="0" file="Source/Engine/Engine.cpp"/>
         <FILE id="QlnmHH" name="Engine.h" compile="0" resource="0" file="Source/Engine/Engine.h"/>
         <FILE id="MIeWyn" name="NoiseGenerator.cpp" compile="1" resource="0"
