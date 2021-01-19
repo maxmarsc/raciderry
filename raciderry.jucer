@@ -8,6 +8,8 @@
       <GROUP id="{25F26B2F-4727-ECE6-7670-0D105AD8873A}" name="Tests">
         <FILE id="z1pIjw" name="CustomTestUnit.h" compile="0" resource="0"
               file="Source/Tests/CustomTestUnit.h"/>
+        <FILE id="pUSnZI" name="EngineBindingsTestUnit.cpp" compile="1" resource="0"
+              file="Source/Tests/EngineBindingsTestUnit.cpp"/>
         <FILE id="lRt5Wq" name="EngineNoiseTestUnit.cpp" compile="1" resource="0"
               file="Source/Tests/EngineNoiseTestUnit.cpp"/>
         <FILE id="SFi6R3" name="EngineSoundTestUnit.cpp" compile="0" resource="0"
