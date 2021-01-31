@@ -39,7 +39,8 @@ public:
     ///@}
 
 private:
-    juce::AudioDeviceManager&       m_deviceManager;
+    juce::AudioDeviceManager&           r_deviceManager;
+    std::unordered_set<juce::String>    m_enabledDevices;
 };
 
 } // namespace control

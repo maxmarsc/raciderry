@@ -107,7 +107,7 @@
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="raciderry" headerPath="../../Source/"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="raciderry" headerPath="../../Source/"/>
+        <CONFIGURATION isDebug="1" name="Release" targetName="raciderry" headerPath="../../Source/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../JUCE/modules"/>
@@ -120,11 +120,10 @@
       </MODULEPATHS>
     </LINUX_MAKE>
     <LINUX_MAKE targetFolder="Builds/Armv7Makefile" externalLibraries="atomic"
-                extraCompilerFlags="-march=armv7-a+simd&#10;-femit-class-debug-always&#10;-fsanitize=address&#10;--signed-char&#10;"
-                extraLinkerFlags="-fsanitize=address&#10;-static-libasan">
+                extraCompilerFlags="-march=armv7-a+simd&#10;-femit-class-debug-always&#10;--signed-char&#10;">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" headerPath="../../Source/" linuxArchitecture="-march=armv7"/>
-        <CONFIGURATION isDebug="0" name="Release" linuxArchitecture="-march=armv7" headerPath="../../Source/"/>
+        <CONFIGURATION isDebug="1" name="Release" linuxArchitecture="-march=armv7" headerPath="../../Source/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_events"/>
