@@ -30,7 +30,7 @@ namespace engine
 */
 struct Bindings
 {
-    std::weak_ptr<std::map<juce::Identifier, control::ControllableParameter>> m_parameterMap;
+    std::weak_ptr<control::ParameterMap> m_parameterMap;
     NoiseGenerator& r_noiseGenerator;
     SignalBus& r_signalBus;
 };

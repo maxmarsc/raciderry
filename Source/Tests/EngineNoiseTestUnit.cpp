@@ -19,7 +19,7 @@ namespace tests
 class NoiseTestUnit : public CustomTestUnit
 {
 public:
-    NoiseTestUnit() : CustomTestUnit("Noise Generator testing", category::engine::core) {};
+    NoiseTestUnit() : CustomTestUnit("Noise Generator testing", category::engine::bindings) {};
 
     void initialise() override
     {

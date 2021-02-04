@@ -36,6 +36,7 @@ public:
      */
     enum SignalId
     {
+        /* The lowest value should always be 0 */
         VEG = 0,            // VCA Envelope
         AEG = 1,            // Accent Envelope
 

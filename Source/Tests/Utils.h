@@ -22,7 +22,7 @@ namespace category
 
 namespace engine
 {
-    const juce::String core("core");
+    const juce::String bindings("bindings");
     const juce::String oscillators("oscillators");
     const juce::String envelopes("envelopes");
     const juce::String filters("filters");
