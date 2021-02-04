@@ -15,6 +15,7 @@
 #include "Control/MidiBroker.h"
 #include "Control/MidiDeviceMonitor.h"
 #include "Utils/Parameters.h"
+#include "Tests/TestRunner.h"
 
 //==============================================================================
 int main (int argc, char* argv[])
@@ -85,11 +86,20 @@ int main (int argc, char* argv[])
 
     return 0;
 #else
-  // Test mode
-  auto tester = juce::UnitTestRunner();
-  tester.setAssertOnFailure(true);
+    // Test mode
+    auto testRunner = tests::TestRunner();
+    auto* messageManager = juce::MessageManager::getInstance();
+    testRunner.startThread(10);
 
-  tester.runAllTests();
+    messageManager->runDispatchLoop();
+    juce::MessageManager::deleteInstance();
+
+    if (testRunner.getState() != tests::TestRunner::FINISHED) {
+        return 1;
+        DBG("Test failed");
+    }
+
+    return 0;
 
 #endif
 }
