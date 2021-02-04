@@ -24,6 +24,7 @@
               file="Source/Tests/MidiBrokerTestUnit.cpp"/>
         <FILE id="Nhmrsp" name="TestRunner.cpp" compile="1" resource="0" file="Source/Tests/TestRunner.cpp"/>
         <FILE id="mBgPYH" name="TestRunner.h" compile="0" resource="0" file="Source/Tests/TestRunner.h"/>
+        <FILE id="PXHY6I" name="Utils.cpp" compile="1" resource="0" file="Source/Tests/Utils.cpp"/>
         <FILE id="FoT7aG" name="Utils.h" compile="0" resource="0" file="Source/Tests/Utils.h"/>
       </GROUP>
       <GROUP id="{36A98914-3C4A-6C70-4206-52B37E729ABB}" name="Control">

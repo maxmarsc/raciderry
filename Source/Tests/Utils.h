@@ -12,8 +12,13 @@
 
 #include <JuceHeader.h>
 
+#ifndef __TESTS_UTILS_H__
+#define __TESTS_UTILS_H__
+
 namespace tests
 {
+
+juce::MidiMessage GenerateRandomMidiMessage(juce::Random& rng, uint channel = 0);
 
 namespace category
 {
@@ -33,3 +38,5 @@ namespace engine
 } // namespace category
 
 } // namespace tests
+
+#endif //__TESTS_UTILS_H__

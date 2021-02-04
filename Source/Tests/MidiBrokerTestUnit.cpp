@@ -10,10 +10,12 @@
 
 #include "Tests/CustomTestUnit.h"
 #include "Tests/Utils.h"
+#include "Tests/CallDispatcher.h"
 
 #include "Control/MidiBroker.h"
 
 #include "Utils/Identifiers.h"
+#include "Utils/Parameters.h"
 
 namespace tests
 {
@@ -27,6 +29,7 @@ public:
 
     void initialise() override
     {
+        m_rng = getRandom();
     }
 
     void shutdown() override
@@ -106,9 +109,53 @@ public:
         }
 
     });
+
+    TEST("Note MIDI buffer - Single Thread", [=] {
+        auto broker = control::MidiBroker();
+
+        auto buffer = broker.getNoteMidiBuffer();
+        expect(buffer.isEmpty());
+
+        // Generate random midi messages for the broker
+        auto bufferRef = juce::MidiBuffer();
+        for (auto i = 0; i < 200; ++i) {
+            // Add random message
+            auto msg = GenerateRandomMidiMessage(m_rng);
+
+            if (msg.isNoteOnOrOff() && msg.getChannel() == parameters::midiCC::GLOBAL_CHANNEL) {
+              bufferRef.addEvent(msg, i);
+            }
+            broker.handleIncomingMidiMessage(nullptr, msg);
+        }
+
+        // Get the buffer after the broker treated it
+        buffer = broker.getNoteMidiBuffer();
+        expect(! buffer.isEmpty());
+        auto bufferIt = buffer.begin();
+        auto refIt = bufferRef.begin();
+
+        while (refIt != bufferRef.end()) {
+            auto msg = (*bufferIt).getMessage();
+            auto refMsg = (*refIt).getMessage();
+
+            expect(msg.isNoteOnOrOff());
+            expect(refMsg.isNoteOnOrOff());
+            expect(msg.getDescription() == refMsg.getDescription());
+            refIt++;
+            bufferIt++;
+        }
+
+    });
+
+    TEST("Get Id To ParameterMap", [=] {
+
+    });
     
     }
 
+private:
+    CallDispatcher                                    m_callDispatcher;
+    juce::Random                                      m_rng;
 };
 
 static MidiBrokerTestUnit MIDI_BROKER_TEST;
