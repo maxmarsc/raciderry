@@ -12,7 +12,7 @@
               file="Source/Tests/EngineNoiseTestUnit.cpp"/>
         <FILE id="GbfxOF" name="EngineSignalBusTestUnit.cpp" compile="1" resource="0"
               file="Source/Tests/EngineSignalBusTestUnit.cpp"/>
-        <FILE id="SFi6R3" name="EngineSoundTestUnit.cpp" compile="0" resource="0"
+        <FILE id="SFi6R3" name="EngineSoundTestUnit.cpp" compile="1" resource="0"
               file="Source/Tests/EngineSoundTestUnit.cpp"/>
         <FILE id="I8KvMA" name="EngineVoiceTestUnit.cpp" compile="0" resource="0"
               file="Source/Tests/EngineVoiceTestUnit.cpp"/>
