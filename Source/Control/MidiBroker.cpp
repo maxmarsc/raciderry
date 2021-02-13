@@ -44,16 +44,6 @@ juce::MidiBuffer MidiBroker::getNoteMidiBuffer() noexcept
     return newBuffer;
 }
 
-ControllableParameter MidiBroker::getParameter(const juce::Identifier& id) const
-{
-    if (m_idToParameterMap->count(id) == 1)
-    {
-        return ControllableParameter(m_idToParameterMap->at(id));
-    }
-
-    return ControllableParameter();
-}
-
 std::weak_ptr<ParameterMap> MidiBroker::getIdToParameterMap()
 {
     return m_idToParameterMap;

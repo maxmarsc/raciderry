@@ -35,12 +35,6 @@ public:
      * main buffer is locked due to an incoming message
      */
     juce::MidiBuffer getNoteMidiBuffer() noexcept;
-    /**
-     * @brief Get the Parameter object corresponding to the given identifier
-     * 
-     * @param id The identifier look for
-     */
-    ControllableParameter getParameter(const juce::Identifier& id) const;
 
     std::weak_ptr<ParameterMap> getIdToParameterMap();
 

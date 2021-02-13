@@ -61,52 +61,20 @@ public:
         expect(error != true);
     });
 
-    TEST("Parameter Getter", [=] {
+    TEST("ParameterMap", [=] {
         auto broker = control::MidiBroker();
+        auto parameterMap = broker.getIdToParameterMap().lock();
         
-        // We only test basic parameters, some could change over time and we don't
-        // wanna recode the entire test every time
+        expect(parameterMap != nullptr);
+        if (parameterMap == nullptr) { return; }
+
+        expect(parameterMap->size() != 0);
+
+        for (auto& pair : *parameterMap)
         {
-            auto param = broker.getParameter(identifiers::controls::ACCENT);
-            expect(param.isValid());
-        }
-        {
-            auto param = broker.getParameter(identifiers::controls::ACCENT_DECAY);
-            expect(param.isValid());
-        }
-        {
-            auto param = broker.getParameter(identifiers::controls::ATTACK);
-            expect(param.isValid());
-        }
-        {
-            auto param = broker.getParameter(identifiers::controls::DECAY);
-            expect(param.isValid());
-        }
-        {
-            auto param = broker.getParameter(identifiers::controls::RELEASE);
-            expect(param.isValid());
-        }
-        {
-            auto param = broker.getParameter(identifiers::controls::SUSTAIN);
-            expect(param.isValid());
-        }
-        {
-            auto param = broker.getParameter(identifiers::controls::CUTOFF);
-            expect(param.isValid());
-        }
-        {
-            auto param = broker.getParameter(identifiers::controls::RESONANCE);
-            expect(param.isValid());
-        }
-        {
-            auto param = broker.getParameter(identifiers::controls::WAVEFORM_RATIO);
-            expect(param.isValid());
-        }
-        {
-            // Test it twice on purpose
-            auto param = broker.getParameter(identifiers::controls::ACCENT);
-            expect(param.isValid());
-        }
+          auto parameter = std::get<1>(pair);
+          expect(parameter.isValid());
+        } 
 
     });
 
@@ -144,10 +112,6 @@ public:
             refIt++;
             bufferIt++;
         }
-
-    });
-
-    TEST("Get Id To ParameterMap", [=] {
 
     });
     
