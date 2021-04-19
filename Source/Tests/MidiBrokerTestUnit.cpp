@@ -91,7 +91,7 @@ public:
             auto msg = GenerateRandomMidiMessage(m_rng);
 
             if (msg.isNoteOnOrOff() && msg.getChannel() == parameters::midiCC::GLOBAL_CHANNEL) {
-              bufferRef.addEvent(msg, i);
+                bufferRef.addEvent(msg, i);
             }
             broker.handleIncomingMidiMessage(nullptr, msg);
         }
@@ -114,11 +114,52 @@ public:
         }
 
     });
+
+    TEST("Note MIDI buffer - Multi Thread stress test", [=] {
+        auto callDispatcher = CallDispatcher();
+        auto broker = control::MidiBroker();
+        auto bufferRef = juce::MidiBuffer();
+        constexpr auto postIntervalMs = 10;
+
+        auto postMsgCall = [&] {
+            auto msg = GenerateRandomMidiMessage(m_rng);
+            broker.handleIncomingMidiMessage(nullptr, msg);
+            msg = GenerateRandomMidiMessage(m_rng);
+            broker.handleIncomingMidiMessage(nullptr, msg);
+            msg = GenerateRandomMidiMessage(m_rng);
+            broker.handleIncomingMidiMessage(nullptr, msg);
+        };
+
+        auto buffer = broker.getNoteMidiBuffer();
+        expect(buffer.isEmpty());
+
+        auto call_uid = callDispatcher.registerRecurrentCall(postMsgCall, postIntervalMs);
+
+        auto count = 0;
+        for (auto i=0; i<10; ++i) {
+            juce::Thread::sleep(postIntervalMs*20);
+            buffer = broker.getNoteMidiBuffer();
+
+            for (auto msgIt : buffer) {
+                ++count;
+                auto msg = msgIt.getMessage();
+                expect(msg.isNoteOnOrOff(), 
+                    juce::String("Unexpected msg type : ") + msg.getDescription());
+                expect(msg.getChannel() == parameters::midiCC::GLOBAL_CHANNEL,
+                    juce::String("Unexpected channel : ") + msg.getDescription());
+            }
+        }
+
+        callDispatcher.unregisterRecurrentCall(call_uid);
+
+        expect(count > 20);
+
+    });
     
     }
 
 private:
-    CallDispatcher                                    m_callDispatcher;
+    // CallDispatcher                                    m_callDispatcher;
     juce::Random                                      m_rng;
 };
 

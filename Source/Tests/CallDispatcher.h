@@ -22,6 +22,7 @@ public:
     using CallUID = int;
 
     CallDispatcher(int numberOfThread=1);
+    ~CallDispatcher();
 
     CallUID registerRecurrentCall(const std::function< void()>&, 
                                   int timeRangeBetweenCalls);

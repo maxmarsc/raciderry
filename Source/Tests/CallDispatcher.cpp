@@ -22,6 +22,11 @@ CallDispatcher::CallDispatcher(int numberOfThread)
     m_rng.setSeedRandomly();
 }
 
+CallDispatcher::~CallDispatcher()
+{
+    m_threadPool.removeAllJobs(true, 10000, nullptr);
+}
+
 CallDispatcher::CallUID CallDispatcher::registerRecurrentCall(
     const std::function< void()>& call, int timeRangeBetweenCalls)
 {
@@ -29,8 +34,10 @@ CallDispatcher::CallUID CallDispatcher::registerRecurrentCall(
     {
         auto uid = m_nextUID++;
 
-        m_callMap.emplace(m_nextUID, 
+        m_callMap.emplace(uid, 
             std::make_unique<CallDispatcher::RecurrentCall>(call, timeRangeBetweenCalls, m_rng));
+
+        m_threadPool.addJob(m_callMap[uid].get(), false);
 
         return uid;
     }
@@ -44,14 +51,8 @@ bool CallDispatcher::unregisterRecurrentCall(CallDispatcher::CallUID uid)
     {
         auto& recurrentCall = m_callMap.at(uid);
         jassert(recurrentCall != nullptr);
-        recurrentCall->signalJobShouldExit();
+        jassert(m_threadPool.removeJob(recurrentCall.get(), true, 10000));
 
-        while(recurrentCall->isRunning())
-        {
-            juce::Thread::sleep(25);
-            DBG("Waiting for a recurrent call to end");
-        }
-        
         return (m_callMap.erase(uid) != 0);
     }
 
