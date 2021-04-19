@@ -196,7 +196,7 @@ void MidiBroker::initPresets()
 void MidiBroker::serializePresets()
 {
     jassert(m_presets != nullptr);
-    DBG(m_presets->toString());
+    // DBG(m_presets->toString());
     auto presetFile = juce::File::getCurrentWorkingDirectory().getChildFile(parameters::files::PRESETS_FILE);
     auto success = m_presets->writeTo(presetFile);
 

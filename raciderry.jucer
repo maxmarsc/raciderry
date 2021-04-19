@@ -10,6 +10,8 @@
               file="Source/Tests/CallDispatcher.cpp"/>
         <FILE id="OwrQge" name="CallDispatcher.h" compile="0" resource="0"
               file="Source/Tests/CallDispatcher.h"/>
+        <FILE id="yCO6SE" name="ControllableParameterTestUnit.cpp" compile="1"
+              resource="0" file="Source/Tests/ControllableParameterTestUnit.cpp"/>
         <FILE id="z1pIjw" name="CustomTestUnit.h" compile="0" resource="0"
               file="Source/Tests/CustomTestUnit.h"/>
         <FILE id="lRt5Wq" name="EngineNoiseTestUnit.cpp" compile="1" resource="0"
