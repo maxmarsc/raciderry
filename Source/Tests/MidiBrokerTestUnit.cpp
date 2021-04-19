@@ -136,7 +136,7 @@ public:
         auto call_uid = callDispatcher.registerRecurrentCall(postMsgCall, postIntervalMs);
 
         auto count = 0;
-        for (auto i=0; i<10; ++i) {
+        for (auto i=0; i<30; ++i) {
             juce::Thread::sleep(postIntervalMs*20);
             buffer = broker.getNoteMidiBuffer();
 
@@ -152,7 +152,7 @@ public:
 
         callDispatcher.unregisterRecurrentCall(call_uid);
 
-        expect(count > 20);
+        expect(count > 30);
 
     });
     
