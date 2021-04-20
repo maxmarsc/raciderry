@@ -34,6 +34,7 @@ juce::MidiMessage GenerateRandomMidiMessage(juce::Random& rng, uint channel)
             // Program change
             return juce::MidiMessage::programChange(channel, rng.nextInt(128));
         case 4:
+        default:
             // CC
             return juce::MidiMessage::controllerEvent(channel, rng.nextInt(127), rng.nextInt(127));
     }
