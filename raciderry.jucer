@@ -24,6 +24,8 @@
               file="Source/Tests/EngineSoundTestUnit.cpp"/>
         <FILE id="I8KvMA" name="EngineVoiceTestUnit.cpp" compile="0" resource="0"
               file="Source/Tests/EngineVoiceTestUnit.cpp"/>
+        <FILE id="EdZZ3h" name="FilterTestUnit.cpp" compile="1" resource="0"
+              file="Source/Tests/FilterTestUnit.cpp"/>
         <FILE id="vwO2qz" name="MidiBrokerTestUnit.cpp" compile="1" resource="0"
               file="Source/Tests/MidiBrokerTestUnit.cpp"/>
         <FILE id="Nhmrsp" name="TestRunner.cpp" compile="1" resource="0" file="Source/Tests/TestRunner.cpp"/>
