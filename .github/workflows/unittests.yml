@@ -12,9 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Preinstall
+      run: |
+        apt-get update
+        apt-get install -y wget unzip git make libfreetype-dev g++ libasound2-dev libcurl4-openssl-dev pkg-config
     - name: JUCE install
       run: |
-        apt-get update && apt-get install -y wget unzip git make libfreetype-dev g++ libasound2-dev libcurl4-openssl-dev pkg-config
         wget https://github.com/juce-framework/JUCE/releases/download/6.0.8/juce-6.0.8-linux.zip
         mkdir -p ~/JUCE
         unzip juce-6.0.8-linux.zip -d ~
