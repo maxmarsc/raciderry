@@ -36,7 +36,7 @@ Build requirements :
 
 Developping requirements (recommended):
  - *All requirements listed above*
- - JUCE Framework >= 6.0.1
+ - JUCE Framework >= 6.0.8
 
 ## Build and deploy
 

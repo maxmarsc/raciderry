@@ -4,7 +4,7 @@ The source code of the application is entirely C++
 Basics of audio development are needed to understand this project.
 
 ## JUCE
-We use the JUCE Framework (>= 6.0.1) as a base for the audio and midi engine.
+We use the JUCE Framework (>= 6.0.8) as a base for the audio and midi engine.
 
 Once JUCE downloaded, you can open the `.projucer` file to generate a makefile for the wanted architecture.
 
