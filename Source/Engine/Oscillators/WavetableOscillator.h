@@ -12,7 +12,6 @@
 
 #include <JuceHeader.h>
 
-// #include "Engine/NoiseGenerator.h"
 #include "Engine/Binding.h"
 
 #include "Utils/CustomSmoothValue.h"
@@ -55,6 +54,7 @@ public:
 //==============================================================================
     /**
      * @brief Set the Glide time time, default to 0
+     * @note NOT thread-safe, should be called before each block
      * 
      * @param glideTime New glide time in seconds
      */
