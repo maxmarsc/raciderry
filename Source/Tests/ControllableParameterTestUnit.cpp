@@ -264,7 +264,7 @@ public:
                 param.updateCurrentDiscretValue(delta);
             };
 
-            auto callId = callDispatcher.registerRecurrentCall(call, 10);
+            auto callId = callDispatcher.registerRecurrentCall(call, 1);
             auto idxInit = param.getCurrentDiscretValue();
             auto countDiffFromInit = 0;
 
@@ -277,6 +277,7 @@ public:
                 
                 expect(newVal <= maxV);
                 expect(newVal >= minV);
+                juce::Thread::sleep(5);
             }
 
             expect(countDiffFromInit > 0);

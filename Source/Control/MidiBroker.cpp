@@ -226,7 +226,10 @@ void MidiBroker::loadPreset(int presetId)
             }
         }
 
+        #ifndef TESTING
+        // This is goind to spam your test output
         DBG(juce::String("Preset loaded : ") + juce::String(presetId));
+        #endif
     }
     else
     {
