@@ -175,7 +175,6 @@ struct ControllableParameter::Impl : public juce::ChangeBroadcaster
     // Mutable members
     juce::Atomic<int>                   m_currentDiscretValue;
     juce::Atomic<float>                 m_currentRatio;
-    juce::CriticalSection               m_discretValueWritingSection;
 };
 
 //==============================================================================

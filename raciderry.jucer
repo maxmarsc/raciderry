@@ -14,6 +14,8 @@
               resource="0" file="Source/Tests/ControllableParameterTestUnit.cpp"/>
         <FILE id="z1pIjw" name="CustomTestUnit.h" compile="0" resource="0"
               file="Source/Tests/CustomTestUnit.h"/>
+        <FILE id="W75ojB" name="DualOscTestUnit.cpp" compile="1" resource="0"
+              file="Source/Tests/DualOscTestUnit.cpp"/>
         <FILE id="lRt5Wq" name="EngineNoiseTestUnit.cpp" compile="1" resource="0"
               file="Source/Tests/EngineNoiseTestUnit.cpp"/>
         <FILE id="GbfxOF" name="EngineSignalBusTestUnit.cpp" compile="1" resource="0"
