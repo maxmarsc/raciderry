@@ -17,7 +17,7 @@ quickly**
  - [x] Dynamic detection of midi controllers
  - [x] Presets Save & Load
  - [ ] Read parameters from an XML file
- - [ ] Automated tests
+ - [x] Automated tests
  - [ ] Write-and-go iso image for rapsberry pi
  - [x] Documentation
  - [x] Readme(to be improved)
