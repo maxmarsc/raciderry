@@ -94,6 +94,13 @@ sudo ./install.sh
 
 You should be good !
 
+## Testing
+The source are partially tested (should be completed in the future). To manually
+run the tests run :
+```shell
+make -C ./Builds/LinuxMakefile CONFIG=UnitTests
+./Builds/LinuxMakefile/build/tests
+```
 
 ## Run
 If configured as recommended, the synth should start at the same time as the 
