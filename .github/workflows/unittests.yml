@@ -14,7 +14,6 @@ jobs:
     steps:
     - name: Preinstall
       run: |
-        id
         sudo apt-get update
         sudo apt-get install -y wget unzip git make libfreetype-dev g++ libasound2-dev libcurl4-openssl-dev pkg-config
     - name: JUCE install

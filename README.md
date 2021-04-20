@@ -1,5 +1,5 @@
-![example branch parameter](https://github.com//maxmarsc/raciderry/actions/workflows/unittests.yml/badge.svg?branch=develop)
-![example branch parameter](https://github.com//maxmarsc/raciderry/actions/workflows/unittests.yml/badge.svg?branch=master)
+Master status : ![example branch parameter](https://github.com//maxmarsc/raciderry/actions/workflows/unittests.yml/badge.svg?branch=master)  
+Develop status : ![example branch parameter](https://github.com//maxmarsc/raciderry/actions/workflows/unittests.yml/badge.svg?branch=develop)
 # Raciderry
 
 ## Brief
