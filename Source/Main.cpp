@@ -10,6 +10,7 @@
 
 #include <unistd.h>
 #include <cstdlib>
+#include <iostream>
 
 #include "Engine/Engine.h"
 #include "Control/MidiBroker.h"
@@ -27,15 +28,13 @@ int main (int argc, char* argv[])
     auto engine = engine::RaciderryEngine(midiBroker);
     DBG("Created");
 
-
     sleep(1);
 
-    // Select and init the audio device
-    DBG(device_manager->initialise(0, 2, nullptr, true, "", &parameters::device::PISOUND_SETUP));
+    device_manager->initialise(0, 2, nullptr, true, "", &parameters::device::PISOUND_SETUP);
     if (device_manager->getCurrentAudioDevice() == nullptr) 
     {
         // If the pisound config is not available we try with custom pulseaudio
-        DBG(device_manager->initialise(0, 2, nullptr, true, "", &parameters::device::DEV_SETUP));
+        device_manager->initialise(0, 2, nullptr, true, "", &parameters::device::DEV_SETUP);
     }
     if (device_manager->getCurrentAudioDevice() == nullptr) 
     {
@@ -50,7 +49,7 @@ int main (int argc, char* argv[])
     auto* device = device_manager->getCurrentAudioDevice();
     if (device)
     {
-        DBG(juce::String("Connected to : ") + device->getName());
+        std::cout << "Connected to : " << device->getName() << std::endl;
     }
 
     // Start the audio thread
@@ -59,23 +58,6 @@ int main (int argc, char* argv[])
     // Start listening to MIDI inputs
     auto midiMonitor = control::MidiDeviceMonitor(*device_manager);
     device_manager->addMidiInputDeviceCallback("", &midiBroker);
-    // // Start listening to MIDI inputs
-    // device_manager->addMidiInputDeviceCallback("", control::MidiBroker::getInstance());
-    // auto midiDeviceInfo = juce::MidiInput::getAvailableDevices();
-    // for (auto& device : midiDeviceInfo)
-    // {
-    //     device_manager->setMidiInputDeviceEnabled(device.identifier, true);
-    //     DBG(device.name);
-    //     DBG(device.identifier);
-    //     auto enabled = device_manager->isMidiInputDeviceEnabled(device.identifier);
-    //     if(enabled)
-    //     {
-    //         DBG("ENABLED");
-    //     } else 
-    //     {
-    //         DBG("DISABLED");
-    //     }
-    // }
 
     messageManager->runDispatchLoop();
 

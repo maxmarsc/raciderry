@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="K8o1eb" name="raciderry" projectType="consoleapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              cppLanguageStandard="17">
+              cppLanguageStandard="17" compilerFlagSchemes="">
   <MAINGROUP id="GxApm7" name="raciderry">
     <GROUP id="{BC7D1E92-E2D6-A910-9FBB-C372716ED9E5}" name="Source">
       <GROUP id="{25F26B2F-4727-ECE6-7670-0D105AD8873A}" name="Tests">
@@ -15,7 +15,7 @@
         <FILE id="z1pIjw" name="CustomTestUnit.h" compile="0" resource="0"
               file="Source/Tests/CustomTestUnit.h"/>
         <FILE id="W75ojB" name="DualOscTestUnit.cpp" compile="1" resource="0"
-              file="Source/Tests/DualOscTestUnit.cpp"/>
+              file="Source/Tests/DualOscTestUnit.cpp" compilerFlagScheme=""/>
         <FILE id="lRt5Wq" name="EngineNoiseTestUnit.cpp" compile="1" resource="0"
               file="Source/Tests/EngineNoiseTestUnit.cpp"/>
         <FILE id="GbfxOF" name="EngineSignalBusTestUnit.cpp" compile="1" resource="0"
@@ -137,7 +137,8 @@
         <CONFIGURATION isDebug="1" name="Debug" targetName="raciderry" headerPath="../../Source/"/>
         <CONFIGURATION isDebug="1" name="UnitTests" targetName="tests" headerPath="../../Source/"
                        defines="TESTING"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="raciderry" headerPath="../../Source/"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="raciderry" headerPath="../../Source/"
+                       linuxArchitecture="-march=native"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../JUCE/modules"/>
@@ -149,11 +150,10 @@
         <MODULEPATH id="juce_audio_formats" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
-    <LINUX_MAKE targetFolder="Builds/Armv7Makefile" externalLibraries="atomic"
-                extraCompilerFlags="-march=armv7-a+simd&#10;-femit-class-debug-always&#10;--signed-char&#10;">
+    <LINUX_MAKE targetFolder="Builds/Armv7Makefile">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../Source/" linuxArchitecture="-march=armv7"/>
-        <CONFIGURATION isDebug="1" name="Release" linuxArchitecture="-march=armv7" headerPath="../../Source/"/>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../Source/"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="../../Source/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_events"/>
