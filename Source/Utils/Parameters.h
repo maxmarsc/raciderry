@@ -29,8 +29,8 @@ namespace device
     const juce::AudioDeviceManager::AudioDeviceSetup PISOUND_SETUP({
         juce::String("pisound, ; Direct hardware device without any conversions"),
         juce::String("pisound, ; Direct hardware device without any conversions"),
-        96000,
-        256,
+        192000,
+        64,
         0,
         true,
         2,
@@ -41,7 +41,7 @@ namespace device
         juce::String("Playback/recording through the PulseAudio sound server"),
         juce::String("Playback/recording through the PulseAudio sound server"),
         96000,
-        256,
+        64,
         0,
         true,
         2,
@@ -123,7 +123,7 @@ namespace values
     constexpr float         ACCENT_MAX = 0.8;
     constexpr float         ACC_DEC_DEFAULT = 0.3;
     constexpr float         ACC_DEC_MIN = 0.010;
-    constexpr float         ACC_DEC_MAX = 1.0;
+    constexpr float         ACC_DEC_MAX = 2.0;
 
     // Filter
     constexpr float         CUTOFF_DEFAULT =  440.0;   // Hz

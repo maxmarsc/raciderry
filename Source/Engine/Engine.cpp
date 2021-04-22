@@ -8,6 +8,8 @@
   ==============================================================================
 */
 
+#include <iostream>
+
 #include "Engine.h"
 
 #include "Engine/Sound.h"
@@ -101,7 +103,7 @@ void RaciderryEngine::audioDeviceAboutToStart(juce::AudioIODevice* device)
     m_sampleRate = device->getCurrentSampleRate();
     auto numSamples = juce::uint32(device->getCurrentBufferSizeSamples());
     m_blockLength = numSamples / m_sampleRate;
-    DBG(juce::String("About to start : ") + juce::String(m_sampleRate) + " : "  + juce::String(numSamples));
+    std::cout << "About to start : " << m_sampleRate << " : " << numSamples << std::endl;
 
     m_synth->setCurrentPlaybackSampleRate(m_sampleRate);
     m_limiter.prepare({m_sampleRate, numSamples, 1});
