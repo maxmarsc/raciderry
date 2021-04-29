@@ -19,9 +19,11 @@ namespace control
 const auto presetPrefix = juce::String("preset_");
 
 MidiBroker::MidiBroker()
-    : m_readyToSavePreset(false)
+    : m_globalChannel(-1),
+      m_savePatchCC(-1),
+      m_readyToSavePreset(false)
 {
-    initParameters();
+    initControllableParameters();
     initPresets();
 }
 
@@ -53,7 +55,7 @@ std::weak_ptr<ParameterMap> MidiBroker::getIdToParameterMap()
 void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& msg)
 {
     // DBG(msg.getDescription());
-    if (msg.getChannel() != parameters::midiCC::GLOBAL_CHANNEL) { return; }
+    if (msg.getChannel() != m_globalChannel) { return; }
     if (msg.isNoteOnOrOff())
     {
         handleNoteMessage(msg);
@@ -77,102 +79,116 @@ void MidiBroker::handleIncomingMidiMessage(juce::MidiInput* source, const juce::
 }
 
 //==============================================================================
-void MidiBroker::initParameters()
+void MidiBroker::initControllableParameters()
 {
     // We create and assign parameters to midi control signals
     m_idToParameterMap = std::make_shared<ParameterMap>();
+    auto settingsMap = parameters::Parameter::loadParameters(
+            m_globalChannel, m_savePatchCC);
     
     // Attack
-    auto attack = ControllableParameter(parameters::values::ATTACK_DEFAULT,
-            parameters::values::ATTACK_MIN,
-            parameters::values::ATTACK_MAX,
+    auto attackSettings = settingsMap[identifiers::controls::ATTACK];
+    auto attack = ControllableParameter(attackSettings.m_default,
+            attackSettings.m_min,
+            attackSettings.m_max,
             ControllableParameter::ScaleType::logarithmic);
-    m_midiCCToParameterMap[parameters::midiCC::ATTACK] = attack;
+    m_midiCCToParameterMap[attackSettings.m_cc] = attack;
     (*m_idToParameterMap)[identifiers::controls::ATTACK] = attack;
 
     // Decay
-    auto decay = ControllableParameter(parameters::values::DECAY_DEFAULT,
-            parameters::values::DECAY_MIN,
-            parameters::values::DECAY_MAX,
+    auto decaySettings = settingsMap[identifiers::controls::DECAY];
+    auto decay = ControllableParameter(decaySettings.m_default,
+            decaySettings.m_min,
+            decaySettings.m_max,
             ControllableParameter::ScaleType::logarithmic);
-    m_midiCCToParameterMap[parameters::midiCC::DECAY] = decay;
+    m_midiCCToParameterMap[decaySettings.m_cc] = decay;
     (*m_idToParameterMap)[identifiers::controls::DECAY] = decay;
 
     // Sustain
-    auto sustain = ControllableParameter(parameters::values::SUSTAIN_DEFAULT,
-            parameters::values::SUSTAIN_MIN,
-            parameters::values::SUSTAIN_MAX);
-    m_midiCCToParameterMap[parameters::midiCC::SUSTAIN] = sustain;
+    auto sustainSettings = settingsMap[identifiers::controls::SUSTAIN];
+    auto sustain = ControllableParameter(sustainSettings.m_default,
+            sustainSettings.m_min,
+            sustainSettings.m_max);
+    m_midiCCToParameterMap[sustainSettings.m_cc] = sustain;
     (*m_idToParameterMap)[identifiers::controls::SUSTAIN] = sustain;
 
     // Release
-    auto release = ControllableParameter(parameters::values::RELEASE_DEFAULT,
-            parameters::values::RELEASE_MIN,
-            parameters::values::RELEASE_MAX,
+    auto releaseSettings = settingsMap[identifiers::controls::RELEASE];
+    auto release = ControllableParameter(releaseSettings.m_default,
+            releaseSettings.m_min,
+            releaseSettings.m_max,
             ControllableParameter::ScaleType::logarithmic);
-    m_midiCCToParameterMap[parameters::midiCC::RELEASE] = release;
+    m_midiCCToParameterMap[releaseSettings.m_cc] = release;
     (*m_idToParameterMap)[identifiers::controls::RELEASE] = release;
 
     // Waveform ratio
+    auto waveformSettings = settingsMap[identifiers::controls::WAVEFORM_RATIO];
     auto waveformRatio = ControllableParameter(
-            parameters::values::WAFEFORM_RATIO_DEFAULT,
-            parameters::values::WAFEFORM_RATIO_MIN,
-            parameters::values::WAFEFORM_RATIO_MAX);
-    m_midiCCToParameterMap[parameters::midiCC::WAVEFORM_RATIO] = waveformRatio;
+            waveformSettings.m_default,
+            waveformSettings.m_min,
+            waveformSettings.m_max);
+    m_midiCCToParameterMap[waveformSettings.m_cc] = waveformRatio;
     (*m_idToParameterMap)[identifiers::controls::WAVEFORM_RATIO] = waveformRatio;
 
     // Glide
-    auto glide = ControllableParameter(parameters::values::GLIDE_DEFAULT,
-            parameters::values::GLIDE_MIN,
-            parameters::values::GLIDE_MAX,
+    auto glideSettings = settingsMap[identifiers::controls::GLIDE];
+    auto glide = ControllableParameter(glideSettings.m_default,
+            glideSettings.m_min,
+            glideSettings.m_max,
             ControllableParameter::ScaleType::linear,
             256);
-    m_midiCCToParameterMap[parameters::midiCC::GLIDE] = glide;
+    m_midiCCToParameterMap[glideSettings.m_cc] = glide;
     (*m_idToParameterMap)[identifiers::controls::GLIDE] = glide;
 
     // Filter Cutoff Frequency
-    auto cutoff = ControllableParameter(parameters::values::CUTOFF_DEFAULT,
-            parameters::values::CUTOFF_MIN,
-            parameters::values::CUTOFF_MAX,
+    auto cutoffSettings = settingsMap[identifiers::controls::CUTOFF];
+    auto cutoff = ControllableParameter(cutoffSettings.m_default,
+            cutoffSettings.m_min,
+            cutoffSettings.m_max,
             ControllableParameter::ScaleType::logarithmic,
             512);
-    m_midiCCToParameterMap[parameters::midiCC::CUTOFF] = cutoff;
+    m_midiCCToParameterMap[cutoffSettings.m_cc] = cutoff;
     (*m_idToParameterMap)[identifiers::controls::CUTOFF] = cutoff;
 
     // Filter Resonance
-    auto resonance = ControllableParameter(parameters::values::RESONANCE_DEFAULT,
-            parameters::values::RESONANCE_MIN,
-            parameters::values::RESONANCE_MAX);
-    m_midiCCToParameterMap[parameters::midiCC::RESONANCE] = resonance;
+    auto resonanceSettings = settingsMap[identifiers::controls::RESONANCE];
+    auto resonance = ControllableParameter(resonanceSettings.m_default,
+            resonanceSettings.m_min,
+            resonanceSettings.m_max);
+    m_midiCCToParameterMap[resonanceSettings.m_cc] = resonance;
     (*m_idToParameterMap)[identifiers::controls::RESONANCE] = resonance;
 
     // Filter Mix
-    auto filterMix = ControllableParameter(parameters::values::MIX_DEFAULT,
-            parameters::values::MIX_MIN,
-            parameters::values::MIX_MAX);
-    m_midiCCToParameterMap[parameters::midiCC::FILTER_MIX] = filterMix;
+    auto filterSettings = settingsMap[identifiers::controls::FILTER_MIX];
+    auto filterMix = ControllableParameter(filterSettings.m_default,
+            filterSettings.m_min,
+            filterSettings.m_max);
+    m_midiCCToParameterMap[filterSettings.m_cc] = filterMix;
     (*m_idToParameterMap)[identifiers::controls::FILTER_MIX] = filterMix;
 
     // Envelope filter modulation
-    auto envMod = ControllableParameter(parameters::values::ENV_MOD_DEFAULT,
-            parameters::values::ENV_MOD_MIN,
-            parameters::values::ENV_MOD_MAX);
-    m_midiCCToParameterMap[parameters::midiCC::ENV_MOD] = envMod;
+    auto modSettings = settingsMap[identifiers::controls::ENV_MOD];
+    auto envMod = ControllableParameter(modSettings.m_default,
+            modSettings.m_min,
+            modSettings.m_max);
+    m_midiCCToParameterMap[modSettings.m_cc] = envMod;
     (*m_idToParameterMap)[identifiers::controls::ENV_MOD] = envMod;
 
     // Accent amount
-    auto accent = ControllableParameter(parameters::values::ACCENT_DEFAULT,
-            parameters::values::ACCENT_MIN,
-            parameters::values::ACCENT_MAX);
-    m_midiCCToParameterMap[parameters::midiCC::ACCENT] = accent;
+    auto accentConfig = settingsMap[identifiers::controls::ACCENT];
+    auto accent = ControllableParameter(accentConfig.m_default,
+            accentConfig.m_min,
+            accentConfig.m_max);
+    m_midiCCToParameterMap[accentConfig.m_cc] = accent;
     (*m_idToParameterMap)[identifiers::controls::ACCENT] = accent;
 
     // Accent decay
-    auto accentDec = ControllableParameter(parameters::values::ACC_DEC_DEFAULT,
-            parameters::values::ACC_DEC_MIN,
-            parameters::values::ACC_DEC_MAX,
+    auto accentDecConfig = settingsMap[identifiers::controls::ACCENT_DECAY];
+    auto accentDec = ControllableParameter(accentDecConfig.m_default,
+            accentDecConfig.m_min,
+            accentDecConfig.m_max,
             ControllableParameter::ScaleType::logarithmic);
-    m_midiCCToParameterMap[parameters::midiCC::ACCENT_DECAY] = accentDec;
+    m_midiCCToParameterMap[accentDecConfig.m_cc] = accentDec;
     (*m_idToParameterMap)[identifiers::controls::ACCENT_DECAY] = accentDec;
 }
 
@@ -282,7 +298,7 @@ void MidiBroker::handleControllerMessage(const juce::MidiMessage& msg)
 {
     auto controllerNumber = msg.getControllerNumber();
 
-    if (msg.isControllerOfType(parameters::midiCC::SAVE_PATCH))
+    if (msg.isControllerOfType(m_savePatchCC))
     {
         m_readyToSavePreset = ! m_readyToSavePreset;
         DBG("Switching");

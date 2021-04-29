@@ -103,7 +103,7 @@ void Filter::process(juce::dsp::ProcessContextReplacing<float>& context)
     m_oberheimFilter->SetCutoff(modulatedCutoff * r_noiseGenerator.getNoiseFactor());
     m_oberheimFilter->SetResonance(m_resonance.getCurrentValue() * r_noiseGenerator.getNoiseFactor());
     m_open303Filter.setCutoff(modulatedCutoff * r_noiseGenerator.getNoiseFactor());
-    m_open303Filter.setResonance(m_resonance.getCurrentValue() * r_noiseGenerator.getNoiseFactor() * 100 / parameters::values::RESONANCE_MAX);
+    m_open303Filter.setResonance(m_resonance.getCurrentValue() * r_noiseGenerator.getNoiseFactor() * 100 / m_resonance.getScaledValueForUnscaledRatio(1.f));
 
     // Prepare audio buffers for processing    
     auto outputBlock = context.getOutputBlock();

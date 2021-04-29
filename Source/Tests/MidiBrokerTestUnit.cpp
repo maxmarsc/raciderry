@@ -90,7 +90,7 @@ public:
             // Add random message
             auto msg = GenerateRandomMidiMessage(m_rng);
 
-            if (msg.isNoteOnOrOff() && msg.getChannel() == parameters::midiCC::GLOBAL_CHANNEL) {
+            if (msg.isNoteOnOrOff() && msg.getChannel() == broker.getMidiChannel()) {
                 bufferRef.addEvent(msg, i);
             }
             broker.handleIncomingMidiMessage(nullptr, msg);
@@ -145,7 +145,7 @@ public:
                 auto msg = msgIt.getMessage();
                 expect(msg.isNoteOnOrOff(), 
                     juce::String("Unexpected msg type : ") + msg.getDescription());
-                expect(msg.getChannel() == parameters::midiCC::GLOBAL_CHANNEL,
+                expect(msg.getChannel() == broker.getMidiChannel(),
                     juce::String("Unexpected channel : ") + msg.getDescription());
             }
         }

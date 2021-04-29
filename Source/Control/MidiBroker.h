@@ -37,6 +37,7 @@ public:
     juce::MidiBuffer getNoteMidiBuffer() noexcept;
 
     std::weak_ptr<ParameterMap> getIdToParameterMap();
+    int getMidiChannel() const { return m_globalChannel; };
 
 //==============================================================================
     /**
@@ -48,7 +49,7 @@ public:
 //==============================================================================
 
 private:
-    void initParameters();
+    void initControllableParameters();
     void initPresets();
     void serializePresets();
     void loadPreset(int presetId);
@@ -62,6 +63,8 @@ private:
     juce::SpinLock                          m_spinLock;
     juce::MidiBuffer                        m_midiBuffer;
     juce::MidiBuffer                        m_fallbackMidiBuffer;
+    int                                     m_globalChannel;
+    int                                     m_savePatchCC;
 
     // Parameters mapping
     std::map<int, ControllableParameter>    m_midiCCToParameterMap;

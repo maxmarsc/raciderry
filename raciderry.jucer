@@ -115,6 +115,7 @@
         <FILE id="sRZE1Y" name="CustomSmoothValue.h" compile="0" resource="0"
               file="Source/Utils/CustomSmoothValue.h"/>
         <FILE id="oI97Mf" name="Identifiers.h" compile="0" resource="0" file="Source/Utils/Identifiers.h"/>
+        <FILE id="waipeb" name="Parameters.cpp" compile="1" resource="0" file="Source/Utils/Parameters.cpp"/>
         <FILE id="p5LkaU" name="Parameters.h" compile="0" resource="0" file="Source/Utils/Parameters.h"/>
         <FILE id="vt208h" name="Utils.cpp" compile="1" resource="0" file="Source/Utils/Utils.cpp"/>
         <FILE id="cHihzv" name="Utils.h" compile="0" resource="0" file="Source/Utils/Utils.h"/>
@@ -122,6 +123,8 @@
       <FILE id="yreETs" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
     </GROUP>
     <GROUP id="{97ED7547-1320-FD12-E237-CDB461CA9FC3}" name="Resources">
+      <FILE id="ICqrgu" name="default_parameters.json" compile="0" resource="1"
+            file="Resources/default_parameters.json"/>
       <FILE id="FO1XaO" name="waveform_saw.wav" compile="0" resource="1"
             file="Resources/waveform_saw.wav"/>
       <FILE id="kkHx4x" name="waveform_square.wav" compile="0" resource="1"

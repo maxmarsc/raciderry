@@ -52,95 +52,28 @@ namespace device
 namespace files
 {
     const auto PRESETS_FILE = juce::String("presets.xml");
+    const auto PARAMETERS = juce::String("/etc/raciderry.json");
 }
 
-namespace midiCC
-{
-    /* midi CC assignements */
-    constexpr int           GLOBAL_CHANNEL = 2;
+struct Parameter {
+    int     m_cc = -1;
+    float   m_default = 0.f;
+    float   m_min = 0.f;
+    float   m_max = 0.f;
 
-    // ADSR
-    constexpr int           ATTACK = 73;
-    constexpr int           DECAY = 75;
-    constexpr int           SUSTAIN = 64;
-    constexpr int           RELEASE = 72;
+    Parameter() = default;
 
-    // Accent
-    constexpr int           ACCENT_DECAY = 82;      // GP 7
-    constexpr int           ACCENT = 83;            // GP 8
-
-    // OSC
-    constexpr int           WAVEFORM_RATIO = 80;    // General purpose 5
-    constexpr int           GLIDE = 81;             // General purpose 6
-
-    // FILTER
-    constexpr int           CUTOFF = 16;            // General purpose 1
-    constexpr int           RESONANCE = 17;         // General purpose 2
-    constexpr int           FILTER_MIX = 18;
-    constexpr int           ENV_MOD = 19;            // General purpose 4
-
-    // PRESETS
-    constexpr int           SAVE_PATCH = 20;
-}
+    static const std::map<juce::Identifier, Parameter>   loadParameters(
+            int& globalChannel, int& savePatchCC);
+private:
+    Parameter(const juce::var& data);
+};
 
 namespace values
 {
-    /* The actual default and range values of each controllable parameter */
-
-    // ADR values in seconds
-    constexpr double        ATTACK_DEFAULT = 0.1;
-    constexpr double        DECAY_DEFAULT = 0.1;
-    constexpr double        RELEASE_DEFAULT = 0.1;
-    constexpr double        ATTACK_MIN = 0.005;
-    constexpr double        DECAY_MIN = 0.005;
-    constexpr double        RELEASE_MIN = 0.02;
-    constexpr double        ATTACK_MAX = 1.5;
-    constexpr double        DECAY_MAX = 5.0;
-    constexpr double        RELEASE_MAX = 5.0;
-
-    // Sustain levels btw 0 - 1
-    constexpr float        SUSTAIN_DEFAULT = 1.0;
-    constexpr float        SUSTAIN_MIN = 0.0;
-    constexpr float        SUSTAIN_MAX = 1.0;
-
-    // Ratio btw saw and square wave
-    constexpr double        WAFEFORM_RATIO_DEFAULT = 0.5;
-    constexpr double        WAFEFORM_RATIO_MIN = 0.0;
-    constexpr double        WAFEFORM_RATIO_MAX = 1.0;
-
-    // Oscillator glide in seconds
-    constexpr float        GLIDE_DEFAULT = 0.0;
-    constexpr float        GLIDE_MIN = 0.0;
-    constexpr float        GLIDE_MAX = 1.0;
-
     // Limiter values
     constexpr float         LIMITER_RELEASE_MS = 10.0;
     constexpr float         LIMITER_THRESHOLD_DB = -0.1;
-
-    // Accent
-    constexpr float         ACCENT_DEFAULT = 0.;
-    constexpr float         ACCENT_MIN = 0.;
-    constexpr float         ACCENT_MAX = 0.8;
-    constexpr float         ACC_DEC_DEFAULT = 0.3;
-    constexpr float         ACC_DEC_MIN = 0.010;
-    constexpr float         ACC_DEC_MAX = 2.0;
-
-    // Filter
-    constexpr float         CUTOFF_DEFAULT =  440.0;   // Hz
-    constexpr float         CUTOFF_MIN = 40.0;
-    constexpr float         CUTOFF_MAX = 6000.0;
-    constexpr float         RESONANCE_DEFAULT = 0.0;     // > 0.
-    constexpr float         RESONANCE_MIN = 0.0;
-    constexpr float         RESONANCE_MAX = 8.5;
-    constexpr float         DRIVE_DEFAULT = 1.10;        // > 1.
-    constexpr float         DRIVE_MIN = 1.0;
-    constexpr float         DRIVE_MAX = 1.12;
-    constexpr float         ENV_MOD_DEFAULT = 0.0;
-    constexpr float         ENV_MOD_MIN = 0.0;
-    constexpr float         ENV_MOD_MAX = 1.0;
-    constexpr float         MIX_MIN = 0.0;
-    constexpr float         MIX_MAX = 1.0;
-    constexpr float         MIX_DEFAULT = 0.5;
 }
 
 

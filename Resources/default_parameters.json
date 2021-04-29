@@ -1,0 +1,76 @@
+{
+    "GLOBAL_CHANNEL": 2,
+    "SAVE_PATCH_CC": 20,
+    "ATTACK": {
+        "CC": 73,
+        "DEFAULT": 0.1,
+        "MIN": 0.005,
+        "MAX": 1.5
+    },
+    "DECAY": {
+        "CC": 75,
+        "DEFAULT": 0.1,
+        "MIN": 0.005,
+        "MAX": 5.0
+    },
+    "SUSTAIN": {
+        "CC": 64,
+        "DEFAULT": 1.0,
+        "MIN": 0.0,
+        "MAX": 1.0
+    },
+    "RELEASE": {
+        "CC": 72,
+        "DEFAULT": 0.1,
+        "MIN": 0.02,
+        "MAX": 5.0
+    },
+    "ACCENT": {
+        "CC": 83,
+        "DEFAULT": 0.0,
+        "MIN": 0.0,
+        "MAX": 0.8
+    },
+    "ACCENT_DECAY": {
+        "CC": 82,
+        "DEFAULT": 0.3,
+        "MIN": 0.010,
+        "MAX": 2.0
+    },
+    "WAVEFORM_RATIO": {
+        "CC": 80,
+        "DEFAULT": 0.5,
+        "MIN": 0.0,
+        "MAX": 1.0
+    },
+    "GLIDE": {
+        "CC": 81,
+        "DEFAULT": 0.0,
+        "MIN": 0.0,
+        "MAX": 1.0
+    },
+    "CUTOFF": {
+        "CC": 16,
+        "DEFAULT": 440.0,
+        "MIN": 40.0,
+        "MAX": 6000.0
+    },
+    "RESONANCE": {
+        "CC": 17,
+        "DEFAULT": 0.0,
+        "MIN": 0.0,
+        "MAX": 8.5
+    },
+    "FILTER_MIX": {
+        "CC": 18,
+        "DEFAULT": 0.5,
+        "MIN": 0.0,
+        "MAX": 1.0
+    },
+    "ENV_MOD": {
+        "CC": 19,
+        "DEFAULT": 0.0,
+        "MIN": 0.0,
+        "MAX": 1.0
+    }
+}
