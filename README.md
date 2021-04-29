@@ -18,7 +18,7 @@ quickly**
  - [x] Wavetable synthesis to get more authentics waveforms
  - [x] Dynamic detection of midi controllers
  - [x] Presets Save & Load
- - [ ] Read parameters from an XML file
+ - [X] Read parameters from an JSON file
  - [x] Automated tests
  - [ ] Write-and-go iso image for rapsberry pi
  - [x] Documentation
@@ -109,18 +109,46 @@ If configured as recommended, the synth should start at the same time as the
 Raspberry. If not, simply ssh into the Raspberry and run `~/raciderry`.
 
 ## Configuration
-All the parameters can be found in the header : `Source/Utils/Parameters.h`
+You can either use the default configuration or override any parameter by writing 
+into the `/etc/raciderry.json` configuration file on the raciderry file system.
 
-*Should change for an XML file at some point*
+The default configuration file is `Resources/default_parameters/json`. To override 
+a parameter, add its field from the default configuration, set your values,
+and add it to the `/etc/raciderry.json` configuration file.
 
 ### Audio
-Default settings are 96000kHz with 256 buffer size => ~5ms latency
+Default settings are 192kHz / 64 frames. Which should be enough to reach the
+announced 2ms latency of the Pisound (not measured yet).
 
 ### Controls
-TODO: table with MIDI bindings when I'll stop changing midi assignments every
-two days
+Raciderry is controllable through MIDI signals. It will link to any plugged midi
+interface. Controles are customisable (see `Configuration`)
+
+#### Controller messages
+Raciderry will only read controller message from its own MIDI channel (parameter
+`GLOBAL_CHANNEL`). Each parameter is assigned to a CC control and uses relative
+control values :
+ - 64 : the parameter keeps the same value
+ - 58 -> 63 : lower the parameter value (58 the fastest)
+ - 65 -> 70 : increase the parameter value (70 the fastest)
 
 ---
+The default MIDI assignement are (customisable, see `Configuration`) 
+|         | ATTACK | DECAY | SUSTAIN | RELEASE | ACCENT | ACCENT_DECAY | WAVEFORM_RATIO | GLIDE | CUTOFF | RESONANCE | FILTER_MIX | ENV_MOD |
+|---------|--------|-------|---------|---------|--------|--------------|----------------|-------|--------|-----------|------------|---------|
+| CC      | 73     | 75    | 64      | 72      | 83     | 82           | 80             | 81    | 16     | 17        | 18         | 18      |
+| CHANNEL | 2      | 2     | 2       | 2       | 2      | 2            | 2              | 2     | 2      | 2         | 2          | 2       |
+
+#### Patchs (Save/Load)
+The raciderry can save and load patchs into/from a `presets.xml` file.
+
+To load a patch simply send a program change MIDI message with the number of
+the patch you wanna load as a the program change value.
+
+To save a patch, first sends a CC message (default to CC 20). The raciderry
+will then wait for a program change message and will store the current state as
+the patch for this value.
+
 ## Contributions
 Contributions are very welcome, especially concerning the dsp.
 
