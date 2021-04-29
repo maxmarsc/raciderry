@@ -97,7 +97,7 @@ sudo ./install.sh
 You should be good !
 
 ## Testing
-The source are partially tested (should be completed in the future). To manually
+The sources are partially tested (should be completed in the future). To manually
 run the tests run :
 ```shell
 make -C ./Builds/LinuxMakefile CONFIG=UnitTests
@@ -112,7 +112,7 @@ Raspberry. If not, simply ssh into the Raspberry and run `~/raciderry`.
 You can either use the default configuration or override any parameter by writing 
 into the `/etc/raciderry.json` configuration file on the raciderry file system.
 
-The default configuration file is `Resources/default_parameters/json`. To override 
+The default configuration file is `Resources/default_parameters.json`. To override 
 a parameter, add its field from the default configuration, set your values,
 and add it to the `/etc/raciderry.json` configuration file.
 
@@ -122,7 +122,7 @@ announced 2ms latency of the Pisound (not measured yet).
 
 ### Controls
 Raciderry is controllable through MIDI signals. It will link to any plugged midi
-interface. Controles are customisable (see `Configuration`)
+interface. Controles are customizable (see `Configuration`)
 
 #### Controller messages
 Raciderry will only read controller message from its own MIDI channel (parameter
@@ -133,11 +133,13 @@ control values :
  - 65 -> 70 : increase the parameter value (70 the fastest)
 
 ---
-The default MIDI assignement are (customisable, see `Configuration`) 
+Default MIDI assignements : 
 |         | ATTACK | DECAY | SUSTAIN | RELEASE | ACCENT | ACCENT_DECAY | WAVEFORM_RATIO | GLIDE | CUTOFF | RESONANCE | FILTER_MIX | ENV_MOD |
 |---------|--------|-------|---------|---------|--------|--------------|----------------|-------|--------|-----------|------------|---------|
 | CC      | 73     | 75    | 64      | 72      | 83     | 82           | 80             | 81    | 16     | 17        | 18         | 18      |
 | CHANNEL | 2      | 2     | 2       | 2       | 2      | 2            | 2              | 2     | 2      | 2         | 2          | 2       |
+
+*customizable, see `Configuration`*
 
 #### Patchs (Save/Load)
 The raciderry can save and load patchs into/from a `presets.xml` file.
@@ -145,7 +147,7 @@ The raciderry can save and load patchs into/from a `presets.xml` file.
 To load a patch simply send a program change MIDI message with the number of
 the patch you wanna load as a the program change value.
 
-To save a patch, first sends a CC message (default to CC 20). The raciderry
+To save a patch, first send a CC message (default to CC 20). The raciderry
 will then wait for a program change message and will store the current state as
 the patch for this value.
 
