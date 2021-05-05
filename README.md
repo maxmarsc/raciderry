@@ -21,6 +21,7 @@ quickly**
  - [X] Read parameters from an JSON file
  - [x] Automated tests
  - [ ] Write-and-go iso image for rapsberry pi
+ - [ ] Presentation Video
  - [x] Documentation
  - [x] Readme(to be improved)
 
