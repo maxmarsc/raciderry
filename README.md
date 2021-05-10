@@ -58,7 +58,6 @@ the root of the boot system
 
 
 ### Build
-#### Option 1 : emulated native compilation
 To ease the development process, we choose to use emulated native compilation
 using Docker and qemu. 
 
@@ -79,7 +78,6 @@ Build : ***This currenlty builds the debug executable***
 The raciderry executable should now be copied to `home/patchbox` in your 
 Raspberry file system
 
-#### Option 2 : TBA
 
 ### Configuration
 This step is needed to make sure the raciderry executable starts at startup and 
@@ -151,6 +149,13 @@ the patch you wanna load as a the program change value.
 To save a patch, first send a CC message (default to CC 20). The raciderry
 will then wait for a program change message and will store the current state as
 the patch for this value.
+
+## Licensing & third-parties
+This project is licensed under the BSD 3-Clause License.
+
+This project uses work from two other projects (filters) : 
+ - Open 303 : https://github.com/maddanio/open303
+ - MoogLadders : https://github.com/ddiakopoulos/MoogLadders
 
 ## Contributions
 Contributions are very welcome, especially concerning the dsp.
