@@ -41,7 +41,16 @@ Developping requirements (recommended):
  - *All requirements listed above*
  - JUCE Framework >= 6.0.8
 
+## Flash & Play
+To start using Raciderry out-of-the-box, simply connect the pisound HAT to your
+raspberry 3B+ and flash the latest release image `raciderry.img.gz` onto your SD
+card
+
+*I recommend using Etcher to flash your SD card with the image. See :*
+*https://www.balena.io/etcher/*
+
 ## Build and deploy
+Follow these instructions if you wanna build the raciderry software by yourself.
 
 ### Preconfiguration steps for the Raspberry Pi
 1. For now, raciderry should run on the patchbox OS provided by Blokas. See this 
@@ -51,10 +60,7 @@ https://blokas.io/patchbox-os/
 *Additional modules installation provided by the patchbox wizard script are NOT
 required*
 
-2. Activate `ssh` on the patchbox system by creating an empty `.ssh` file at
-the root of the boot system
-
-3. Make sure your system is reachable at `patch@patchbox.local`
+2. Make sure your system is reachable at `patch@patchbox.local`
 
 
 ### Build
