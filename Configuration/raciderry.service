@@ -4,6 +4,8 @@ Description=Run the raciderry synth as a service task
 [Service]
 Type=simple
 ExecStart=/home/patch/raciderry
+CPUSchedulingPolicy=rr
+CPUSchedulingPriority=98
 
 [Install]
 WantedBy=multi-user.target
